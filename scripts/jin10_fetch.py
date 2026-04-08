@@ -58,8 +58,8 @@ async def search_jin10(page, keyword: str, max_pages: int = 3) -> List[Dict]:
         offset = (pg - 1) * 20
         url = f"https://search.jin10.com/?page={pg}&type=flash&order=1&keyword={quote(keyword)}&offset={offset}&vip=&basic_mode="
         try:
-            await page.goto(url, wait_until="networkidle", timeout=20000)
-            await asyncio.sleep(0.5)
+            await page.goto(url, wait_until="networkidle", timeout=30000)
+            await asyncio.sleep(1.0 if pg == 1 else 0.5)
         except:
             break
         if len(items) < offset:
@@ -117,6 +117,13 @@ async def main_async():
             user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
         )
         page = await ctx.new_page()
+
+        # 首次加载预热：打开金十首页让浏览器初始化
+        try:
+            await page.goto("https://www.jin10.com", wait_until="domcontentloaded", timeout=30000)
+            await asyncio.sleep(3)
+        except:
+            print("  [预热] 首页加载超时，跳过")
 
         for kw in SEARCH_KEYWORDS:
             print(f"  搜索: {kw}", end="")

@@ -67,7 +67,9 @@
       "Bash(rm -f fedwatch_step1_loaded.png fedwatch_step2_scrolled.png fedwatch_step3_clicked.png fedwatch_fullpage.png fedwatch_after_nav.png fedwatch_after_prob.png fedwatch_after_click.png fedwatch_quikstrike.png fedwatch_alt_page.png fedwatch_no_iframe.png fedwatch_final.png fedwatch_fail.png fedwatch_raw.json fedwatch_raw_tables.json fedwatch_network.json fedwatch_page.html)",
       "Bash(ls fedwatch*)",
       "Bash(python -c \"import json; d=json.load\\(open\\('data/jin10_cb_for_ai.json','r',encoding='utf-8'\\)\\); items=[i for i in d['items'] if i.get\\('data',''\\)>='2026-04-03']; print\\(f'New items: {len\\(items\\)}'\\); [print\\(f\\\\\"  {i['data']} {i['content'][:80]}\\\\\"\\) for i in items]\")",
-      "Bash(curl -L -o \"d:/python_code/跟踪网页2/images/header-logo.png\" \"https://maas-log-prod.cn-wlcb.ufileos.com/anthropic/3f6e517c-9fa2-4827-8411-129332a0096/0a89e591d632bb560336c535bec85c01.png\")"
+      "Bash(curl -L -o \"d:/python_code/跟踪网页2/images/header-logo.png\" \"https://maas-log-prod.cn-wlcb.ufileos.com/anthropic/3f6e517c-9fa2-4827-8411-129332a0096/0a89e591d632bb560336c535bec85c01.png\")",
+      "Bash(python -c \"import json; d=json.load\\(open\\('data/cb-statements.json','r',encoding='utf-8'\\)\\); print\\('items count:', len\\(d.get\\('items',[]\\)\\)\\); print\\('keys:', list\\(d.keys\\(\\)\\)\\); print\\('first item keys:', list\\(d['items'][0].keys\\(\\)\\) if d.get\\('items'\\) else 'empty'\\)\")",
+      "Bash(python -c \"import json; d=json.load\\(open\\('data/cb-statements.json','r',encoding='utf-8'\\)\\); print\\('items:', len\\(d.get\\('items',[]\\)\\), 'OK'\\)\")"
     ]
   }
 }
