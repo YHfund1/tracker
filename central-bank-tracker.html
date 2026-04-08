@@ -445,25 +445,6 @@
     <div class="container">
         <!-- 更新时间 -->
         <div style="text-align:right;color:#94a3b8;font-size:0.8rem;margin-bottom:8px;">最后更新: <span id="lastUpdate">--</span></div>
-        <!-- 筛选栏 -->
-        <div class="filter-bar">
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="搜索官员、内容..." oninput="render()">
-            </div>
-            <select class="filter-select" id="bankFilter" onchange="render()">
-                <option value="">全部央行</option>
-            </select>
-            <select class="filter-select" id="officialFilter" onchange="render()">
-                <option value="">全部官员</option>
-            </select>
-            <select class="filter-select" id="timeFilter" onchange="render()">
-                <option value="">全部时间</option>
-                <option value="1">今日</option>
-                <option value="3">近3天</option>
-                <option value="7">近7天</option>
-                <option value="30">近30天</option>
-            </select>
-        </div>
 
         <!-- CME FedWatch 板块 -->
         <div class="fedwatch-section">
@@ -476,23 +457,6 @@
                 <a href="https://www.cmegroup.com/trading/interest-rates/fed-funds.html" target="_blank" class="fedwatch-link">查看完整数据 ↗</a>
             </div>
             <div class="fedwatch-content">
-                <div class="fedwatch-card">
-                    <div class="fedwatch-label">下次FOMC会议 (5月7日)</div>
-                    <div class="fedwatch-probs">
-                        <div class="prob-item">
-                            <span class="prob-value" id="probHold">--</span>
-                            <span class="prob-label">维持不变</span>
-                        </div>
-                        <div class="prob-item">
-                            <span class="prob-value" id="probCut">--</span>
-                            <span class="prob-label">降息25bp</span>
-                        </div>
-                        <div class="prob-item">
-                            <span class="prob-value" id="probHike">--</span>
-                            <span class="prob-label">加息25bp</span>
-                        </div>
-                    </div>
-                </div>
                 <div class="fedwatch-chart" id="fedwatchChart">
                     <div class="fedwatch-screenshot">
                         <img src="data/fedwatch_screenshot.png" alt="CME FedWatch Probabilities" style="max-width:100%; border-radius:8px;" onerror="this.style.display='none'; document.getElementById('fedwatchPlaceholder').style.display='block';">
@@ -511,6 +475,26 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <!-- 筛选栏 -->
+        <div class="filter-bar">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="搜索官员、内容..." oninput="render()">
+            </div>
+            <select class="filter-select" id="bankFilter" onchange="render()">
+                <option value="">全部央行</option>
+            </select>
+            <select class="filter-select" id="officialFilter" onchange="render()">
+                <option value="">全部官员</option>
+            </select>
+            <select class="filter-select" id="timeFilter" onchange="render()">
+                <option value="">全部时间</option>
+                <option value="1">今日</option>
+                <option value="3">近3天</option>
+                <option value="7">近7天</option>
+                <option value="30">近30天</option>
+            </select>
         </div>
 
         <!-- 内容区 -->
@@ -622,7 +606,6 @@
                         <span class="official-date">${item.date}</span>
                         <span class="official-name">${item.official}</span>
                         <span class="official-title">${item.title || ''}</span>
-                        ${item.mergedCount > 1 ? `<span class="official-merged">合并${item.mergedCount}条</span>` : ''}
                     </div>
                     <ol class="points-list">
                         ${(item.points||[]).map(p => `<li>${p}</li>`).join('')}
