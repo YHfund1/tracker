@@ -1,7 +1,40 @@
 {
-  "fetchTime": "2026-04-08T10:35:00",
-  "totalItems": 88,
+  "fetchTime": "2026-04-08T21:40:00",
+  "totalItems": 91,
   "items": [
+    {
+      "date": "2026-04-08",
+      "bank": "欧央行",
+      "official": "多伦茨（Bostjan Jaspan Dolenc，斯洛文尼亚央行行长/欧央行管委）",
+      "title": "斯洛文尼亚央行行长/欧央行管委",
+      "mergedCount": 1,
+      "points": [
+        "经济前景：若伊朗战争持续，对通胀和经济增长非常不利"
+      ],
+      "link": "https://www.jin10.com/flash/20260408153103540800"
+    },
+    {
+      "date": "2026-04-08",
+      "bank": "欧央行",
+      "official": "温施（Pierre Wunsch，比利时央行行长/欧央行管委）",
+      "title": "比利时央行行长/欧央行管委",
+      "mergedCount": 1,
+      "points": [
+        "利率前景：持久的危机需要一系列加息，对在4月会议上上调关键利率持开放态度"
+      ],
+      "link": "https://www.jin10.com/flash/20260408135835389800"
+    },
+    {
+      "date": "2026-04-08",
+      "bank": "新西兰联储",
+      "official": "新西兰联储（货币政策委员会）",
+      "title": "新西兰联储货币政策委员会",
+      "mergedCount": 1,
+      "points": [
+        "利率决议：如期维持利率不变，强调通胀风险上升并称随时准备采取行动"
+      ],
+      "link": "https://www.jin10.com/flash/20260408135835389800"
+    },
     {
       "date": "2026-04-07",
       "bank": "美联储",
