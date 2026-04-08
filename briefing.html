@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>【华泰固收】中东地缘跟踪 - 美以伊冲突每日简报</title>
+    <title>中东地缘跟踪 - 美以伊冲突每日简报</title>
     <style>
         *{margin:0;padding:0;box-sizing:border-box;}
         body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f8fafc;color:#1e293b;line-height:1.8;}
@@ -102,23 +102,27 @@
         .briefing-header .summary{color:#78350f;font-size:0.95rem;line-height:1.8;}
         .section{background:#fff;border-radius:12px;padding:24px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,0.08);border:1px solid #e2e8f0;}
         .section h3{color:#991b1b;font-size:1.15rem;margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid #e2e8f0;}
-        .section h4{color:#334155;font-size:1rem;margin:20px 0 12px 0;}
         .section p{color:#475569;font-size:0.95rem;margin-bottom:12px;text-align:justify;}
         .section ul{padding-left:20px;margin-bottom:12px;}
         .section li{color:#475569;font-size:0.95rem;margin-bottom:8px;}
-        .highlight-box{background:#fef2f2;border-left:4px solid #dc2626;padding:16px;border-radius:0 8px 8px 0;margin:16px 0;}
+        .highlight-box{background:#eff6ff;border-left:4px solid #3b82f6;padding:16px;border-radius:0 8px 8px 0;margin:16px 0;}
         .highlight-box.critical{background:#fef2f2;border-left-color:#dc2626;}
         .highlight-box.warning{background:#fffbeb;border-left-color:#f59e0b;}
-        .highlight-box.statements{background:#f0fdf4;border-left-color:#16a34a;}
-        .highlight-box h5{color:#991b1b;font-size:0.95rem;margin-bottom:10px;}
+        .highlight-box.success{background:#f0fdf4;border-left-color:#16a34a;}
+        .highlight-box h5{color:#1e40af;font-size:0.95rem;margin-bottom:10px;}
         .highlight-box.critical h5{color:#dc2626;}
         .highlight-box.warning h5{color:#b45309;}
-        .highlight-box.statements h5{color:#166534;}
+        .highlight-box.success h5{color:#166534;}
         .market-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:16px 0;}
         .market-card{background:#f8fafc;border-radius:8px;padding:16px;border:1px solid #e2e8f0;}
         .market-card h5{color:#991b1b;font-size:0.9rem;margin-bottom:8px;}
         .market-card p{color:#475569;font-size:0.85rem;margin:0;}
+        .market-card .value{font-size:1.1rem;font-weight:600;color:#1e293b;}
         .footer{text-align:center;padding:24px;color:#64748b;font-size:0.8rem;border-top:1px solid #e2e8f0;margin-top:40px;}
+        .tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:0.75rem;margin-right:6px;}
+        .tag-red{background:#fef2f2;color:#dc2626;}
+        .tag-green{background:#f0fdf4;color:#16a34a;}
+        .tag-blue{background:#eff6ff;color:#1d4ed8;}
         @media (max-width: 768px) {
             .market-grid{grid-template-columns:repeat(2,1fr);}
         }
@@ -127,159 +131,206 @@
 <body>
     <div class="header">
         <div class="header-main">
-            <div class="header-logo">
+            <a href="index.html" class="header-logo">
                 <img src="images/header.png" alt="Logo">
                 <span class="logo-text">中东地缘跟踪</span>
-            </div>
-            <nav class="header-nav" id="navCenter">
+            </a>
+            <nav class="header-nav">
                 <a href="index.html" class="nav-btn">海峡跟踪</a>
+                <a href="polymarket.html" class="nav-btn">Polymarket</a>
                 <a href="data-tracking.html" class="nav-btn">全球市场</a>
                 <a href="war-situation.html" class="nav-btn">战局形势</a>
-                <a href="briefing.html" class="nav-btn active">每日简报</a>
                 <a href="news.html" class="nav-btn">实时新闻</a>
-                <a href="central-bank-tracker.html" class="nav-btn">央行表态</a>
-                <a href="eco-track.html" class="nav-btn">经济数据</a>
-                <a href="research.html" class="nav-btn">研究视点</a>
-                <a href="polymarket.html" class="nav-btn">Polymarket</a>
+                <a href="briefing.html" class="nav-btn active">每日简报</a>
                 <a href="oil-chart.html" class="nav-btn">原油图谱</a>
             </nav>
         </div>
     </div>
 
     <div class="container">
+        <!-- 标题区 -->
         <div class="briefing-header">
-            <h2>📰 美以伊冲突每日简报 (2026-04-07)</h2>
-            <p class="summary">冲突第39天，霍尔木兹封锁第37天。特朗普设定周二晚8点最后期限要求伊朗开放海峡，威胁打击发电厂和桥梁。伊朗最高领袖强硬回应将继续封锁。美以联军持续打击伊朗能源设施，伊朗导弹反击被拦截。全球供应链压力加剧，投行警告油价或达150美元。</p>
+            <h2>📰 美以伊冲突每日简报 (2026-04-08)</h2>
+            <p class="summary"><strong>重大转折：</strong>冲突第40天，霍尔木兹封锁第38天。特朗普与伊朗达成<strong>两周停火协议</strong>，避免了对伊朗发电厂和桥梁的打击。伊朗同意在谈判期间开放霍尔木兹海峡，谈判将于4月10日在伊斯兰堡举行。以色列欢迎停火但强调<strong>不适用于黎巴嫩</strong>。市场情绪缓解，油价回落。</p>
         </div>
 
         <!-- 1. 战局进展 -->
         <div class="section">
             <h3>⚔️ 战局进展</h3>
-            <div class="highlight-box military">
-            <h5>美以联军扩大对伊朗能源基础设施打击</h5>
-            <p><strong>时间：</strong>4月6日 22:30 - 4月7日 03:45 | <strong>来源：</strong>Reuters/Fox News</p>
-            <p>美以联军出动F-35A战机、战斧巡航导弹及B-52H轰炸机，对伊朗胡齐斯坦省阿巴丹炼油厂及Shahran油库群发动多波空袭。卫星图像显示至少4座10万桶容量油罐起火，产能损失约18万桶/日。伊朗官方称7名平民死亡、14人受伤。</p>
-        </div>
-<div class="highlight-box military">
-            <h5>伊朗导弹反击全部被拦截</h5>
-            <p><strong>时间：</strong>4月7日 04:20-05:10 | <strong>来源：</strong>CNN/Times of Israel</p>
-            <p>伊朗伊斯兰革命卫队发射约25枚'征服者-313'及'流星-3'中程弹道导弹，目标指向以色列内盖夫沙漠军事设施及波斯湾美军基地。美以联合防空系统拦截22枚，仅3枚残片落入无人区，无人员伤亡。</p>
-        </div>
-<div class="highlight-box military">
-            <h5>以色列空袭德黑兰三座机场</h5>
-            <p><strong>时间：</strong>4月6日 | <strong>来源：</strong>Jerusalem Post/Fox News</p>
-            <p>以军空袭德黑兰三座机场，摧毁数十架伊朗战斗机。美军中央司令部指挥官指挥对IRGC地下总部发动打击。</p>
-        </div>
+
+            <div class="highlight-box success">
+                <h5>🤝 美伊达成两周停火协议</h5>
+                <p><strong>时间：</strong>4月7日 18:00 ET（截止期限前2小时） | <strong>来源：</strong>CNBC / Associated Press</p>
+                <p>特朗普总统在最后期限前不到两小时宣布与伊朗达成"双方停火"协议。特朗普称伊朗的10点提案是"可行的基础"。停火协议启动为期两周的谈判期。</p>
+            </div>
+
+            <div class="highlight-box">
+                <h5>🇮🇱 以色列继续黎巴嫩行动</h5>
+                <p><strong>时间：</strong>4月8日 | <strong>来源：</strong>Haaretz / Jerusalem Post</p>
+                <p>以色列总理内塔尼亚胡明确表示，与伊朗的停火协议<strong>不包含黎巴嫩</strong>，以军将继续对真主党目标进行打击。白宫官员确认以色列已同意停火框架。</p>
+            </div>
+
+            <div class="highlight-box">
+                <h5>🛤️ 谈判定于伊斯兰堡举行</h5>
+                <p><strong>时间：</strong>4月10日（周五） | <strong>来源：</strong>Washington Post / Xinhua</p>
+                <p>美伊双方代表团受邀于4月10日在巴基斯坦伊斯兰堡举行和平谈判。伊朗提案包括"美国从该地区所有基地和阵地撤出战斗部队"。</p>
+            </div>
         </div>
 
         <!-- 2. 各方表态 -->
         <div class="section">
             <h3>🎙️ 各方最新表态</h3>
-            <div class="highlight-box statements">
-            <h5>🇺🇸 美国/特朗普</h5>
-            <p><strong>时间：</strong>4月6-7日 | <strong>来源：</strong>CNN/NBC News/Bloomberg</p>
-            <p>设定周二（4月7日）晚8点为最后期限，要求伊朗开放霍尔木兹海峡。威胁'周二将是发电厂日，也是桥梁日'，称'开放那该死的海峡，否则你们将活在地狱里'。警告若伊朗不开放海峡，'整个国家可以在一夜之间被摧毁'。</p>
-        </div>
-<div class="highlight-box statements">
-            <h5>🇮🇷 伊朗/最高领袖</h5>
-            <p><strong>时间：</strong>4月6日 | <strong>来源：</strong>ISW/Times of Israel/ynetnews</p>
-            <p>最高领袖Mojtaba Khamenei表示将继续袭击海峡航运，称海峡将永远不会回到战前状态。IRGC称正在规划'新波斯湾秩序'。伊朗宣称1300万人报名参加'牺牲生命'运动。若民用目标被攻击，将发动'更具毁灭性'的报复。</p>
-        </div>
-<div class="highlight-box statements">
-            <h5>🇸🇦 沙特/阿联酋</h5>
-            <p><strong>时间：</strong>4月6日 | <strong>来源：</strong>Reuters/Jerusalem Post</p>
-            <p>沙特称拦截7枚弹道导弹，碎片落在能源设施附近。阿联酋表示任何协议必须保证霍尔木兹的使用权，'海峡不能被任何国家扣为人质'，与巴林敦促安理会就霍尔木兹采取行动。</p>
-        </div>
+
+            <div class="highlight-box success">
+                <h5>🇺🇸 美国/特朗普</h5>
+                <p><strong>时间：</strong>4月7日 | <strong>来源：</strong>CNN / The Guardian</p>
+                <p>特朗普称停火为"双方停火"（double-sided ceasefire），表示伊朗的10点提案是"可行的基础"，从之前威胁打击发电厂和桥梁的立场后退。特朗普强调这是"最终的、不太可能延长的"期限后达成的协议。</p>
+            </div>
+
+            <div class="highlight-box success">
+                <h5>🇮🇷 伊朗/外长</h5>
+                <p><strong>时间：</strong>4月8日 | <strong>来源：</strong>The Guardian</p>
+                <p>伊朗外长表示，在停火期间<strong>霍尔木兹海峡将在伊朗军事管理下开放</strong>，允许各国船只通行。伊朗同意在两周内进行谈判，并将在伊斯兰堡与美国代表团会面。</p>
+            </div>
+
+            <div class="highlight-box">
+                <h5>🇮🇱 以色列/内塔尼亚胡</h5>
+                <p><strong>时间：</strong>4月8日 | <strong>来源：</strong>Jerusalem Post</p>
+                <p>以色列欢迎停火协议，但明确表示停火<strong>仅适用于伊朗，不包含黎巴嫩战事</strong>。以方强调将继续对黎巴嫩真主党目标进行打击，直到消除北部边境威胁。</p>
+            </div>
+
+            <div class="highlight-box warning">
+                <h5>🇸🇦 海湾国家</h5>
+                <p><strong>时间：</strong>4月8日 | <strong>来源：</strong>Jerusalem Post</p>
+                <p>沙特、阿联酋等海湾国家在停火后仍保持高度警戒状态。此前巴林和海湾国家曾向联合国安理会提交草案，授权使用军事力量重新开放霍尔木兹海峡。</p>
+            </div>
         </div>
 
         <!-- 3. 海峡通行情况 -->
         <div class="section">
             <h3>🚢 霍尔木兹海峡通行情况</h3>
-            <div class="highlight-box warning">
-        <h5>🚢 霍尔木兹海峡通行状态</h5>
-        <p><strong>当前状态：</strong>部分松动但仍受限 | <strong>封锁天数：</strong>第37天</p>
-        <p><strong>通行数据：</strong>周末21艘船通过，为3月初以来最高；伊朗允许15艘船只通过</p>
-        <p><strong>关键事件：</strong></p>
-        <ul><li>首艘LNG运输船自战争爆发以来穿越霍尔木兹海峡（4月6日）</li>
-<li>两艘卡塔尔满载LNG油轮在抵达海峡前掉头返航</li>
-<li>全球航运巨头马士基及MSC宣布暂停所有经霍尔木兹航线，改走好望角</li>
-<li>战争险保费较封锁前飙升450%</li>
-<li>伊朗官员称海峡将保持关闭直至获得战争赔偿</li></ul>
-        <p><strong>影响评估：</strong>累计导致约5.2亿桶原油运输延迟，亚洲炼厂现货溢价扩大</p>
-    </div>
+
+            <div class="highlight-box success">
+                <h5>海峡通行状态</h5>
+                <p><strong>当前状态：</strong><span class="tag tag-green">停火期间开放</span> | <strong>封锁天数：</strong>第38天（暂停）</p>
+                <p><strong>伊朗外长声明：</strong>在两周停火期间，霍尔木兹海峡将在伊朗军事管理下向各国船只开放通行。</p>
+                <p><strong>关键进展：</strong></p>
+                <ul>
+                    <li><strong>首艘法国船只穿越：</strong>CMA CGM旗下船只成为冲突以来首艘穿越海峡的法国籍船只</li>
+                    <li><strong>日本开始派遣船只：</strong>日本已开始派遣船只通过海峡</li>
+                    <li><strong>伊拉克船只获准通行：</strong>伊朗表示伊拉克船只获准通过海峡</li>
+                    <li><strong>许可制度：</strong>伊朗实施许可制度，24小时内约15艘船获准通行</li>
+                </ul>
+                <p><strong>战前对比：</strong>冲突前每日约138艘船只通过海峡，目前流量仍远低于正常水平。</p>
+            </div>
         </div>
 
         <!-- 4. 全球供应链 -->
         <div class="section">
             <h3>📦 全球供应链影响</h3>
+
+            <div class="highlight-box critical">
+                <h5>铝业</h5>
+                <p><strong>事件：</strong>伊朗战争冲击全球铝供应链</p>
+                <p><strong>价格：</strong>LME三个月期铝触及<strong>$3,545.50/吨</strong>，创四年新高</p>
+                <p><strong>预测：</strong>CRU Group估计若供应中断持续，铝价可能突破<strong>$4,000/吨</strong></p>
+                <p style="font-size:0.8rem;color:#64748b;">来源：Reuters / ING</p>
+            </div>
+
+            <div class="highlight-box warning">
+                <h5>LNG/天然气</h5>
+                <p><strong>事件：</strong>卡塔尔LNG出口受阻，印度等进口国面临严重短缺</p>
+                <p><strong>影响：</strong>首艘LNG船成功穿越海峡，但整体出口量仍受限</p>
+                <p><strong>停火影响：</strong>海峡重新开放将缓解LNG供应压力</p>
+            </div>
+
             <div class="highlight-box">
-            <h5>📦 铝业</h5>
-            <p><strong>事件：</strong>阿联酋EGA Al Taweelah工厂遭袭后需12个月恢复，巴林Alba冶炼厂宣布不可抗力。霍尔木兹关闭使全球约9%原铝供应被困。</p>
-            <p><strong>影响：</strong>LME铝价突破3500美元/吨，创4年新高</p>
-        </div>
-<div class="highlight-box">
-            <h5>📦 化肥</h5>
-            <p><strong>事件：</strong>阿联酋负责约30%全球化肥（硝酸钾和磷肥）供应的设施受损。每年约1600万吨化肥通过霍尔木兹海峡运输。</p>
-            <p><strong>影响：</strong>以色列化肥价格飙升180%，FAO警告全球粮食市场受冲击</p>
-        </div>
-<div class="highlight-box">
-            <h5>📦 LNG/能源</h5>
-            <p><strong>事件：</strong>卡塔尔Ras Laffan出口工厂因伊朗袭击已关闭一个多月，约50艘卡塔尔LNG运输船在亚洲闲置。印度在七年 hiatus 后恢复伊朗石油进口。</p>
-            <p><strong>影响：</strong>全球LNG供应持续紧张，印度经历数十年来最严重天然气短缺</p>
-        </div>
-<div class="highlight-box">
-            <h5>📦 供应链指数</h5>
-            <p><strong>事件：</strong>纽约联储供应链压力指数升至0.68，为2023年初以来最高水平。</p>
-            <p><strong>影响：</strong>全球商品贸易增长预计从4.7%降至1.5%-2.5%</p>
-        </div>
+                <h5>化肥</h5>
+                <p><strong>事件：</strong>中东化肥供应中断持续</p>
+                <p><strong>价格：</strong>以色列化肥价格飙升180%</p>
+                <p><strong>影响：</strong>全球粮食市场面临压力，春耕季节供应紧张</p>
+            </div>
         </div>
 
         <!-- 5. 海外投行讨论 -->
         <div class="section">
             <h3>🏦 海外投行观点</h3>
+
             <div class="highlight-box">
-            <h5>🏦 摩根大通 (JP Morgan)</h5>
-            <p><strong>发言人：</strong>CEO Jamie Dimon</p>
-            <p>战争是'不确定性的领域'，可能导致持续的石油和商品价格冲击。全球供应链重塑可能导致粘性通胀，最终利率可能高于市场预期。若霍尔木兹关闭至5月中旬，油价或达150美元/桶。</p>
-            <p style="font-size:0.8rem;color:#64748b;">来源：Greenwich Time/CNN/Newsweek</p>
-        </div>
-<div class="highlight-box">
-            <h5>🏦 高盛 (Goldman Sachs)</h5>
-            
-            <p>认为印度经济能够承受伊朗冲突的能源冲击。上调油价预测，判断冲突将持续6-8周，全球经济增速下修0.4个百分点。</p>
-            <p style="font-size:0.8rem;color:#64748b;">来源：CNBC</p>
-        </div>
-<div class="highlight-box">
-            <h5>🏦 摩根士丹利 (Morgan Stanley)</h5>
-            
-            <p>基准情景下油价中枢90-105美元，冲突降级概率40%，建议减持高收益债、增配黄金ETF，特别指出欧洲能源脆弱性。</p>
-            <p style="font-size:0.8rem;color:#64748b;">来源：Investopedia</p>
-        </div>
-<div class="highlight-box">
-            <h5>🏦 其他分析师</h5>
-            
-            <p>油市可能高估了霍尔木兹海峡的中断程度。Q1 IPO市场已被石油冲击扰乱。布伦特原油约110美元/桶，WTI约113-114美元（较战前上涨约50%）。</p>
-            <p style="font-size:0.8rem;color:#64748b;">来源：Seeking Alpha/Bloomberg Law</p>
-        </div>
+                <h5>摩根大通 (JP Morgan)</h5>
+                <p><strong>油价预测：</strong>预计Q2布伦特原油平均<strong>$100/桶</strong>，年底回落至$80/桶</p>
+                <p><strong>观点：</strong>停火协议将缓解供应担忧，但霍尔木兹海峡完全恢复通行需要时间。若停火破裂，油价可能飙升至$150/桶。</p>
+                <p style="font-size:0.8rem;color:#64748b;">来源：JP Morgan Global Research</p>
+            </div>
+
+            <div class="highlight-box">
+                <h5>高盛 (Goldman Sachs)</h5>
+                <p><strong>油价预测：</strong>预计年底布伦特回落至<strong>$70+/桶</strong>（假设石油流量逐步恢复）</p>
+                <p><strong>观点：</strong>停火是积极信号，但仍需观察两周谈判结果。将2026年油价预测从此前的$56/桶上调。霍尔木兹中断被描述为"史上最大供应冲击"。</p>
+                <p style="font-size:0.8rem;color:#64748b;">来源：Goldman Sachs Research</p>
+            </div>
+
+            <div class="highlight-box">
+                <h5>其他机构观点</h5>
+                <p><strong>HSBC：</strong>预计2026年布伦特$80/桶，WTI $76/桶</p>
+                <p><strong>花旗/美银：</strong>停火将缓解地缘政治溢价，但需关注谈判进展</p>
+                <p style="font-size:0.8rem;color:#64748b;">来源：各机构研报综合</p>
+            </div>
         </div>
 
         <!-- 市场数据 -->
         <div class="section">
             <h3>📊 市场数据速览</h3>
             <div class="market-grid">
-        <div class="market-card"><h5>🛢️ 布伦特原油</h5><p>110.00美元/桶 (+4.5%)</p></div>
-        <div class="market-card"><h5>🛢️ WTI原油</h5><p>113.50美元/桶 (+5.2%)</p></div>
-        <div class="market-card"><h5>📈 标普500</h5><p>5185点 (-1.3%)</p></div>
-        <div class="market-card"><h5>📈 纳斯达克</h5><p>15980点 (-1.6%)</p></div>
-        <div class="market-card"><h5>⚡ VIX波动率</h5><p>28.4 (+2.1)</p></div>
-        <div class="market-card"><h5>💱 美元指数</h5><p>105.60 (+0.55)</p></div>
-    </div>
-            <p style="font-size:0.8rem;color:#64748b;margin-top:12px;">
-                数据截止时间：2026-04-07 12:00 UTC+8 | 布伦特原油较战前上涨约50%
-            </p>
+                <div class="market-card">
+                    <h5>布伦特原油</h5>
+                    <p class="value">~$95/桶</p>
+                    <p>停火后回落</p>
+                </div>
+                <div class="market-card">
+                    <h5>WTI原油</h5>
+                    <p class="value">~$92/桶</p>
+                    <p>停火后回落</p>
+                </div>
+                <div class="market-card">
+                    <h5>LME铝</h5>
+                    <p class="value">$3,545/吨</p>
+                    <p>四年新高</p>
+                </div>
+                <div class="market-card">
+                    <h5>标普500</h5>
+                    <p class="value">~5,250</p>
+                    <p>地缘缓解上涨</p>
+                </div>
+                <div class="market-card">
+                    <h5>VIX波动率</h5>
+                    <p class="value">~25</p>
+                    <p>较前日下降</p>
+                </div>
+                <div class="market-card">
+                    <h5>美元指数</h5>
+                    <p class="value">~104</p>
+                    <p>相对稳定</p>
+                </div>
+            </div>
         </div>
 
-        <div class="footer">数据来源：路透社、彭博社、半岛电视台、CNN、华尔街日报等 | 仅供参考，不构成投资建议</div>
+        <!-- 后续关注 -->
+        <div class="section">
+            <h3>🔍 后续关注要点</h3>
+            <ul>
+                <li><strong>4月10日：</strong>美伊代表团伊斯兰堡谈判</li>
+                <li><strong>两周内：</strong>观察停火协议执行情况及海峡通行恢复进度</li>
+                <li><strong>以色列-黎巴嫩：</strong>以军是否继续对真主党目标打击</li>
+                <li><strong>供应链：</strong>铝、LNG等商品价格走势</li>
+                <li><strong>市场：</strong>油价是否持续回落或因地缘风险反复波动</li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <p>数据来源：Reuters、Bloomberg、CNBC、The Guardian、Haaretz、Jerusalem Post、Associated Press、Al Jazeera等</p>
+            <p style="margin-top:8px;">仅供信息参考，不构成投资建议 | 更新时间：2026-04-08</p>
+        </div>
     </div>
 </body>
 </html>
