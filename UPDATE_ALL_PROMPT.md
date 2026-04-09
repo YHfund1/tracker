@@ -134,8 +134,30 @@ oil-chart.html中"各国最新动态"部分
 
 ---
 
-## 10. 推送到GitHub
+## 10. 推送到GitHub (使用SSH)
 
+> ⚠️ **重要**：本项目使用SSH方式推送，避免HTTPS的SSL/TLS连接问题
+
+### 前置检查
+确保本地已配置SSH密钥并添加到GitHub：
+```bash
+# 检查SSH密钥是否存在
+ls ~/.ssh/id_rsa.pub
+
+# 测试GitHub SSH连接
+ssh -T git@github.com
+```
+
+### 修改远程仓库URL为SSH（如需要）
+```bash
+# 查看当前远程URL
+git remote -v
+
+# 如显示为 https://github.com/...，需改为SSH
+git remote set-url origin git@github.com:YHfund1/tracker.git
+```
+
+### 推送步骤
 ```bash
 # 添加所有更改
 git add .
@@ -143,9 +165,17 @@ git add .
 # 提交更新
 git commit -m "update: 全量数据更新 [日期]"
 
-# 推送到远程
+# 先拉取远程更新（避免冲突）
+git pull origin main --rebase
+
+# 推送到远程（使用SSH）
 git push origin main
 ```
+
+### 常见问题
+- **权限被拒绝**: 检查SSH密钥是否正确添加到GitHub账户
+- **连接超时**: 检查网络连接，或稍后重试
+- **冲突**: 执行 `git pull origin main --rebase` 解决冲突后再推送
 
 ---
 
