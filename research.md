@@ -85,8 +85,16 @@ python scripts/update_research_data.py
 - 纯军事战术分析（无能源/经济影响维度）
 - 书籍评论、人物访谈
 - 与中东/能源无关的通用经济分析
+- **排除来源**：news.com.au、ABC News Australia、Al Jazeera 半岛电视台
+- **Atlantic Council "In the News" 栏目**：仅引用媒体报道的条目不收录（非原创研究）
 
 ### 去重与提炼规则（重要）
+
+#### 0. 增量更新原则（强制要求）
+- **不删除原有研究观点**：保留 research.html 中已有的所有条目
+- **仅在上方添加新观点**：新搜索到的研究观点添加到页面顶部（按日期从新到旧排列）
+- 如果新搜索到的观点与已有观点重复（同一机构、同一主题、日期相近），则跳过不添加
+- 每次更新后，条目总数只增不减
 
 #### 1. 同一机构去重
 - **同一投行**（如JPMorgan、Goldman Sachs）的多个条目，如果讨论同一主题（如霍尔木兹供应中断），**只保留最新的一条**
@@ -128,12 +136,12 @@ python scripts/update_research_data.py
    - neutral = 客观分析/平衡观点
 6. **打分**：relevance_score 1-5（5=直接相关，如霍尔木兹/伊朗战争）
 7. **排序**：按相关度降序排列
-8. **数量控制**：最终保留 **40-60条** 高质量、无重复的观点
+8. **不做数量控制**：保留所有符合筛选标准的高质量观点
 
 ## 输出要求
 
 处理完成后，**直接生成 research.html 文件**，包含：
-- 筛选后的条目（通常50-80条）
+- 筛选后的所有条目（不做数量上限控制）
 - 卡片式布局
 - 机构筛选功能（智库/投行/媒体/国际组织）
 - 情绪标签显示
@@ -172,57 +180,59 @@ python scripts/update_research_data.py
 
 ## 数据源配置
 
-### 智库RSS源（THINK_TANK_SOURCES）
-| 英文名 | 中文名 | RSS地址 |
-|--------|--------|---------|
-| Brookings Institution | 布鲁金斯学会 | https://www.brookings.edu/feed/ |
-| CSIS | 战略与国际研究中心 | https://www.csis.org/rss.xml |
-| CFR | 外交关系委员会 | https://www.cfr.org/rss.xml |
-| PIIE | 彼得森国际经济研究所 | https://www.piie.com/rss.xml |
-| Carnegie Endowment | 卡内基国际和平基金会 | https://carnegieendowment.org/rss.xml |
-| RAND Corporation | 兰德公司 | https://www.rand.org/rss.xml |
-| Atlantic Council | 大西洋理事会 | https://www.atlanticcouncil.org/feed/ |
-| Chatham House | 查塔姆研究所 | https://www.chathamhouse.org/feed |
-| ECFR | 欧洲外交关系委员会 | https://ecfr.eu/feed/ |
-| GMF | 德国马歇尔基金会 | https://www.gmfus.org/rss.xml |
-| IMF | 国际货币基金组织 | https://www.imf.org/en/Publications/RSS |
-| BIS | 国际清算银行 | https://www.bis.org/doclist/bis_fsi_publs.rss |
+### 智库RSS源（THINK_TANK_SOURCES）- 22个
+| 英文名 | 中文名 | RSS地址 | 地区 |
+|--------|--------|---------|------|
+| **原有12个** | | | |
+| Brookings Institution | 布鲁金斯学会 | https://www.brookings.edu/feed/ | US |
+| CSIS | 战略与国际研究中心 | https://www.csis.org/rss.xml | US |
+| CFR | 外交关系委员会 | https://www.cfr.org/rss.xml | US |
+| PIIE | 彼得森国际经济研究所 | https://www.piie.com/rss.xml | US |
+| Carnegie Endowment | 卡内基国际和平基金会 | https://carnegieendowment.org/rss.xml | US |
+| RAND Corporation | 兰德公司 | https://www.rand.org/rss.xml | US |
+| Atlantic Council | 大西洋理事会 | https://www.atlanticcouncil.org/feed/ | US |
+| Chatham House | 查塔姆研究所 | https://www.chathamhouse.org/feed | EU |
+| ECFR | 欧洲外交关系委员会 | https://ecfr.eu/feed/ | EU |
+| GMF | 德国马歇尔基金会 | https://www.gmfus.org/rss.xml | EU |
+| IMF | 国际货币基金组织 | https://www.imf.org/en/Publications/RSS | Global |
+| BIS | 国际清算银行 | https://www.bis.org/doclist/bis_fsi_publs.rss | Global |
+| **新增: 国际机构** | | | |
+| IEA | 国际能源署 | https://www.iea.org/feed | Global |
+| World Bank | 世界银行 | http://feeds.feedburner.com/PSDBlog | Global |
+| OECD | 经合组织 | https://www.oecd.org/en/rss.html | Global |
+| ADB | 亚洲开发银行 | https://www.adb.org/rss | Asia |
+| **新增: 美国智库** | | | |
+| Foreign Affairs | 外交事务 | https://www.foreignaffairs.com/rss.xml | US |
+| Hudson Institute | 哈德逊研究所 | https://feeds.simplecast.com/_011BktN | US |
+| War on the Rocks | 战争岩石 | https://warontherocks.com/feed/ | US |
+| **新增: 欧洲智库** | | | |
+| Bruegel | 布鲁盖尔研究所 | https://www.bruegel.org/rss.xml | EU |
+| EUISS | 欧盟安全研究所 | https://www.iss.europa.eu/rss.xml | EU |
+| SWP | 德国国际安全事务研究所 | https://www.swp-berlin.org/rss.xml | EU |
 
-### 投行研报搜索（IB_RESEARCH_SEARCHES）
+### 投行/资管/智库搜索（IB_RESEARCH_SEARCHES）- 90+条
 
-| 优先级 | 类型 | 搜索关键词 |
-|--------|------|-----------|
-| **P1** | Goldman Sachs | Goldman Sachs oil price forecast brent 2025 |
-| **P1** | Morgan Stanley | Morgan Stanley energy outlook oil forecast |
-| **P1** | JPMorgan | JPMorgan oil supply disruption forecast |
-| **P1** | Citi | Citi commodity outlook oil price target |
-| **P1** | Bank of America | Bank of America energy outlook oil forecast |
-| **P2** | Deutsche Bank | Deutsche Bank oil price forecast commodity |
-| **P2** | Barclays | Barclays oil price target energy research |
-| **P2** | UBS | UBS commodity outlook oil forecast |
-| **P2** | Credit Suisse | Credit Suisse oil market outlook |
-| **P3** | HSBC | HSBC oil price forecast commodity |
-| **P3** | Societe Generale | Societe Generale oil forecast energy |
-| **P3** | Nomura | Nomura oil price forecast energy |
-| **P3** | Macquarie | Macquarie commodity outlook oil |
-| **P1** | Bloomberg/Goldman | Bloomberg Goldman Sachs oil price forecast |
-| **P1** | Bloomberg | Bloomberg analyst oil price target |
-| **P1** | Reuters | Reuters investment bank oil forecast |
-| **P1** | Reuters | Reuters analyst oil price middle east |
-| **P1** | FT | Financial Times oil price forecast analyst |
-| **P1** | WSJ | Wall Street Journal energy analysts forecast |
-| **P2** | CNBC | CNBC oil price forecast analyst |
-| **P2** | MarketWatch | MarketWatch oil forecast investment bank |
-| **P1** | 主题搜索 | Hormuz Strait oil supply analyst forecast |
-| **P1** | 主题搜索 | Iran war oil supply disruption analyst |
-| **P1** | 主题搜索 | Middle East oil supply risk forecast |
-| **P1** | 主题搜索 | Brent crude price forecast 2025 |
-| **P1** | 主题搜索 | WTI oil price target investment bank |
-| **P2** | 主题搜索 | oil price outlook geopolitical risk |
+**搜索引擎**: DuckDuckGo (主) + Google (备选)
+**代理**: 默认 `http://127.0.0.1:7897`，可通过 `USE_PROXY=0` 禁用
 
-**统计**：共27个搜索任务，覆盖15家投行+6家财经媒体+6个主题搜索
+| 优先级 | 类型 | 机构数量 | 搜索策略 |
+|--------|------|---------|---------|
+| **P1** | 顶级投行 | 6家 | Goldman Sachs, Morgan Stanley, JPMorgan, Citi, BofA, Wells Fargo |
+| **P2** | 欧洲投行 | 5家 | Deutsche Bank, Barclays, UBS, Credit Suisse, Standard Chartered |
+| **P2-3** | 其他投行/券商 | 13家 | HSBC, SocGen, Nomura, Macquarie, Jefferies, Bernstein等 |
+| **P1-2** | 大型资管 | 14家 | BlackRock, PIMCO, Fidelity, Vanguard, Schroders等 |
+| **P1-2** | 财经媒体 | 10个 | Bloomberg, Reuters, FT, WSJ, CNBC等 |
+| **P1-2** | 地缘主题 | 20+ | 美伊停火, 霍尔木兹航运, 中东冲突外溢, 宏观影响 |
+| **P1** | 智库/国际组织 | 10+ | IMF, BIS, World Bank, IEA, PIIE, CSIS等 |
 
-**搜索时间范围**：最近一个月（timelimit='m'）
+**搜索时间范围**：最近一周（timelimit='w'）
+
+**粗筛机制**: RSS和搜索结果均通过关键词匹配预过滤，仅保留 `relevance_hint >= 1` 的条目。
+
+**双引擎策略**:
+- DuckDuckGo为主搜索引擎（免费，无需API key）
+- Google为备选（DDG无结果的高优先级query自动fallback）
+- 结果合并去重
 
 ---
 
@@ -257,15 +267,26 @@ research.md                      # 本说明文档
 ### Q: 投行研报搜索不到？
 A: 检查以下几点：
 1. 确保 `duckduckgo-search` 已安装：`pip install duckduckgo-search`
-2. 搜索时间范围已设为最近一个月（timelimit='m'）
-3. 如长期无结果，可能需要更换搜索源或使用付费API（如SerpAPI）
+2. 确保 `googlesearch-python` 已安装：`pip install googlesearch-python`（备选引擎）
+3. 搜索时间范围已设为最近一周（timelimit='w'）
+4. 检查代理是否正常：`USE_PROXY=0` 可禁用代理
 
 ### Q: RSS抓取为空？
 A: 检查RSS地址是否有效：
 ```bash
 curl -I https://www.brookings.edu/feed/
 ```
-部分RSS可能需要特殊Headers。
+部分RSS可能需要特殊Headers。代理配置可通过 `RESEARCH_PROXY` 环境变量修改。
+
+### Q: 网络连接失败？
+A: 脚本默认启用代理 `http://127.0.0.1:7897`，如需修改：
+```bash
+# 禁用代理
+set USE_PROXY=0
+
+# 修改代理地址
+set RESEARCH_PROXY=http://your-proxy:port
+```
 
 ### Q: AI处理token超限？
 A: 如果entries超过300条，分批处理：
@@ -280,8 +301,9 @@ A: 编辑 `update_research_data.py`：
 
 ---
 
-*文档版本：2026-04-06*
-*搜索配置：27个任务，覆盖15家投行+6家财经媒体*
+*文档版本：2026-04-08*
+*搜索配置：90+任务，覆盖22个RSS源+40+家金融机构+双搜索引擎*
+*新增：代理支持、Google备选、粗筛预过滤、资管机构*
 
 
 ---

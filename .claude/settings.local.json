@@ -69,7 +69,15 @@
       "Bash(python -c \"import json; d=json.load\\(open\\('data/jin10_cb_for_ai.json','r',encoding='utf-8'\\)\\); items=[i for i in d['items'] if i.get\\('data',''\\)>='2026-04-03']; print\\(f'New items: {len\\(items\\)}'\\); [print\\(f\\\\\"  {i['data']} {i['content'][:80]}\\\\\"\\) for i in items]\")",
       "Bash(curl -L -o \"d:/python_code/跟踪网页2/images/header-logo.png\" \"https://maas-log-prod.cn-wlcb.ufileos.com/anthropic/3f6e517c-9fa2-4827-8411-129332a0096/0a89e591d632bb560336c535bec85c01.png\")",
       "Bash(python -c \"import json; d=json.load\\(open\\('data/cb-statements.json','r',encoding='utf-8'\\)\\); print\\('items count:', len\\(d.get\\('items',[]\\)\\)\\); print\\('keys:', list\\(d.keys\\(\\)\\)\\); print\\('first item keys:', list\\(d['items'][0].keys\\(\\)\\) if d.get\\('items'\\) else 'empty'\\)\")",
-      "Bash(python -c \"import json; d=json.load\\(open\\('data/cb-statements.json','r',encoding='utf-8'\\)\\); print\\('items:', len\\(d.get\\('items',[]\\)\\), 'OK'\\)\")"
+      "Bash(python -c \"import json; d=json.load\\(open\\('data/cb-statements.json','r',encoding='utf-8'\\)\\); print\\('items:', len\\(d.get\\('items',[]\\)\\), 'OK'\\)\")",
+      "Bash(python -c \"import json; f=open\\('d:/python_code/跟踪网页2/data/cb-statements.json','r',encoding='utf-8'\\); data=json.load\\(f\\); print\\('Valid JSON'\\); print\\('totalItems:', data['totalItems']\\); print\\('actual items count:', len\\(data['items']\\)\\); f.close\\(\\)\")",
+      "Bash(python scripts/update_research_data.py)",
+      "Bash(python3)",
+      "Bash(python3 -u -c ':*)",
+      "Bash(python -u -c \"print\\('hello'\\)\")",
+      "Bash(python -u -c ':*)",
+      "Bash(claude --version)",
+      "Bash(npm update:*)"
     ]
   }
 }

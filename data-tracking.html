@@ -5918,15 +5918,15 @@
             text-align: right;
             font-size: 0.9rem;
         }
-        .overview-table td:first-child {
-            font-weight: 600;
-            color: #1e293b;
-            background: #f8fafc;
-            text-align: left;
+        .overview-table td.cat-cell {
+            font-weight: 400;
+            color: #475569;
+            text-align: center;
         }
-        .overview-table td:nth-child(2) {
+        .overview-table td.item-name {
             text-align: left;
             color: #334155;
+            font-weight: 400;
         }
         .overview-table td:last-child {
             text-align: center;
@@ -5934,8 +5934,8 @@
         .overview-table tr:hover td {
             background: #f1f5f9;
         }
-        .overview-table tr:hover td:first-child {
-            background: #e2e8f0;
+        .overview-table tr:hover td.cat-cell {
+            background: inherit;
         }
         .category-header td {
             font-weight: 600;
@@ -6143,7 +6143,7 @@ function createDualAxisCommodityChart(canvasId, group, container) {
     if (items.length === 0) return;
     
     // Colors for different lines
-    var colors = ['#dc2626', '#b91c1c', '#059669', '#d97706'];
+    var colors = ['#dc2626', '#2563eb', '#059669', '#d97706'];
     
     // Store full data for range selection
     var fullData = items.map(function(item) {
@@ -7380,14 +7380,14 @@ function renderOverviewTable(overviewData) {
         
         category.items.forEach(function(item, index) {
             var isFirst = index === 0;
-            var categoryCell = isFirst ? '<td rowspan="' + category.items.length + '" style="background:' + bgColor + ';font-weight:600;">' + category.name + '</td>' : '';
-            
+            var categoryCell = isFirst ? '<td class="cat-cell" rowspan="' + category.items.length + '" style="background:' + bgColor + ';">' + category.name + '</td>' : '';
+
             // Format current price
             var currentPrice = item.latest !== null ? item.latest : '--';
             if (typeof currentPrice === 'number') {
                 currentPrice = currentPrice.toLocaleString();
             }
-            
+
             // Format 1-day change
             var change1d = item.change_1d;
             var change1dClass = 'value-neutral';
@@ -7397,7 +7397,7 @@ function renderOverviewTable(overviewData) {
                 change1dStr = symbol + change1d + (item.unit === 'BP' ? 'BP' : '%');
                 change1dClass = change1d > 0 ? 'value-up' : (change1d < 0 ? 'value-down' : 'value-neutral');
             }
-            
+
             // Format conflict day change
             var changeConflict = item.change_since_conflict;
             var changeConflictClass = 'value-neutral';
@@ -7407,17 +7407,17 @@ function renderOverviewTable(overviewData) {
                 changeConflictStr = symbol + changeConflict + (item.unit === 'BP' ? 'BP' : '%');
                 changeConflictClass = changeConflict > 0 ? 'value-up' : (changeConflict < 0 ? 'value-down' : 'value-neutral');
             }
-            
+
             // Mini sparkline
             var sparklineHtml = '';
             if (item.values && item.values.length > 1) {
                 var canvasId = 'spark-' + category.name + '-' + index;
                 sparklineHtml = '<canvas id="' + canvasId + '" class="mini-chart"></canvas>';
             }
-            
+
             html += '<tr>' +
                 categoryCell +
-                '<td>' + item.name + '</td>' +
+                '<td class="item-name">' + item.name + '</td>' +
                 '<td class="current-price">' + currentPrice + '</td>' +
                 '<td class="' + change1dClass + '">' + change1dStr + '</td>' +
                 '<td class="' + changeConflictClass + '">' + changeConflictStr + '</td>' +
