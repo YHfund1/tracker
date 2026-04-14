@@ -16,11 +16,18 @@ import re
 from datetime import datetime, timedelta
 import feedparser
 import time
+from urllib.request import Request, build_opener, ProxyHandler
 
 # ===== 代理配置 =====
 PROXY_HOST = os.environ.get("RESEARCH_PROXY", "http://127.0.0.1:7897")
 PROXY_CONFIG = {"http": PROXY_HOST, "https": PROXY_HOST}
-USE_PROXY = os.environ.get("USE_PROXY", "1") == "1"
+# 默认关闭代理，避免在无本地代理环境下整条流程直接退化为空结果。
+USE_PROXY = os.environ.get("USE_PROXY", "0") == "1"
+RSS_TIMEOUT = int(os.environ.get("RESEARCH_RSS_TIMEOUT", "15"))
+SEARCH_TIMEOUT = int(os.environ.get("RESEARCH_SEARCH_TIMEOUT", "10"))
+REQUEST_HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+}
 
 def get_proxies():
     return PROXY_CONFIG if USE_PROXY else None
@@ -292,6 +299,16 @@ def clean_html(text):
     """去除HTML标签"""
     return re.sub(r'<[^>]+>', '', text).strip()
 
+def fetch_url_bytes(url, timeout=RSS_TIMEOUT):
+    """以显式超时抓取URL内容，避免单个RSS源卡住整个流程。"""
+    handlers = []
+    if USE_PROXY:
+        handlers.append(ProxyHandler(PROXY_CONFIG))
+    opener = build_opener(*handlers)
+    request = Request(url, headers=REQUEST_HEADERS)
+    with opener.open(request, timeout=timeout) as resp:
+        return resp.read()
+
 
 # ==========================================
 # RSS 抓取
@@ -302,7 +319,8 @@ def fetch_rss_source(source, days=15):
     log(f"[RSS] {source['name_zh']}")
 
     try:
-        feed = feedparser.parse(source['rss'])
+        feed_bytes = fetch_url_bytes(source['rss'], timeout=RSS_TIMEOUT)
+        feed = feedparser.parse(feed_bytes)
         if feed.bozo and not feed.entries:
             log(f"  ERR feed parse failed: {feed.bozo_exception}")
             return []
@@ -366,7 +384,7 @@ def fetch_all_rss(days=15):
 def search_ddg(query, max_results=8, timelimit='w'):
     """DuckDuckGo搜索，返回结果列表"""
     try:
-        with DDGS(proxy=PROXY_HOST if USE_PROXY else None) as ddgs:
+        with DDGS(proxy=PROXY_HOST if USE_PROXY else None, timeout=SEARCH_TIMEOUT) as ddgs:
             results = list(ddgs.text(query, max_results=max_results, timelimit=timelimit))
             return results
     except Exception as e:

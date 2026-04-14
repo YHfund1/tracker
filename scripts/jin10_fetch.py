@@ -8,6 +8,7 @@ import asyncio
 import json
 import re
 from datetime import datetime, timedelta
+from pathlib import Path
 from typing import List, Dict
 from urllib.parse import quote
 
@@ -88,10 +89,13 @@ async def main_async():
     from playwright.async_api import async_playwright
     import sys
 
-    out_path = "d:/python_code/跟踪网页2/data/jin10_cb_for_ai.json"
+    root = Path(__file__).resolve().parent.parent
+    data_dir = root / "data"
+    data_dir.mkdir(exist_ok=True)
+    out_path = data_dir / "jin10_cb_for_ai.json"
 
     # 增量逻辑：读取已有数据，从最新时间戳开始抓取
-    existing_items, latest_time = load_existing(out_path)
+    existing_items, latest_time = load_existing(str(out_path))
 
     if latest_time:
         cutoff = datetime.strptime(latest_time[:19], "%Y-%m-%d %H:%M:%S")

@@ -215,14 +215,23 @@ def download_and_generate_video(snapshots):
 
     print(f"[3/3] 生成视频 ({len(images)} 帧, {fps}fps, ~{duration:.0f}秒)...")
 
-    # 生成视频
-    imageio.mimwrite(
-        OUTPUT_FILE,
-        images,
-        fps=fps,
-        codec='libx264',
-        pixelformat='yuv420p'
-    )
+    # 显式使用 FFmpeg 写 MP4，避免 imageio 误选 TIFF backend。
+    try:
+        with imageio.get_writer(
+            OUTPUT_FILE,
+            format="FFMPEG",
+            mode="I",
+            fps=fps,
+            codec="libx264",
+            pixelformat="yuv420p",
+        ) as writer:
+            for frame in images:
+                writer.append_data(frame)
+    except Exception as exc:
+        print(f"      [警告] FFmpeg 写出失败，回退到默认 MP4 backend: {exc}")
+        with imageio.get_writer(OUTPUT_FILE, fps=fps) as writer:
+            for frame in images:
+                writer.append_data(frame)
 
     size_mb = Path(OUTPUT_FILE).stat().st_size / 1024 / 1024
 
