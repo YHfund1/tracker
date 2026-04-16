@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中东地缘跟踪 - 美以伊冲突每日简报</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f8fafc;color:#1e293b;line-height:1.8;}
+        .header {
+            background: #ffffff;
+            color: #1e293b;
+            padding: 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            border-bottom: 1px solid #e2e8f0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-main {
+            display: flex;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+        }
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: absolute;
+            left: 20px;
+        }
+        .header-logo img {
+            height: 30px;
+            width: auto;
+            display: block;
+        }
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #c41230;
+            letter-spacing: 1px;
+        }
+        .header-nav {
+            display: flex;
+            gap: 0;
+            margin: 0 auto;
+        }
+        .nav-btn {
+            color: #64748b;
+            text-decoration: none;
+            padding: 12px 14px;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            white-space: nowrap;
+            border-bottom: 3px solid transparent;
+        }
+        .nav-btn:hover {
+            background: #f1f5f9;
+            color: #991b1b;
+        }
+        .nav-btn.active {
+            background: #f8fafc;
+            color: #991b1b;
+            border-bottom-color: #dc2626;
+            font-weight: 500;
+        }
+        @media (max-width: 768px) {
+            .header-main {
+                flex-direction: column;
+                padding: 0;
+            }
+            .header-logo {
+                padding: 10px 16px;
+                border-bottom: 1px solid #e2e8f0;
+                width: 100%;
+                position: static;
+            }
+            .header-logo img {
+                height: 26px;
+            }
+            .header-nav {
+                width: 100%;
+                overflow-x: auto;
+                scrollbar-width: none;
+                -webkit-overflow-scrolling: touch;
+                padding: 0 8px;
+            }
+            .header-nav::-webkit-scrollbar {
+                display: none;
+            }
+            .nav-btn {
+                padding: 10px 12px;
+                font-size: 0.8rem;
+            }
+        }
+        .container{max-width:900px;margin:0 auto;padding:24px 20px;}
+        .briefing-header{background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%);border:1px solid #f59e0b;border-radius:12px;padding:24px;margin-bottom:24px;}
+        .briefing-header h2{color:#92400e;font-size:1.4rem;margin-bottom:12px;}
+        .briefing-header .summary{color:#78350f;font-size:0.95rem;line-height:1.8;}
+        .section{background:#fff;border-radius:12px;padding:24px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,0.08);border:1px solid #e2e8f0;}
+        .section h3{color:#991b1b;font-size:1.15rem;margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid #e2e8f0;}
+        .section p{color:#475569;font-size:0.95rem;margin-bottom:12px;text-align:justify;}
+        .section ul{padding-left:20px;margin-bottom:12px;}
+        .section li{color:#475569;font-size:0.95rem;margin-bottom:8px;}
+        .highlight-box{background:#eff6ff;border-left:4px solid #3b82f6;padding:16px;border-radius:0 8px 8px 0;margin:16px 0;}
+        .highlight-box.critical{background:#fef2f2;border-left-color:#dc2626;}
+        .highlight-box.warning{background:#fffbeb;border-left-color:#f59e0b;}
+        .highlight-box.success{background:#f0fdf4;border-left-color:#16a34a;}
+        .highlight-box h5{color:#1e40af;font-size:0.95rem;margin-bottom:10px;}
+        .highlight-box.critical h5{color:#dc2626;}
+        .highlight-box.warning h5{color:#b45309;}
+        .highlight-box.success h5{color:#166534;}
+        .market-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:16px 0;}
+        .market-card{background:#f8fafc;border-radius:8px;padding:16px;border:1px solid #e2e8f0;}
+        .market-card h5{color:#991b1b;font-size:0.9rem;margin-bottom:8px;}
+        .market-card p{color:#475569;font-size:0.85rem;margin:0;}
+        .market-card .value{font-size:1.1rem;font-weight:600;color:#1e293b;}
+        .footer{text-align:center;padding:24px;color:#64748b;font-size:0.8rem;border-top:1px solid #e2e8f0;margin-top:40px;}
+        .tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:0.75rem;margin-right:6px;}
+        .tag-red{background:#fef2f2;color:#dc2626;}
+        .tag-green{background:#f0fdf4;color:#16a34a;}
+        .tag-blue{background:#eff6ff;color:#1d4ed8;}
+        @media (max-width: 768px) {
+            .market-grid{grid-template-columns:repeat(2,1fr);}
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-main">
+            <a href="index.html" class="header-logo">
+                <img src="images/header.png" alt="Logo">
+                <span class="logo-text">中东地缘跟踪</span>
+            </a>
+            <nav class="header-nav">
+                <a href="index.html" class="nav-btn">海峡跟踪</a>
+                <a href="data-tracking.html" class="nav-btn">全球市场</a>
+                <a href="war-situation.html" class="nav-btn">战局形势</a>
+                <a href="briefing.html" class="nav-btn active">每日简报</a>
+                <a href="news.html" class="nav-btn">实时新闻</a>
+                <a href="central-bank-tracker.html" class="nav-btn">央行表态</a>
+                <a href="eco-track.html" class="nav-btn">经济数据</a>
+                <a href="research.html" class="nav-btn">研究视点</a>
+                <a href="polymarket.html" class="nav-btn">Polymarket</a>
+                <a href="oil-chart.html" class="nav-btn">原油图谱</a>
+            </nav>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- 标题区 -->
+        <div class="briefing-header">
+            <h2>📰 美以伊冲突每日简报 (2026-04-14)</h2>
+            <p class="summary"><strong>封锁升级：</strong>北京时间2026年4月14日，冲突进入新阶段。美国已于美东时间4月13日10:00起对<strong>所有进出伊朗港口船只实施海上封锁</strong>，但仍对非伊朗目的港船舶保留受控过境窗口。伊朗总统佩泽希齐扬同日表示愿在国际法框架内继续谈判并遵守停火条款；北约多国明确不参与封锁行动。霍尔木兹海峡距离恢复“有意义通航”仍需数周，海上排队、战争险与区域代理人打击风险同步上升。</p>
+        </div>
+
+        <!-- 1. 战局进展 -->
+        <div class="section">
+            <h3>⚔️ 战局进展</h3>
+
+            <div class="highlight-box critical">
+                <h5>🚫 美国对伊朗港口海上封锁已生效</h5>
+                <p><strong>时间：</strong>4月13日 22:00（北京时间） | <strong>来源：</strong>AP / 新华社 / 财联社</p>
+                <p>美国总统特朗普确认，美军已开始对所有进出伊朗港口的船只实施封锁，并警告任何接近封锁区的伊朗“快速攻击艇”都将被立即摧毁。美国军方同时限制进入伊朗港口的航行，但对目的地不是伊朗的船舶仍保留受控通行安排。</p>
+            </div>
+
+            <div class="highlight-box warning">
+                <h5>🛢️ 海湾代理人袭击仍在延续</h5>
+                <p><strong>时间：</strong>4月13日 | <strong>来源：</strong>CTP-ISW 晚间特别报告</p>
+                <p>CTP/ISW评估认为，伊朗支持的伊拉克民兵很可能在4月13日使用无人机与导弹袭击了巴林本岛天然气管线和海水淡化厂，并仍具备继续打击沙特海上油田等海湾能源资产的能力。停火框架尚未切断代理人层面的外溢攻击。</p>
+            </div>
+
+            <div class="highlight-box">
+                <h5>🇱🇧 黎以战线仍未停火</h5>
+                <p><strong>时间：</strong>4月13日-14日 | <strong>来源：</strong>新华社 / 财联社</p>
+                <p>以军自4月8日以来持续空袭贝鲁特、贝卡谷地和黎南地区，并在4月14日于华盛顿启动与黎巴嫩大使的直接会谈。美国与联合国均在推动把黎巴嫩议题纳入更完整的降级安排，但以色列仍坚持保留军事打击权。</p>
+            </div>
+        </div>
+
+        <!-- 2. 各方表态 -->
+        <div class="section">
+            <h3>🎙️ 各方最新表态</h3>
+
+            <div class="highlight-box">
+                <h5>🇺🇸 美国/特朗普</h5>
+                <p><strong>时间：</strong>4月13日 | <strong>来源：</strong>新华社 / 财联社</p>
+                <p>特朗普表示，美国“不需要霍尔木兹海峡”，但不能允许任何国家“敲诈勒索全世界”；他同时称，美伊之间“正确的人”已再次通话，仍希望达成协议，但在协议形成前将继续执行封锁。</p>
+            </div>
+
+            <div class="highlight-box">
+                <h5>🇮🇷 伊朗/佩泽希齐扬</h5>
+                <p><strong>时间：</strong>4月13日 | <strong>来源：</strong>新华社 / 财联社</p>
+                <p>伊朗总统佩泽希齐扬在与法国总统马克龙通话时表示，伊朗愿在国际法框架内继续与美国谈判，并将遵守停火条款；但他强调，任何对霍尔木兹海峡安全的威胁都将对全球贸易产生广泛影响，伊朗已准备应对不利局面。</p>
+            </div>
+
+            <div class="highlight-box">
+                <h5>🇶🇦 卡塔尔</h5>
+                <p><strong>时间：</strong>4月13日 | <strong>来源：</strong>新华社</p>
+                <p>卡塔尔首相兼外交大臣穆罕默德在与伊朗外长阿拉格齐通话时强调，霍尔木兹海峡航行自由不能被当作谈判筹码或施压工具，并敦促美伊双方积极响应调解努力，巩固现有停火成果。</p>
+            </div>
+
+            <div class="highlight-box">
+                <h5>🌐 联合国与多国</h5>
+                <p><strong>时间：</strong>4月13日-14日 | <strong>来源：</strong>联合国 / 路透 / 财联社</p>
+                <p>联合国秘书长古特雷斯呼吁各方继续以建设性方式推进和谈并维护航行自由；国际海事组织重申任何国家都无权封锁国际海峡。西班牙、英国、土耳其等北约成员国明确表示不会参与美国的海上封锁行动。</p>
+            </div>
+        </div>
+
+        <!-- 3. 海峡通行情况 -->
+        <div class="section">
+            <h3>🚢 霍尔木兹海峡通行情况</h3>
+
+            <div class="highlight-box warning">
+                <h5>海峡通行状态</h5>
+                <p><strong>当前状态：</strong><span style="color:#b91c1c;font-weight:600;">受控通行 + 伊朗港口封锁并存</span></p>
+                <p><strong>通航数据：</strong>据AP与CTP/ISW梳理，4月13日仍有数十艘船在海峡外排队，部分油轮继续掉头；美军允许前往非伊朗目的港的船舶在严格指令下通行，但所有伊朗港口航线均被视为封锁区域。</p>
+                <p><strong>关键事件：</strong></p>
+                <ul>
+                    <li><strong>排队船舶扩容：</strong>至少70艘船聚集在霍尔木兹海峡外等待进一步指令</li>
+                    <li><strong>美国能源部长表态：</strong>克里斯·赖特承认，在恢复“有意义”的通航前，美国能源价格仍可能继续上涨</li>
+                    <li><strong>中立船舶重新评估航线：</strong>保险、安检和护航规则仍未稳定，运营商倾向延后入场</li>
+                    <li><strong>国际法争议升温：</strong>联合国与IMO均强调霍尔木兹属于应保障航行自由的国际海峡</li>
+                </ul>
+                <p><strong>战前对比：</strong>冲突前每日通行量通常在百艘以上，目前仍明显低于正常状态，且“是否能走”已让位于“能否安全、能否承保、是否会被临检”。</p>
+            </div>
+        </div>
+
+        <!-- 4. 全球供应链 -->
+        <div class="section">
+            <h3>📦 全球供应链影响</h3>
+
+            <div class="highlight-box critical">
+                <h5>上游原油</h5>
+                <p><strong>事件：</strong>沙特阿美预防性下调马尼法海上油田产量</p>
+                <p><strong>规模：</strong>已减产<strong>30万桶/日</strong>，并准备在4月16日前进一步降至50万桶/日</p>
+                <p><strong>影响：</strong>中质含硫原油对亚洲现货供应再度收紧，说明海湾生产端已从“遭袭修复”转向“基于威胁先行收缩”</p>
+                <p style="font-size:0.8rem;color:#64748b;">来源：CTP-ISW / FT</p>
+            </div>
+
+            <div class="highlight-box warning">
+                <h5>航运与港口</h5>
+                <p><strong>事件：</strong>美国封锁所有伊朗港口，霍尔木兹恢复正常通行时间被再次后移</p>
+                <p><strong>影响：</strong>伊朗海运出口面临接近停摆风险，非伊朗目的港船舶也需承受更高的等待、检查和战争险成本</p>
+                <p><strong>市场含义：</strong>“海峡重新开放”已不等于“物流恢复正常”，海运摩擦成本将继续滞后抬升</p>
+            </div>
+
+            <div class="highlight-box">
+                <h5>化肥与粮食</h5>
+                <p><strong>事件：</strong>联合国警告霍尔木兹中断已阻碍化肥及原料运输</p>
+                <p><strong>影响：</strong>化肥、燃料与航运成本同步上行，全球脆弱地区的粮食安全压力继续累积</p>
+                <p><strong>传导：</strong>能源运输受限 → 化肥原料延迟 → 农产品成本上行 → 生活成本再受推升</p>
+            </div>
+        </div>
+
+        <!-- 5. 海外投行讨论 -->
+        <div class="section">
+            <h3>🏦 海外投行观点</h3>
+
+            <div class="highlight-box">
+                <h5>RBC Capital Markets</h5>
+                <p><strong>核心判断：</strong>若停火真正稳定，油价可回落至<strong>$75/桶附近</strong>；但如果美军封锁导致伊朗约90%出口长期离场，布伦特可能重新冲向<strong>$120/桶以上</strong></p>
+                <p><strong>含义：</strong>市场现在面对的是“停火名义存在、供给扰动加码”的高波动组合，价格尾部风险重新抬头</p>
+                <p style="font-size:0.8rem;color:#64748b;">来源：FT / RBC Helima Croft</p>
+            </div>
+
+            <div class="highlight-box">
+                <h5>渣打银行 (Standard Chartered)</h5>
+                <p><strong>核心判断：</strong>即使存在停火框架，能源供应改善也可能十分有限</p>
+                <p><strong>原因：</strong>高保险费率、严格通行许可和运营约束，使“宣布停火”并不会自动转化为“油轮和LNG船大量恢复出海”</p>
+                <p style="font-size:0.8rem;color:#64748b;">来源：财联社整理 / Standard Chartered</p>
+            </div>
+
+            <div class="highlight-box">
+                <h5>市场共识变化</h5>
+                <p><strong>最新特征：</strong>研究机构开始从“战事是否停火”转向“封锁如何执行、持续多久、对伊朗出口压缩几成”来重新定价油气与航运风险</p>
+                <p><strong>提示：</strong>本轮价格波动的主变量已从单纯军事打击，切换为海上封锁、保险承保和代理人打击的复合约束。</p>
+            </div>
+        </div>
+
+        <!-- 市场数据 -->
+        <div class="section">
+            <h3>📊 风险监测速览</h3>
+            <div class="market-grid">
+                <div class="market-card">
+                    <h5>布伦特原油</h5>
+                    <p class="value">$100+/桶</p>
+                    <p>封锁生效后重新上探三位数</p>
+                </div>
+                <div class="market-card">
+                    <h5>WTI原油</h5>
+                    <p class="value">$97+/桶</p>
+                    <p>跟随海运风险溢价抬升</p>
+                </div>
+                <div class="market-card">
+                    <h5>等待过境船舶</h5>
+                    <p class="value">70+艘</p>
+                    <p>海峡外仍有大量排队</p>
+                </div>
+                <div class="market-card">
+                    <h5>美国中东舰艇</h5>
+                    <p class="value">16艘</p>
+                    <p>执行封锁与威慑部署</p>
+                </div>
+                <div class="market-card">
+                    <h5>战争险保费</h5>
+                    <p class="value">1%-2.5%</p>
+                    <p>船体价值口径，仍处高位</p>
+                </div>
+                <div class="market-card">
+                    <h5>沙特马尼法油田</h5>
+                    <p class="value">-30万桶/日</p>
+                    <p>预防性减产已落地</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 后续关注 -->
+        <div class="section">
+            <h3>🔍 后续关注要点</h3>
+            <ul>
+                <li><strong>4月15-16日：</strong>观察美国封锁是否升级为更广泛的拦截、扣船或强制登检</li>
+                <li><strong>伊朗谈判窗口：</strong>佩泽希齐扬与马克龙通话后，德黑兰是否继续维持“停火未死”叙事</li>
+                <li><strong>代理人风险：</strong>伊拉克民兵是否继续打击巴林、沙特或其他海湾能源设施</li>
+                <li><strong>航运恢复：</strong>是否出现更多油轮/LNG船掉头，或战争险继续上调</li>
+                <li><strong>供应链：</strong>化肥、LNG、中质含硫原油与航运附加费的联动上行是否加剧</li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <p>数据来源：AP、CTP-ISW、新华社、联合国、国际海事组织、路透、财联社等</p>
+            <p style="margin-top:8px;">仅供信息参考，不构成投资建议 | 更新时间：2026-04-14</p>
+        </div>
+    </div>
+</body>
+</html>

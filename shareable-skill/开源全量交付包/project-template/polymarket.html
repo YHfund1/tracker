@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中东地缘跟踪 - Polymarket预测市场</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        .chart-container { position: relative; height: 300px; width: 100%; }
+        .card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .positive { color: #059669; }
+        .negative { color: #dc2626; }
+        /* 浅色导航栏样式 */
+        .header {
+            background: #ffffff;
+            color: #1e293b;
+            padding: 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            border-bottom: 1px solid #e2e8f0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-main {
+            display: flex;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+        }
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: absolute;
+            left: 20px;
+        }
+        .header-logo img {
+            height: 30px;
+            width: auto;
+            display: block;
+        }
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #c41230;
+            letter-spacing: 1px;
+        }
+        .header-nav {
+            display: flex;
+            gap: 0;
+            margin: 0 auto;
+        }
+        .nav-btn {
+            color: #64748b;
+            text-decoration: none;
+            padding: 12px 14px;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            white-space: nowrap;
+            border-bottom: 3px solid transparent;
+        }
+        .nav-btn:hover {
+            background: #f1f5f9;
+            color: #991b1b;
+        }
+        .nav-btn.active {
+            background: #f8fafc;
+            color: #991b1b;
+            border-bottom-color: #dc2626;
+            font-weight: 500;
+        }
+        .header-right {
+            display: none;
+        }
+        /* 手机端适配 */
+        @media (max-width: 768px) {
+            .header-main {
+                flex-direction: column;
+                padding: 0;
+            }
+            .header-logo {
+                padding: 10px 16px;
+                border-bottom: 1px solid #e2e8f0;
+                width: 100%;
+                position: static;
+            }
+            .header-logo img {
+                height: 26px;
+            }
+            .header-nav {
+                width: 100%;
+                overflow-x: auto;
+                scrollbar-width: none;
+                -webkit-overflow-scrolling: touch;
+                padding: 0 8px;
+            }
+            .header-nav::-webkit-scrollbar { display: none; }
+            .nav-btn {
+                padding: 10px 12px;
+                font-size: 0.8rem;
+            }
+            .chart-container { height: 220px; }
+            .text-3xl { font-size: 1.5rem !important; }
+            .text-2xl { font-size: 1.25rem !important; }
+            .text-xl { font-size: 1.1rem !important; }
+            .text-lg { font-size: 1rem !important; }
+            .text-base { font-size: 0.9rem !important; }
+            .text-sm { font-size: 0.8rem !important; }
+            .p-6 { padding: 1rem !important; }
+            .py-8 { padding-top: 1rem !important; padding-bottom: 1rem !important; }
+            .mb-8 { margin-bottom: 1rem !important; }
+            .gap-6 { gap: 1rem !important; }
+        }
+        @media (max-width: 480px) {
+            .header-main { padding: 6px 8px; gap: 6px; }
+            .header-logo img { height: 24px; }
+            .logo-text { font-size: 1.1rem; }
+            .nav-btn { padding: 8px 10px; font-size: 0.75rem; }
+        }
+        /* 加载状态 */
+        .loading { text-align: center; padding: 40px; color: #64748b; }
+        .error { text-align: center; padding: 40px; color: #dc2626; }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div class="header">
+        <div class="header-main">
+            <a href="index.html" class="header-logo">
+                <img src="images/header.png" alt="Logo">
+                <span class="logo-text">中东地缘跟踪</span>
+            </a>
+            <nav class="header-nav" id="navCenter">
+                <a href="index.html" class="nav-btn">海峡跟踪</a>
+                <a href="data-tracking.html" class="nav-btn">全球市场</a>
+                <a href="war-situation.html" class="nav-btn">战局形势</a>
+                <a href="briefing.html" class="nav-btn">每日简报</a>
+                <a href="news.html" class="nav-btn">实时新闻</a>
+                <a href="central-bank-tracker.html" class="nav-btn">央行表态</a>
+                <a href="eco-track.html" class="nav-btn">经济数据</a>
+                <a href="research.html" class="nav-btn">研究视点</a>
+                <a href="polymarket.html" class="nav-btn active">Polymarket</a>
+                <a href="oil-chart.html" class="nav-btn">原油图谱</a>
+            </nav>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-slate-800 mb-2">伊朗相关预测市场追踪</h1>
+            <p class="text-slate-500">基于 Polymarket 实时数据 <span id="update-time"></span></p>
+        </div>
+
+        <div id="content-container" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="loading">正在加载数据...</div>
+        </div>
+    </div>
+
+    <footer class="bg-white border-t border-slate-200 mt-12 py-6">
+        <div class="max-w-7xl mx-auto px-4 text-center text-slate-500 text-sm">
+            <p>数据来源: Polymarket | 仅供信息参考，不构成投资建议</p>
+        </div>
+    </footer>
+
+    <script>
+        // 颜色配置
+        const COLORS = {
+            blue: "#2563eb",
+            indigo: "#4f46e5",
+            slate: "#0ea5e9",
+            teal: "#10b981",
+            emerald: "#059669",
+            sky: "#f59e0b",
+            amber: "#f97316",
+            rose: "#e11d48"
+        };
+        const colorList = Object.values(COLORS);
+
+        // 存储图表实例
+        let charts = {};
+
+        // 加载数据
+        async function loadData() {
+            try {
+                const response = await fetch('data/polymarket_data.json');
+                if (!response.ok) throw new Error('数据加载失败');
+                const data = await response.json();
+                renderContent(data);
+            } catch (error) {
+                document.getElementById('content-container').innerHTML =
+                    `<div class="error col-span-2">数据加载失败: ${error.message}<br>请确保已运行 update_polymarket_html.py 获取最新数据</div>`;
+            }
+        }
+
+        // 渲染内容
+        function renderContent(data) {
+            const container = document.getElementById('content-container');
+            container.innerHTML = '';
+
+            // 更新时间
+            if (data.fetchedAt) {
+                const date = new Date(data.fetchedAt);
+                document.getElementById('update-time').textContent =
+                    `| 更新于 ${date.toLocaleString('zh-CN')}`;
+            }
+
+            const events = data.events || {};
+            let chartIdx = 0;
+
+            // 1. 特朗普宣布结束军事行动
+            const trumpData = events['trump-announces-end-of-military-operations-against-iran-by'];
+            if (trumpData) {
+                container.appendChild(createEventCard(trumpData, '特朗普宣布结束对伊朗军事行动',
+                    '不同截止日期的概率预测',
+                    ['April 7th', 'April 15th', 'April 30th', 'June 30th'], chartIdx++));
+            }
+
+            // 2. 美伊停火
+            const ceasefireData = events['us-x-iran-ceasefire-by'];
+            if (ceasefireData) {
+                container.appendChild(createEventCard(ceasefireData, '美伊停火时间',
+                    '不同截止日期的概率预测',
+                    ['April 30', 'May 31', 'June 30', 'December 31'], chartIdx++));
+            }
+
+            // 3. 霍尔木兹海峡船舶数量
+            const shipsData = events['avg-of-ships-transiting-strait-of-hormuz-end-of-april'];
+            if (shipsData) {
+                container.appendChild(createShipsCard(shipsData, chartIdx++));
+            }
+
+            // 4. 霍尔木兹海峡恢复正常
+            const normalData = events['strait-of-hormuz-traffic-returns-to-normal-by-april-30'];
+            if (normalData) {
+                container.appendChild(createSimpleCard(normalData, '霍尔木兹海峡恢复正常',
+                    '4月30日前恢复正常的概率', chartIdx++, 'indigo'));
+            }
+
+            // 5. 4月原油价格
+            const oilAprilData = events['what-price-will-wti-hit-in-april-2026'];
+            if (oilAprilData) {
+                container.appendChild(createOilCard(oilAprilData, '4月原油价格预测',
+                    'WTI期货价格4月底前触碰概率', chartIdx++));
+            }
+
+            // 6. 6月原油价格
+            const oilJuneData = events['cl-hit-jun-2026'];
+            if (oilJuneData) {
+                container.appendChild(createOilCard(oilJuneData, '6月原油价格预测',
+                    'CL期货价格6月底前触碰概率', chartIdx++));
+            }
+        }
+
+        // 创建事件卡片
+        function createEventCard(eventData, title, subtitle, dateLabels, chartIdx) {
+            const markets = eventData.markets || [];
+            const matchedMarkets = [];
+
+            for (const label of dateLabels) {
+                for (const m of markets) {
+                    const q = m.question.toLowerCase();
+                    if (q.includes(label.toLowerCase()) && !m.closed) {
+                        matchedMarkets.push({ label, market: m });
+                        break;
+                    }
+                }
+            }
+
+            if (matchedMarkets.length === 0) {
+                const div = document.createElement('div');
+                div.className = 'card rounded-xl p-6';
+                div.innerHTML = `<h2 class="text-xl font-semibold text-slate-800 mb-1">${title}</h2>
+                    <p class="text-slate-500">暂无活跃市场</p>`;
+                return div;
+            }
+
+            // 收集数据
+            const datasets = [];
+            const allTimes = new Set();
+            let probHtml = '<div class="grid grid-cols-2 gap-2 mb-4">';
+
+            matchedMarkets.forEach((item, i) => {
+                const outcomes = item.market.outcomes || {};
+                const yesData = outcomes.Yes || {};
+                const yesPrice = yesData.currentPrice || 0;
+                const volume = parseFloat(item.market.volume || 0);
+                const volumeStr = volume > 0 ? `$${Math.round(volume/1000)}K` : '';
+                const color = colorList[i % colorList.length];
+
+                probHtml += `<div class="flex items-center gap-2">
+                    <div class="w-3 h-3 rounded-full" style="background-color: ${color}"></div>
+                    <span class="text-sm text-slate-700">${item.label}:</span>
+                    <span class="text-lg font-bold" style="color: ${color}">${yesPrice}%</span>
+                    <span class="text-xs text-slate-500">(${volumeStr})</span>
+                </div>`;
+
+                const history = yesData.priceHistory || [];
+                const dataPoints = {};
+                history.forEach(h => {
+                    allTimes.add(h.time);
+                    dataPoints[h.time] = h.price;
+                });
+                datasets.push({ label: item.label, dataPoints, color });
+            });
+
+            probHtml += '</div>';
+
+            const sortedTimes = Array.from(allTimes).sort();
+            const chartDatasets = datasets.map(ds => ({
+                label: ds.label,
+                data: sortedTimes.map(t => ds.dataPoints[t] ?? null),
+                borderColor: ds.color,
+                backgroundColor: ds.color + '1a',
+                borderWidth: 2,
+                fill: false,
+                tension: 0.4,
+                pointRadius: 0,
+                pointHoverRadius: 4
+            }));
+
+            const card = document.createElement('div');
+            card.className = 'card rounded-xl p-6';
+            card.innerHTML = `
+                <h2 class="text-xl font-semibold text-slate-800 mb-1">${title}</h2>
+                <p class="text-sm text-slate-600 mb-4">${subtitle}</p>
+                ${probHtml}
+                <div class="chart-container">
+                    <canvas id="chart_${chartIdx}"></canvas>
+                </div>`;
+
+            // 延迟创建图表
+            setTimeout(() => {
+                const ctx = document.getElementById(`chart_${chartIdx}`);
+                if (ctx && sortedTimes.length > 0) {
+                    charts[chartIdx] = new Chart(ctx, {
+                        type: 'line',
+                        data: { labels: sortedTimes, datasets: chartDatasets },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            interaction: { intersect: false, mode: 'index' },
+                            plugins: { legend: { position: 'top', labels: { color: '#334155', font: { size: 11 } } } },
+                            scales: {
+                                x: { grid: { color: 'rgba(100, 116, 139, 0.2)', lineWidth: 0.5, drawBorder: false }, ticks: { color: '#64748b', maxTicksLimit: 10 } },
+                                y: { grid: { color: 'rgba(100, 116, 139, 0.2)', lineWidth: 0.5, drawBorder: false }, ticks: { color: '#64748b' } }
+                            }
+                        }
+                    });
+                }
+            }, 100);
+
+            return card;
+        }
+
+        // 创建船舶数量卡片
+        function createShipsCard(shipsData, chartIdx) {
+            const markets = shipsData.markets || [];
+            const allMarkets = [];
+
+            markets.forEach(m => {
+                const q = m.question;
+                const outcomes = m.outcomes || {};
+                const yesData = outcomes.Yes || {};
+                const yesPrice = yesData.currentPrice || 0;
+                const history = yesData.priceHistory || [];
+
+                let label = '';
+                const match = q.toLowerCase().match(/between (\d+) and (\d+)/);
+                if (match) {
+                    label = `${match[1]}-${match[2]}`;
+                } else if (q.toLowerCase().includes('60 or more')) {
+                    label = '60+';
+                } else {
+                    return;
+                }
+
+                allMarkets.push({ label, price: yesPrice, history });
+            });
+
+            // 按概率排序，取前6
+            allMarkets.sort((a, b) => b.price - a.price);
+            const topMarkets = allMarkets.slice(0, 6);
+
+            if (topMarkets.length === 0) {
+                const div = document.createElement('div');
+                div.className = 'card rounded-xl p-6';
+                div.innerHTML = `<h2 class="text-xl font-semibold text-slate-800 mb-1">4月霍尔木兹海峡船舶数量</h2>
+                    <p class="text-slate-500">暂无数据</p>`;
+                return div;
+            }
+
+            const allTimes = new Set();
+            let probHtml = '<div class="grid grid-cols-3 gap-2 mb-4">';
+            const datasets = [];
+
+            topMarkets.forEach((m, i) => {
+                const color = colorList[i % colorList.length];
+                probHtml += `<div class="flex items-center gap-2">
+                    <div class="w-3 h-3 rounded-full" style="background-color: ${color}"></div>
+                    <span class="text-sm text-slate-700">${m.label}:</span>
+                    <span class="text-lg font-bold" style="color: ${color}">${m.price}%</span>
+                </div>`;
+
+                const dataPoints = {};
+                m.history.forEach(h => {
+                    allTimes.add(h.time);
+                    dataPoints[h.time] = h.price;
+                });
+                datasets.push({ label: m.label, dataPoints, color });
+            });
+
+            probHtml += '</div>';
+
+            const sortedTimes = Array.from(allTimes).sort();
+            const chartDatasets = datasets.map(ds => ({
+                label: ds.label,
+                data: sortedTimes.map(t => ds.dataPoints[t] ?? null),
+                borderColor: ds.color,
+                backgroundColor: ds.color + '1a',
+                borderWidth: 2,
+                fill: false,
+                tension: 0.4,
+                pointRadius: 0,
+                pointHoverRadius: 4
+            }));
+
+            const card = document.createElement('div');
+            card.className = 'card rounded-xl p-6';
+            card.innerHTML = `
+                <h2 class="text-xl font-semibold text-slate-800 mb-1">4月霍尔木兹海峡船舶数量</h2>
+                <p class="text-sm text-slate-600 mb-4">平均每日通过船舶数量的概率分布 (Top 6)</p>
+                ${probHtml}
+                <div class="chart-container">
+                    <canvas id="chart_${chartIdx}"></canvas>
+                </div>`;
+
+            setTimeout(() => {
+                const ctx = document.getElementById(`chart_${chartIdx}`);
+                if (ctx && sortedTimes.length > 0) {
+                    charts[chartIdx] = new Chart(ctx, {
+                        type: 'line',
+                        data: { labels: sortedTimes, datasets: chartDatasets },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            interaction: { intersect: false, mode: 'index' },
+                            plugins: { legend: { position: 'top', labels: { color: '#334155', font: { size: 11 } } } },
+                            scales: {
+                                x: { grid: { color: 'rgba(100, 116, 139, 0.2)', lineWidth: 0.5, drawBorder: false }, ticks: { color: '#64748b', maxTicksLimit: 10 } },
+                                y: { grid: { color: 'rgba(100, 116, 139, 0.2)', lineWidth: 0.5, drawBorder: false }, ticks: { color: '#64748b' } }
+                            }
+                        }
+                    });
+                }
+            }, 100);
+
+            return card;
+        }
+
+        // 创建简单Yes/No卡片
+        function createSimpleCard(eventData, title, subtitle, chartIdx, colorName) {
+            const markets = eventData.markets || [];
+            if (markets.length === 0) {
+                const div = document.createElement('div');
+                div.className = 'card rounded-xl p-6';
+                div.innerHTML = `<h2 class="text-xl font-semibold text-slate-800 mb-1">${title}</h2>
+                    <p class="text-slate-500">暂无数据</p>`;
+                return div;
+            }
+
+            const m = markets[0];
+            const outcomes = m.outcomes || {};
+            const yesData = outcomes.Yes || {};
+            const yesPrice = yesData.currentPrice || 0;
+            const noPrice = 100 - yesPrice;
+            const history = yesData.priceHistory || [];
+            const color = COLORS[colorName] || COLORS.blue;
+
+            const labels = history.map(h => h.time);
+            const data = history.map(h => h.price);
+
+            const card = document.createElement('div');
+            card.className = 'card rounded-xl p-6';
+            card.innerHTML = `
+                <h2 class="text-xl font-semibold text-slate-800 mb-1">${title}</h2>
+                <p class="text-sm text-slate-600 mb-4">${subtitle}</p>
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div class="text-center p-4 bg-slate-100 rounded-lg border border-slate-200">
+                        <div class="text-3xl font-bold" style="color: ${color}">${yesPrice}%</div>
+                        <div class="text-sm text-slate-500 mt-1">Yes</div>
+                    </div>
+                    <div class="text-center p-4 bg-slate-100 rounded-lg border border-slate-200">
+                        <div class="text-3xl font-bold text-slate-600">${noPrice}%</div>
+                        <div class="text-sm text-slate-500 mt-1">No</div>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="chart_${chartIdx}"></canvas>
+                </div>`;
+
+            setTimeout(() => {
+                const ctx = document.getElementById(`chart_${chartIdx}`);
+                if (ctx && labels.length > 0) {
+                    charts[chartIdx] = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels,
+                            datasets: [{
+                                label: 'Yes (%)',
+                                data,
+                                borderColor: color,
+                                backgroundColor: color + '1a',
+                                borderWidth: 2,
+                                fill: false,
+                                tension: 0.4,
+                                pointRadius: 0
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: { legend: { display: false } },
+                            scales: {
+                                x: { grid: { color: 'rgba(100, 116, 139, 0.2)', lineWidth: 0.5, drawBorder: false }, ticks: { color: '#64748b', maxTicksLimit: 10 } },
+                                y: { grid: { color: 'rgba(100, 116, 139, 0.2)', lineWidth: 0.5, drawBorder: false }, ticks: { color: '#64748b' } }
+                            }
+                        }
+                    });
+                }
+            }, 100);
+
+            return card;
+        }
+
+        // 创建原油价格卡片
+        function createOilCard(oilData, title, subtitle, chartIdx) {
+            const markets = oilData.markets || [];
+            const allPrices = [];
+
+            markets.forEach(m => {
+                const q = m.question;
+                const outcomes = m.outcomes || {};
+                const yesData = outcomes.Yes || {};
+                const yesPrice = yesData.currentPrice || 0;
+                const history = yesData.priceHistory || [];
+
+                const match = q.match(/\$(\d+)/);
+                if (match && yesPrice > 0 && yesPrice < 100) {
+                    allPrices.push({ label: `$${match[1]}`, price: yesPrice, history });
+                }
+            });
+
+            // 按概率排序，取前6
+            allPrices.sort((a, b) => b.price - a.price);
+            const topPrices = allPrices.slice(0, 6);
+
+            if (topPrices.length === 0) {
+                const div = document.createElement('div');
+                div.className = 'card rounded-xl p-6';
+                div.innerHTML = `<h2 class="text-xl font-semibold text-slate-800 mb-1">${title}</h2>
+                    <p class="text-slate-500">暂无活跃市场</p>`;
+                return div;
+            }
+
+            const allTimes = new Set();
+            let probHtml = '<div class="grid grid-cols-3 gap-2 mb-4">';
+            const datasets = [];
+
+            topPrices.forEach((p, i) => {
+                const color = colorList[i % colorList.length];
+                probHtml += `<div class="flex items-center gap-2">
+                    <div class="w-3 h-3 rounded-full" style="background-color: ${color}"></div>
+                    <span class="text-sm text-slate-700">${p.label}:</span>
+                    <span class="text-lg font-bold" style="color: ${color}">${p.price}%</span>
+                </div>`;
+
+                const dataPoints = {};
+                p.history.forEach(h => {
+                    allTimes.add(h.time);
+                    dataPoints[h.time] = h.price;
+                });
+                datasets.push({ label: p.label, dataPoints, color });
+            });
+
+            probHtml += '</div>';
+
+            const sortedTimes = Array.from(allTimes).sort();
+            const chartDatasets = datasets.map(ds => ({
+                label: ds.label,
+                data: sortedTimes.map(t => ds.dataPoints[t] ?? null),
+                borderColor: ds.color,
+                backgroundColor: ds.color + '1a',
+                borderWidth: 2,
+                fill: false,
+                tension: 0.4,
+                pointRadius: 0,
+                pointHoverRadius: 4
+            }));
+
+            const card = document.createElement('div');
+            card.className = 'card rounded-xl p-6';
+            card.innerHTML = `
+                <h2 class="text-xl font-semibold text-slate-800 mb-1">${title}</h2>
+                <p class="text-sm text-slate-600 mb-4">${subtitle} (Top 6)</p>
+                ${probHtml}
+                <div class="chart-container">
+                    <canvas id="chart_${chartIdx}"></canvas>
+                </div>`;
+
+            setTimeout(() => {
+                const ctx = document.getElementById(`chart_${chartIdx}`);
+                if (ctx && sortedTimes.length > 0) {
+                    charts[chartIdx] = new Chart(ctx, {
+                        type: 'line',
+                        data: { labels: sortedTimes, datasets: chartDatasets },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            interaction: { intersect: false, mode: 'index' },
+                            plugins: { legend: { position: 'top', labels: { color: '#334155', font: { size: 11 } } } },
+                            scales: {
+                                x: { grid: { color: 'rgba(100, 116, 139, 0.2)', lineWidth: 0.5, drawBorder: false }, ticks: { color: '#64748b', maxTicksLimit: 10 } },
+                                y: { grid: { color: 'rgba(100, 116, 139, 0.2)', lineWidth: 0.5, drawBorder: false }, ticks: { color: '#64748b' } }
+                            }
+                        }
+                    });
+                }
+            }, 100);
+
+            return card;
+        }
+
+        // 页面加载时获取数据
+        document.addEventListener('DOMContentLoaded', loadData);
+    </script>
+</body>
+</html>

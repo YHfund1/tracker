@@ -1,0 +1,4 @@
+interface:
+  display_name: "中东跟踪工程技能（从零版）"
+  short_description: "从零搭建、更新并校验中东地缘跟踪网站的本地闭环流程"
+  default_prompt: "请使用 $zhongdong-congling-gongcheng，从零创建并本地更新中东地缘跟踪工程。"

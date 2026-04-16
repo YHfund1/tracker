@@ -1,0 +1,3 @@
+请使用 $zhongdong-zongskill-anzhuang-diaoyong，先检查当前环境是否已安装技能包，再从零初始化项目并执行一次本地全量更新，不要发布。
+
+如果我要直接从零建站并更新，请使用 $zhongdong-congling-gongcheng 执行。
