@@ -5,43 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>中东地缘研究观点 | 伊朗战争与能源安全</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             background: #f5f7fa;
             color: #333;
             line-height: 1.6;
         }
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Header */
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
         header {
             background: linear-gradient(135deg, #1a365d 0%, #2d5a87 100%);
             color: white;
             padding: 30px 0;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-        header h1 {
-            font-size: 2rem;
-            margin-bottom: 8px;
-        }
-        header p {
-            opacity: 0.9;
-            font-size: 0.95rem;
-        }
-        .nav-links {
-            margin-top: 20px;
-            display: flex;
-            gap: 20px;
-        }
+        header h1 { font-size: 2rem; margin-bottom: 8px; }
+        header p { opacity: 0.9; font-size: 0.95rem; }
+        .nav-links { margin-top: 20px; display: flex; gap: 20px; flex-wrap: wrap; }
         .nav-links a {
             color: white;
             text-decoration: none;
@@ -51,11 +31,7 @@
             font-size: 0.9rem;
             transition: background 0.3s;
         }
-        .nav-links a:hover {
-            background: rgba(255,255,255,0.25);
-        }
-
-        /* Stats Section */
+        .nav-links a:hover { background: rgba(255,255,255,0.25); }
         .stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -69,18 +45,8 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             text-align: center;
         }
-        .stat-card .number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #2d5a87;
-        }
-        .stat-card .label {
-            color: #666;
-            font-size: 0.9rem;
-            margin-top: 8px;
-        }
-
-        /* Filter Section */
+        .stat-card .number { font-size: 2.5rem; font-weight: 700; color: #2d5a87; }
+        .stat-card .label { color: #666; font-size: 0.9rem; margin-top: 8px; }
         .filter-section {
             background: white;
             padding: 20px;
@@ -88,152 +54,66 @@
             margin-bottom: 30px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
-        .filter-section h3 {
-            margin-bottom: 15px;
-            color: #1a365d;
-        }
-        .filter-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
+        .filter-section h3 { margin-bottom: 15px; color: #1a365d; }
+        .filter-buttons { display: flex; flex-wrap: wrap; gap: 10px; }
         .filter-btn {
-            padding: 10px 20px;
-            border: 2px solid #e2e8f0;
+            padding: 8px 16px;
+            border: 1px solid #e2e8f0;
             background: white;
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 0.95rem;
-            transition: all 0.3s;
+            font-size: 0.9rem;
+            transition: all 0.2s;
         }
-        .filter-btn:hover {
-            border-color: #2d5a87;
-        }
-        .filter-btn.active {
-            background: #2d5a87;
-            color: white;
-            border-color: #2d5a87;
-        }
-
-        /* Cards Grid */
+        .filter-btn:hover { background: #f1f5f9; }
+        .filter-btn.active { background: #2d5a87; color: white; border-color: #2d5a87; }
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
             gap: 24px;
-            margin-bottom: 40px;
         }
-
-        /* Card */
         .card {
             background: white;
             border-radius: 12px;
             padding: 24px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-        }
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 16px;
-        }
+        .card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
         .source-badge {
-            background: #e8f4f8;
-            color: #1a365d;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-        .sentiment {
-            padding: 6px 12px;
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 4px 12px;
             border-radius: 20px;
             font-size: 0.8rem;
-            font-weight: 600;
+            font-weight: 500;
         }
-        .sentiment.bullish {
-            background: #d4edda;
-            color: #155724;
-        }
-        .sentiment.neutral {
-            background: #fff3cd;
-            color: #856404;
-        }
-        .sentiment.bearish {
-            background: #f8d7da;
-            color: #721c24;
-        }
-        .card h3 {
-            font-size: 1.1rem;
-            color: #1a365d;
-            margin-bottom: 12px;
-            line-height: 1.4;
-        }
-        .card .summary {
-            color: #555;
-            font-size: 0.95rem;
-            margin-bottom: 16px;
-            line-height: 1.7;
-        }
-        .card .meta {
-            display: flex;
-            justify-content: space-between;
-            color: #888;
-            font-size: 0.85rem;
-            padding-top: 12px;
-            border-top: 1px solid #eee;
-        }
-        .relevance-score {
-            background: #2d5a87;
-            color: white;
-            padding: 4px 10px;
-            border-radius: 12px;
+        .sentiment {
+            padding: 4px 12px;
+            border-radius: 20px;
             font-size: 0.75rem;
+            font-weight: 500;
         }
-
-        /* Footer */
+        .sentiment.bullish { background: #dcfce7; color: #166534; }
+        .sentiment.bearish { background: #fee2e2; color: #991b1b; }
+        .sentiment.neutral { background: #f3f4f6; color: #4b5563; }
+        .card h3 { font-size: 1.1rem; color: #1a365d; margin-bottom: 12px; line-height: 1.4; }
+        .card .summary { color: #4b5563; font-size: 0.95rem; line-height: 1.6; margin-bottom: 16px; }
+        .card .meta { display: flex; justify-content: space-between; color: #6b7280; font-size: 0.85rem; }
+        .relevance-score { color: #2d5a87; font-weight: 500; }
+        .card.hidden { display: none; }
+        .no-results { text-align: center; padding: 40px; color: #6b7280; }
+        .no-results.hidden { display: none; }
         footer {
             background: #1a365d;
             color: white;
+            padding: 30px 0;
+            margin-top: 50px;
             text-align: center;
-            padding: 24px;
-            margin-top: 40px;
-            border-radius: 12px 12px 0 0;
         }
-        footer p {
-            opacity: 0.9;
-        }
-
-        /* Empty State */
-        .no-results {
-            text-align: center;
-            padding: 60px 20px;
-            color: #666;
-        }
-
-        /* Responsive */
         @media (max-width: 768px) {
-            header h1 {
-                font-size: 1.5rem;
-            }
-            .cards-grid {
-                grid-template-columns: 1fr;
-            }
-            .filter-buttons {
-                flex-direction: column;
-            }
-            .filter-btn {
-                text-align: center;
-            }
-        }
-
-        /* Hidden cards for filtering */
-        .card.hidden {
-            display: none;
+            .cards-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -241,11 +121,12 @@
     <header>
         <div class="container">
             <h1>中东地缘研究观点追踪</h1>
-            <p>伊朗战争 · 霍尔木兹海峡 · 能源安全 · 油价影响</p>
+            <p>智库与投行关于伊朗战争、霍尔木兹海峡、油价的最新研究</p>
             <div class="nav-links">
-                <a href="index.html">首页</a>
+                <a href="index.html">海峡跟踪</a>
+                <a href="briefing.html">每日简报</a>
+                <a href="war-situation.html">战局形势</a>
                 <a href="research.html">研究观点</a>
-                <a href="briefing.html">简报</a>
             </div>
         </div>
     </header>
@@ -253,31 +134,25 @@
     <main class="container">
         <div class="stats">
             <div class="stat-card">
-                <div class="number" id="total-count">7</div>
+                <div class="number">8</div>
                 <div class="label">研究观点总数</div>
             </div>
             <div class="stat-card">
                 <div class="number">2</div>
-                <div class="label">来源机构</div>
+                <div class="label">智库来源</div>
             </div>
             <div class="stat-card">
-                <div class="number">2</div>
-                <div class="label">智库研究</div>
-            </div>
-            <div class="stat-card">
-                <div class="number">0</div>
-                <div class="label">投行研报</div>
+                <div class="number">4</div>
+                <div class="label">高相关度观点</div>
             </div>
         </div>
 
         <div class="filter-section">
-            <h3>按类型筛选</h3>
+            <h3>筛选观点</h3>
             <div class="filter-buttons">
                 <button class="filter-btn active" data-filter="all" onclick="filterCards('all')">全部</button>
                 <button class="filter-btn" data-filter="think_tank" onclick="filterCards('think_tank')">智库研究</button>
                 <button class="filter-btn" data-filter="investment_bank" onclick="filterCards('investment_bank')">投行研报</button>
-                <button class="filter-btn" data-filter="news" onclick="filterCards('news')">财经媒体</button>
-                <button class="filter-btn" data-filter="institution" onclick="filterCards('institution')">国际组织</button>
             </div>
         </div>
 
@@ -310,19 +185,6 @@
 
             <div class="card" data-type="think_tank">
                 <div class="card-header">
-                    <span class="source-badge">欧盟安全研究所 (EUISS)</span>
-                    <span class="sentiment bearish">偏悲观</span>
-                </div>
-                <h3>伊朗战争对欧洲防务的影响评估</h3>
-                <p class="summary">中东危机及其对欧洲立场的影响已经对跨大西洋关系产生冲击。无论停火协议是否维持，伊朗战争都使欧洲重整军备和支持乌克兰的努力更加复杂，同时进一步侵蚀了对美国作为欧洲国防可靠保障者的信心。</p>
-                <div class="meta">
-                    <span>2026-04-23</span>
-                    <span class="relevance-score">相关度 3/5</span>
-                </div>
-            </div>
-
-            <div class="card" data-type="think_tank">
-                <div class="card-header">
                     <span class="source-badge">德国国际安全事务研究所 (SWP)</span>
                     <span class="sentiment bearish">偏悲观</span>
                 </div>
@@ -330,6 +192,19 @@
                 <p class="summary">伊朗通过封锁霍尔木兹海峡向世界经济施压，其革命卫队采用游击战术，小型快艇对抗大型军舰，成功实现对海峡的控制。这种非对称战术使伊朗能够以较低成本维持对关键水道的封锁。</p>
                 <div class="meta">
                     <span>2026-04-20</span>
+                    <span class="relevance-score">相关度 4/5</span>
+                </div>
+            </div>
+
+            <div class="card" data-type="investment_bank">
+                <div class="card-header">
+                    <span class="source-badge">摩根大通 (JPMorgan)</span>
+                    <span class="sentiment bullish">偏乐观</span>
+                </div>
+                <h3>伊朗冲突带来股市抄底良机</h3>
+                <p class="summary">摩根大通表示伊朗冲突带来股市抄底良机，连续第二年重申对新兴市场超配策略。投行认为地缘冲突带来的市场波动为投资者提供了入场机会。</p>
+                <div class="meta">
+                    <span>2026-04-28</span>
                     <span class="relevance-score">相关度 4/5</span>
                 </div>
             </div>
@@ -353,7 +228,7 @@
                     <span class="sentiment bearish">偏悲观</span>
                 </div>
                 <h3>伊朗战争对欧洲国防的真正影响评估</h3>
-                <p class="summary">无论美伊停火协议是否维持，中东战争使欧洲重整军备和支持乌克兰的努力更加复杂，同时也进一步侵蚀了对美国作为欧洲国防可靠保障者的信心。欧洲应减少对美国军事保护的依赖。</p>
+                <p class="summary">无论美伊停火协议是否维持，中东战争使欧洲重整军备和支持乌克兰的努力更加复杂，同时也进一步侵蚀了对美国作为欧洲国防可靠保障者的信心。</p>
                 <div class="meta">
                     <span>2026-04-09</span>
                     <span class="relevance-score">相关度 5/5</span>
@@ -366,10 +241,23 @@
                     <span class="sentiment neutral">中性</span>
                 </div>
                 <h3>伊朗战争长期结局仍不确定</h3>
-                <p class="summary">伊朗战争能否长期结束取决于伊朗是否允许货船通过霍尔木兹海峡。德国马歇尔基金会专家Marco Overhaus指出，霍尔木兹海峡的航运恢复是评估战争走向的关键指标。</p>
+                <p class="summary">伊朗战争能否长期结束取决于伊朗是否允许货船通过霍尔木兹海峡。霍尔木兹海峡的航运恢复是评估战争走向的关键指标。</p>
                 <div class="meta">
                     <span>2026-04-08</span>
                     <span class="relevance-score">相关度 4/5</span>
+                </div>
+            </div>
+
+            <div class="card" data-type="think_tank">
+                <div class="card-header">
+                    <span class="source-badge">欧盟安全研究所 (EUISS)</span>
+                    <span class="sentiment bearish">偏悲观</span>
+                </div>
+                <h3>伊朗战争对欧洲防务的影响评估</h3>
+                <p class="summary">中东危机及其对欧洲立场的影响已经对跨大西洋关系产生冲击。无论停火协议是否维持，伊朗战争都使欧洲重整军备和支持乌克兰的努力更加复杂。</p>
+                <div class="meta">
+                    <span>2026-04-23</span>
+                    <span class="relevance-score">相关度 3/5</span>
                 </div>
             </div>
         </div>
@@ -381,7 +269,7 @@
 
     <footer>
         <div class="container">
-            <p>数据更新时间: 2026-04-27 | 数据来源: 智库RSS + 投行搜索</p>
+            <p>数据更新时间: 2026-04-28 | 数据来源: 智库RSS + 投行搜索</p>
             <p style="margin-top: 8px; font-size: 0.85rem; opacity: 0.7;">筛选标准: 伊朗战争/霍尔木兹/油价/能源安全 相关内容</p>
         </div>
     </footer>
@@ -392,7 +280,6 @@
             const buttons = document.querySelectorAll('.filter-btn');
             let visibleCount = 0;
 
-            // Update active button
             buttons.forEach(btn => {
                 btn.classList.remove('active');
                 if (btn.dataset.filter === type) {
@@ -400,7 +287,6 @@
                 }
             });
 
-            // Filter cards
             cards.forEach(card => {
                 if (type === 'all' || card.dataset.type === type) {
                     card.classList.remove('hidden');
@@ -410,7 +296,6 @@
                 }
             });
 
-            // Show/hide no results message
             const noResults = document.getElementById('no-results');
             if (visibleCount === 0) {
                 noResults.classList.remove('hidden');
