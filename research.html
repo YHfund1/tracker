@@ -134,15 +134,15 @@
     <main class="container">
         <div class="stats">
             <div class="stat-card">
-                <div class="number">8</div>
+                <div class="number">13</div>
                 <div class="label">研究观点总数</div>
             </div>
             <div class="stat-card">
-                <div class="number">2</div>
-                <div class="label">智库来源</div>
+                <div class="number">8</div>
+                <div class="label">来源机构数</div>
             </div>
             <div class="stat-card">
-                <div class="number">4</div>
+                <div class="number">8</div>
                 <div class="label">高相关度观点</div>
             </div>
         </div>
@@ -153,10 +153,76 @@
                 <button class="filter-btn active" data-filter="all" onclick="filterCards('all')">全部</button>
                 <button class="filter-btn" data-filter="think_tank" onclick="filterCards('think_tank')">智库研究</button>
                 <button class="filter-btn" data-filter="investment_bank" onclick="filterCards('investment_bank')">投行研报</button>
+                <button class="filter-btn" data-filter="news" onclick="filterCards('news')">财经媒体</button>
             </div>
         </div>
 
         <div class="cards-grid" id="cards-container">
+            <div class="card" data-type="think_tank">
+                <div class="card-header">
+                    <span class="source-badge">CSIS</span>
+                    <span class="sentiment bearish">偏悲观</span>
+                </div>
+                <h3>伊朗冲突对韩国的影响：霍尔木兹被困船队暴露能源贸易风险</h3>
+                <p class="summary">CSIS统计，26艘韩国拥有或运营船只中有23艘滞留霍尔木兹海峡，包含17艘原油和油品船、5艘其他贸易船只，说明东北亚能源进口国对海峡通行和战争险变化高度敏感。</p>
+                <div class="meta">
+                    <span>2026-05-06</span>
+                    <span class="relevance-score">相关度 5/5</span>
+                </div>
+            </div>
+
+            <div class="card" data-type="think_tank">
+                <div class="card-header">
+                    <span class="source-badge">卡内基国际和平基金会</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>两场战争后，伊朗核问题仍悬而未决</h3>
+                <p class="summary">卡内基指出，德黑兰可能认为其通过霍尔木兹海峡扰动全球经济的能力已经构成足够威慑，从而影响核谈判策略。海峡控制权和能源冲击因此成为核问题之外的核心筹码。</p>
+                <div class="meta">
+                    <span>2026-05-04</span>
+                    <span class="relevance-score">相关度 5/5</span>
+                </div>
+            </div>
+
+            <div class="card" data-type="news">
+                <div class="card-header">
+                    <span class="source-badge">Goldman Sachs / Business Insider</span>
+                    <span class="sentiment bullish">偏乐观</span>
+                </div>
+                <h3>高盛警告：霍尔木兹扰动下航空燃油和石化原料缓冲趋紧</h3>
+                <p class="summary">报道援引高盛观点称，整体原油供应仍相对充足，但航空燃油、石脑油、LPG等关键燃料和石化原料的缓冲正在收紧，说明油价风险不只体现在原油绝对库存，也体现在产品结构和区域物流错配。</p>
+                <div class="meta">
+                    <span>2026-05-05</span>
+                    <span class="relevance-score">相关度 4/5</span>
+                </div>
+            </div>
+
+            <div class="card" data-type="investment_bank">
+                <div class="card-header">
+                    <span class="source-badge">ANZ</span>
+                    <span class="sentiment bullish">偏乐观</span>
+                </div>
+                <h3>ANZ：2026年布伦特或维持90美元上方，波斯湾风险可推升至100美元以上</h3>
+                <p class="summary">ANZ预计布伦特在2026年剩余时间维持90美元/桶上方，2027年回落至80-85美元区间；若波斯湾通行和供应风险继续发酵，油价仍可能重新站上100美元。</p>
+                <div class="meta">
+                    <span>2026-05-04</span>
+                    <span class="relevance-score">相关度 4/5</span>
+                </div>
+            </div>
+
+            <div class="card" data-type="news">
+                <div class="card-header">
+                    <span class="source-badge">OilPrice / 市场分析师</span>
+                    <span class="sentiment bullish">偏乐观</span>
+                </div>
+                <h3>美伊对峙推升2026年油价预测，战争溢价重新计入曲线</h3>
+                <p class="summary">OilPrice汇总市场分析称，受美伊对峙和地缘战争溢价影响，多位经济学家和油市分析师上调2026年油价预测。当前油价走势仍高度依赖霍尔木兹通行、海湾设施安全和停火谈判进展。</p>
+                <div class="meta">
+                    <span>2026-05-06</span>
+                    <span class="relevance-score">相关度 5/5</span>
+                </div>
+            </div>
+
             <div class="card" data-type="think_tank">
                 <div class="card-header">
                     <span class="source-badge">欧盟安全研究所 (EUISS)</span>
@@ -269,7 +335,7 @@
 
     <footer>
         <div class="container">
-            <p>数据更新时间: 2026-04-28 | 数据来源: 智库RSS + 投行搜索</p>
+            <p>数据更新时间: 2026-05-06 | 数据来源: 智库RSS + 投行搜索</p>
             <p style="margin-top: 8px; font-size: 0.85rem; opacity: 0.7;">筛选标准: 伊朗战争/霍尔木兹/油价/能源安全 相关内容</p>
         </div>
     </footer>
