@@ -77,7 +77,8 @@
       "Bash(python -u -c \"print\\('hello'\\)\")",
       "Bash(python -u -c ':*)",
       "Bash(claude --version)",
-      "Bash(npm update:*)"
+      "Bash(npm update:*)",
+      "Bash(python generate_timelapse_video.py)"
     ]
   }
 }

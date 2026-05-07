@@ -1,0 +1,23 @@
+{
+  "date": "2026-05-07",
+  "conflict_day": 69,
+  "blockade_day": 64,
+  "summary": "特朗普称伊朗战争'很快就会结束'，并警告若伊朗拒绝和平协议将遭受'更高级别'轰炸。伊朗正在审查美国14点和平提案，将通过巴基斯坦调停方传达回应。美国海军向伊朗油轮开火，击沉7艘小型伊朗船只。布伦特原油跌破100美元/桶，标普500创历史新高。霍尔木兹海峡仍处事实封锁状态，'自由计划'护航行动持续推进。",
+  "sections": {
+    "conflict_progress": 5,
+    "positions": 4,
+    "supply_chain": 4,
+    "institutional_views": 4,
+    "watch_list": 7
+  },
+  "market_data": {
+    "brent": 99.40,
+    "wti": 93.21,
+    "lme_aluminum": 3588,
+    "sp500": 7365.12,
+    "vix": 17.5,
+    "strait_status": "封锁第64天"
+  },
+  "sources": ["路透社", "Al Jazeera", "CNBC", "CBS News", "The Guardian", "SMM"],
+  "last_updated": "2026-05-07"
+}
