@@ -88,15 +88,15 @@ HTML_HEAD = '''<!DOCTYPE html>
     <style>
         *{margin:0;padding:0;box-sizing:border-box;}
         body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f8fafc;color:#1e293b;line-height:1.6;}
-        .header {background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 100%);color: white;padding: 12px 0;box-shadow: 0 2px 8px rgba(0,0,0,0.1);position: sticky;top: 0;z-index: 100;}
-        .header-main {max-width: 1400px;margin: 0 auto;padding: 0 20px;display: flex;justify-content: center;align-items: center;position: relative;}
-        .header-left {position: absolute; left: 20px;}
-        .header-left h1 {font-size: 1.1rem; font-weight: 600; margin: 0;}
-        .header-center {display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;}
-        .nav-btn {color: rgba(255,255,255,0.85);text-decoration: none;padding: 6px 12px;border-radius: 6px;font-size: 0.85rem;transition: all 0.2s;white-space: nowrap;}
-        .nav-btn:hover {background: rgba(255,255,255,0.15); color: white;}
-        .nav-btn.active {background: rgba(255,255,255,0.2); color: white; font-weight: 500;}
-        .header-right {font-size: 0.75rem; color: rgba(255,255,255,0.7); white-space: nowrap; position: absolute; right: 20px;}
+        .header {background: #ffffff;color: #1e293b;padding: 0;box-shadow: 0 1px 3px rgba(0,0,0,0.08);border-bottom: 1px solid #e2e8f0;position: sticky;top: 0;z-index: 100;}
+        .header-main {display: flex;align-items: center;max-width: 1400px;margin: 0 auto;padding: 0 20px;position: relative;}
+        .header-logo {display: flex;align-items: center;gap: 10px;position: absolute;left: 20px;}
+        .header-logo img {height: 30px;width: auto;display: block;}
+        .logo-text {font-size: 1.25rem;font-weight: 600;color: #c41230;letter-spacing: 1px;}
+        .header-nav {display: flex;gap: 0;margin: 0 auto;}
+        .nav-btn {color: #64748b;text-decoration: none;padding: 12px 14px;font-size: 0.85rem;transition: all 0.2s;white-space: nowrap;border-bottom: 3px solid transparent;}
+        .nav-btn:hover {background: #f1f5f9;color: #991b1b;}
+        .nav-btn.active {background: #f8fafc;color: #991b1b;border-bottom-color: #dc2626;font-weight: 500;}
         .container{max-width:1200px;margin:0 auto;padding:24px 20px;}
         .page-header {background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 100%);color: white;padding: 32px 24px;border-radius: 12px;margin-bottom: 24px;text-align: center;}
         .page-header h2 {font-size: 1.6rem; margin-bottom: 8px;}
@@ -140,24 +140,30 @@ HTML_HEAD = '''<!DOCTYPE html>
         .sentiment-neutral {background: #f1f5f9; color: #475569;}
         .read-more {color: #1e40af;text-decoration: none;font-size: 0.9rem;font-weight: 500;}
         .read-more:hover {text-decoration: underline;}
-        @media (max-width: 768px) {.header-main {flex-wrap: wrap; padding: 8px;}.header-left {position: relative; left: auto; width: 100%; margin-bottom: 8px;}.header-center {overflow-x: auto; flex-wrap: nowrap; justify-content: flex-start; padding: 0;}.header-right {display: none;}.stats-grid {grid-template-columns: repeat(2, 1fr);}.insights-grid {grid-template-columns: 1fr;}.institution-tabs {flex-wrap: nowrap; overflow-x: auto;}.institution-name {font-size: 0.85rem;}}
+        @media (max-width: 768px) {.header-main {flex-direction: column;padding: 0;}.header-logo {padding: 10px 16px;border-bottom: 1px solid #e2e8f0;width: 100%;position: static;}.header-logo img {height: 26px;}.header-nav {width: 100%;overflow-x: auto;scrollbar-width: none;-webkit-overflow-scrolling: touch;padding: 0 8px;}.header-nav::-webkit-scrollbar {display: none;}.nav-btn {padding: 10px 12px;font-size: 0.8rem;}.stats-grid {grid-template-columns: repeat(2, 1fr);}.insights-grid {grid-template-columns: 1fr;}.institution-tabs {flex-wrap: nowrap; overflow-x: auto;}.institution-name {font-size: 0.85rem;}}
     </style>
 </head>
 <body>
-    <header class="header">
+    <div class="header">
         <div class="header-main">
-            <div class="header-left"><h1>【华泰固收】中东地缘跟踪</h1></div>
-            <div class="header-center">
-                <a href="index.html" class="nav-btn">首页</a>
-                <a href="briefing.html" class="nav-btn">每日简报</a>
-                <a href="war-situation.html" class="nav-btn">战况追踪</a>
-                <a href="oil-chart.html" class="nav-btn">油价跟踪</a>
-                <a href="research.html" class="nav-btn active">研究观点</a>
-                <a href="polymarket.html" class="nav-btn">Polymarket</a>
+            <div class="header-logo">
+                <img src="images/header.png" alt="Logo">
+                <span class="logo-text">中东地缘跟踪</span>
             </div>
-            <div class="header-right">更新时间: 2026-04-06</div>
+            <nav class="header-nav" id="navCenter">
+                <a href="index.html" class="nav-btn">海峡跟踪</a>
+                <a href="data-tracking.html" class="nav-btn">全球市场</a>
+                <a href="war-situation.html" class="nav-btn">战局形势</a>
+                <a href="briefing.html" class="nav-btn">每日简报</a>
+                <a href="news.html" class="nav-btn">实时新闻</a>
+                <a href="central-bank-tracker.html" class="nav-btn">央行表态</a>
+                <a href="eco-track.html" class="nav-btn">经济数据</a>
+                <a href="research.html" class="nav-btn active">研究视点</a>
+                <a href="polymarket.html" class="nav-btn">Polymarket</a>
+                <a href="oil-chart.html" class="nav-btn">原油图谱</a>
+            </nav>
         </div>
-    </header>
+    </div>
 
     <div class="container">
         <div class="page-header">

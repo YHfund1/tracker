@@ -32,6 +32,11 @@
             position: absolute;
             left: 20px;
         }
+        .header-logo img {
+            height: 30px;
+            width: auto;
+            display: block;
+        }
         .logo-text {
             font-size: 1.25rem;
             font-weight: 600;
@@ -65,7 +70,9 @@
         @media (max-width: 768px) {
             .header-main { flex-direction: column; padding: 0; }
             .header-logo { padding: 10px 16px; border-bottom: 1px solid #e2e8f0; width: 100%; position: static; }
-            .header-nav { width: 100%; overflow-x: auto; scrollbar-width: none; padding: 0 8px; }
+            .header-logo img { height: 26px; }
+            .header-nav { width: 100%; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding: 0 8px; }
+            .header-nav::-webkit-scrollbar { display: none; }
             .nav-btn { padding: 10px 12px; font-size: 0.8rem; }
         }
         .container{max-width:900px;margin:0 auto;padding:24px 20px;}
@@ -116,14 +123,20 @@
     <header class="header">
         <div class="header-main">
             <div class="header-logo">
+                <img src="images/header.png" alt="Logo">
                 <span class="logo-text">中东地缘跟踪</span>
             </div>
-            <nav class="header-nav">
+            <nav class="header-nav" id="navCenter">
                 <a href="index.html" class="nav-btn">海峡跟踪</a>
-                <a href="briefing.html" class="nav-btn active">每日简报</a>
+                <a href="data-tracking.html" class="nav-btn">全球市场</a>
                 <a href="war-situation.html" class="nav-btn">战局形势</a>
-                <a href="research.html" class="nav-btn">研究观点</a>
+                <a href="briefing.html" class="nav-btn active">每日简报</a>
                 <a href="news.html" class="nav-btn">实时新闻</a>
+                <a href="central-bank-tracker.html" class="nav-btn">央行表态</a>
+                <a href="eco-track.html" class="nav-btn">经济数据</a>
+                <a href="research.html" class="nav-btn">研究视点</a>
+                <a href="polymarket.html" class="nav-btn">Polymarket</a>
+                <a href="oil-chart.html" class="nav-btn">原油图谱</a>
             </nav>
         </div>
     </header>
