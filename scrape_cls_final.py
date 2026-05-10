@@ -6,6 +6,7 @@ from playwright.sync_api import sync_playwright
 import json
 import re
 import sys
+from pathlib import Path
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 import requests
@@ -111,8 +112,11 @@ def scrape_news():
             
             # 截图保存用于调试
             try:
-                page.screenshot(path='debug_screenshot.png', full_page=True)
-                print("已保存调试截图: debug_screenshot.png")
+                debug_dir = Path("cache") / "debug"
+                debug_dir.mkdir(parents=True, exist_ok=True)
+                debug_path = debug_dir / "debug_screenshot.png"
+                page.screenshot(path=str(debug_path), full_page=True)
+                print(f"已保存调试截图: {debug_path}")
             except Exception as e:
                 print(f"截图失败: {e}")
             

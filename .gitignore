@@ -26,6 +26,15 @@ Thumbs.db
 # 临时文件
 *.tmp
 *.log
+cache/
+
+# 调试/运行副产物
+debug_screenshot.png
+text_*.json
+8BC50000
+war-situation_backup.html
+strait_snapshots/
+shareable-skill/
 
 # 不需要部署到网页的文件
 mobile_optimization_summary.md

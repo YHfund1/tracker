@@ -1,23 +1,31 @@
 {
-  "date": "2026-05-07",
-  "conflict_day": 69,
-  "blockade_day": 64,
-  "summary": "特朗普称伊朗战争'很快就会结束'，并警告若伊朗拒绝和平协议将遭受'更高级别'轰炸。伊朗正在审查美国14点和平提案，将通过巴基斯坦调停方传达回应。美国海军向伊朗油轮开火，击沉7艘小型伊朗船只。布伦特原油跌破100美元/桶，标普500创历史新高。霍尔木兹海峡仍处事实封锁状态，'自由计划'护航行动持续推进。",
+  "date": "2026-05-10",
+  "conflict_day": 72,
+  "blockade_day": 67,
+  "summary": "霍尔木兹通行出现有限松动：综合通行压力系数降至93.33%，昨日通过1艘、当前正在通过4艘，且一艘卡塔尔LNG运输船成为约70天来首艘按伊朗指定路线通过海峡的卡塔尔LNG船。但卡塔尔附近货船遭袭起火、韩国确认5月4日霍尔木兹附近韩船起火系遭袭，阿联酋和科威特分别处置来自伊朗方向的导弹/无人机威胁。伊朗最高领袖下达新军事指导方针，伊朗海军称轻型潜艇继续在霍尔木兹执行任务。",
   "sections": {
-    "conflict_progress": 5,
+    "conflict_progress": 6,
     "positions": 4,
     "supply_chain": 4,
     "institutional_views": 4,
     "watch_list": 7
   },
   "market_data": {
-    "brent": 99.40,
-    "wti": 93.21,
-    "lme_aluminum": 3588,
-    "sp500": 7365.12,
-    "vix": 17.5,
-    "strait_status": "封锁第64天"
+    "brent": 100.06,
+    "wti": 94.81,
+    "lme_aluminum": 3559.0,
+    "urea": 1943.0,
+    "ny_gas": 2.78,
+    "strait_status": "封锁第67天/试探性恢复"
   },
-  "sources": ["路透社", "Al Jazeera", "CNBC", "CBS News", "The Guardian", "SMM"],
-  "last_updated": "2026-05-07"
+  "sources": [
+    "财联社",
+    "金十数据",
+    "新华社",
+    "央视新闻",
+    "UKMTO",
+    "MarineTraffic",
+    "沙特阿美"
+  ],
+  "last_updated": "2026-05-10"
 }

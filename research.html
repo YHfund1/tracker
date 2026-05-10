@@ -5,498 +5,1154 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>中东地缘研究观点 | 伊朗战争与能源安全</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: #f5f7fa;
-            color: #333;
-            line-height: 1.6;
-        }
-        .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
-        .header {
-            background: #ffffff;
-            color: #1e293b;
-            padding: 0;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-            border-bottom: 1px solid #e2e8f0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .header-main {
-            display: flex;
-            align-items: center;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 20px;
-            position: relative;
-        }
-        .header-logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            position: absolute;
-            left: 20px;
-        }
-        .header-logo img {
-            height: 30px;
-            width: auto;
-            display: block;
-        }
-        .logo-text {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #c41230;
-            letter-spacing: 1px;
-        }
-        .header-nav {
-            display: flex;
-            gap: 0;
-            margin: 0 auto;
-        }
-        .nav-btn {
-            color: #64748b;
-            text-decoration: none;
-            padding: 12px 14px;
-            font-size: 0.85rem;
-            transition: all 0.2s;
-            white-space: nowrap;
-            border-bottom: 3px solid transparent;
-        }
-        .nav-btn:hover {
-            background: #f1f5f9;
-            color: #991b1b;
-        }
-        .nav-btn.active {
-            background: #f8fafc;
-            color: #991b1b;
-            border-bottom-color: #dc2626;
-            font-weight: 500;
-        }
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
-        }
-        .research-header {
-            background: linear-gradient(135deg, #1a365d 0%, #2d5a87 100%);
-            color: white;
-            padding: 30px 24px;
-            border-radius: 12px;
-            margin: 30px 0 0;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
-        .research-header h1 { font-size: 2rem; margin-bottom: 8px; }
-        .research-header p { opacity: 0.9; font-size: 0.95rem; }
-        .stat-card {
-            background: white;
-            padding: 24px;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            text-align: center;
-        }
-        .stat-card .number { font-size: 2.5rem; font-weight: 700; color: #2d5a87; }
-        .stat-card .label { color: #666; font-size: 0.9rem; margin-top: 8px; }
-        .filter-section {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-        .filter-section h3 { margin-bottom: 15px; color: #1a365d; }
-        .filter-buttons { display: flex; flex-wrap: wrap; gap: 10px; }
-        .filter-btn {
-            padding: 8px 16px;
-            border: 1px solid #e2e8f0;
-            background: white;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.2s;
-        }
-        .filter-btn:hover { background: #f1f5f9; }
-        .filter-btn.active { background: #2d5a87; color: white; border-color: #2d5a87; }
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-            gap: 24px;
-        }
-        .card {
-            background: white;
-            border-radius: 12px;
-            padding: 24px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
-        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-        .source-badge {
-            background: #e0f2fe;
-            color: #0369a1;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 500;
-        }
-        .sentiment {
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 500;
-        }
-        .sentiment.bullish { background: #dcfce7; color: #166534; }
-        .sentiment.bearish { background: #fee2e2; color: #991b1b; }
-        .sentiment.neutral { background: #f3f4f6; color: #4b5563; }
-        .card h3 { font-size: 1.1rem; color: #1a365d; margin-bottom: 12px; line-height: 1.4; }
-        .card .summary { color: #4b5563; font-size: 0.95rem; line-height: 1.6; margin-bottom: 16px; }
-        .card .meta { display: flex; justify-content: space-between; color: #6b7280; font-size: 0.85rem; }
-        .relevance-score { color: #2d5a87; font-weight: 500; }
-        .card.hidden { display: none; }
-        .no-results { text-align: center; padding: 40px; color: #6b7280; }
-        .no-results.hidden { display: none; }
-        footer {
-            background: #1a365d;
-            color: white;
-            padding: 30px 0;
-            margin-top: 50px;
-            text-align: center;
-        }
-        @media (max-width: 768px) {
-            .header-main {
-                flex-direction: column;
-                padding: 0;
-            }
-            .header-logo {
-                padding: 10px 16px;
-                border-bottom: 1px solid #e2e8f0;
-                width: 100%;
-                position: static;
-            }
-            .header-logo img {
-                height: 26px;
-            }
-            .header-nav {
-                width: 100%;
-                overflow-x: auto;
-                scrollbar-width: none;
-                -webkit-overflow-scrolling: touch;
-                padding: 0 8px;
-            }
-            .header-nav::-webkit-scrollbar {
-                display: none;
-            }
-            .nav-btn {
-                padding: 10px 12px;
-                font-size: 0.8rem;
-            }
-            .cards-grid { grid-template-columns: 1fr; }
-        }
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f8fafc;color:#1e293b;line-height:1.6;}
+        .header{background:#fff;color:#1e293b;padding:0;box-shadow:0 1px 3px rgba(0,0,0,.08);border-bottom:1px solid #e2e8f0;position:sticky;top:0;z-index:100;}
+        .header-main{display:flex;align-items:center;max-width:1400px;margin:0 auto;padding:0 20px;position:relative;}
+        .header-logo{display:flex;align-items:center;gap:10px;position:absolute;left:20px;}
+        .header-logo img{height:30px;width:auto;display:block;}
+        .logo-text{font-size:1.25rem;font-weight:600;color:#c41230;letter-spacing:1px;}
+        .header-nav{display:flex;gap:0;margin:0 auto;}
+        .nav-btn{color:#64748b;text-decoration:none;padding:12px 14px;font-size:.85rem;transition:all .2s;white-space:nowrap;border-bottom:3px solid transparent;}
+        .nav-btn:hover{background:#f1f5f9;color:#991b1b;}
+        .nav-btn.active{background:#f8fafc;color:#991b1b;border-bottom-color:#dc2626;font-weight:500;}
+        .container{max-width:1280px;margin:0 auto;padding:24px 20px;}
+        .research-header{background:linear-gradient(135deg,#1e3a5f 0%,#2d5a87 100%);color:white;padding:28px 24px;border-radius:12px;margin-bottom:24px;}
+        .research-header h1{font-size:1.6rem;margin-bottom:8px;}
+        .research-header p{opacity:.9;font-size:.95rem;}
+        .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px;}
+        .stat-card{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:18px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.08);}
+        .stat-card .number{font-size:2rem;font-weight:700;color:#1e3a5f;}
+        .stat-card .label{font-size:.85rem;color:#64748b;margin-top:4px;}
+        .filter-section{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:16px;margin-bottom:20px;}
+        .filter-section h3{font-size:.95rem;margin-bottom:12px;color:#475569;}
+        .filter-buttons{display:flex;gap:8px;flex-wrap:wrap;}
+        .filter-btn{padding:7px 14px;border:1px solid #e2e8f0;background:#f8fafc;border-radius:20px;cursor:pointer;color:#475569;}
+        .filter-btn.active{background:#1e3a5f;color:white;border-color:#1e3a5f;}
+        .cards-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;}
+        .card{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:18px;box-shadow:0 1px 3px rgba(0,0,0,.08);display:flex;flex-direction:column;min-height:260px;}
+        .card.hidden{display:none;}
+        .card-header{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:12px;}
+        .source-badge{background:#eff6ff;color:#1d4ed8;border-radius:20px;padding:4px 10px;font-size:.8rem;font-weight:600;}
+        .sentiment{border-radius:20px;padding:4px 10px;font-size:.78rem;font-weight:600;white-space:nowrap;}
+        .sentiment.bearish{background:#fee2e2;color:#991b1b;}
+        .sentiment.bullish{background:#dcfce7;color:#166534;}
+        .sentiment.neutral{background:#f1f5f9;color:#475569;}
+        .card h3{font-size:1.05rem;color:#1e40af;line-height:1.5;margin-bottom:8px;}
+        .original-title{font-size:.78rem;color:#94a3b8;margin-bottom:10px;}
+        .summary{font-size:.9rem;color:#475569;line-height:1.65;}
+        .meta{display:flex;justify-content:space-between;gap:10px;color:#64748b;font-size:.8rem;margin-top:auto;padding-top:14px;border-top:1px solid #e2e8f0;}
+        .read-more{margin-top:10px;color:#1e40af;text-decoration:none;font-size:.88rem;font-weight:600;}
+        .footer{text-align:center;color:#94a3b8;font-size:.8rem;padding:24px;}
+        @media(max-width:768px){.header-main{flex-direction:column;padding:0;}.header-logo{position:static;width:100%;padding:10px 16px;border-bottom:1px solid #e2e8f0;}.header-nav{width:100%;overflow-x:auto;padding:0 8px;}.stats{grid-template-columns:repeat(2,1fr);}.cards-grid{grid-template-columns:1fr;}}
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="header-main">
-            <div class="header-logo">
-                <img src="images/header.png" alt="Logo">
-                <span class="logo-text">中东地缘跟踪</span>
-            </div>
-            <nav class="header-nav" id="navCenter">
-                <a href="index.html" class="nav-btn">海峡跟踪</a>
-                <a href="data-tracking.html" class="nav-btn">全球市场</a>
-                <a href="war-situation.html" class="nav-btn">战局形势</a>
-                <a href="briefing.html" class="nav-btn">每日简报</a>
-                <a href="news.html" class="nav-btn">实时新闻</a>
-                <a href="central-bank-tracker.html" class="nav-btn">央行表态</a>
-                <a href="eco-track.html" class="nav-btn">经济数据</a>
-                <a href="research.html" class="nav-btn active">研究视点</a>
-                <a href="polymarket.html" class="nav-btn">Polymarket</a>
-                <a href="oil-chart.html" class="nav-btn">原油图谱</a>
-            </nav>
-        </div>
-    </div>
-
+    <div class="header"><div class="header-main"><div class="header-logo"><img src="images/header.png" alt="Logo"><span class="logo-text">中东地缘跟踪</span></div><nav class="header-nav" id="navCenter"><a href="index.html" class="nav-btn">海峡跟踪</a><a href="data-tracking.html" class="nav-btn">全球市场</a><a href="war-situation.html" class="nav-btn">战局形势</a><a href="briefing.html" class="nav-btn">每日简报</a><a href="news.html" class="nav-btn">实时新闻</a><a href="central-bank-tracker.html" class="nav-btn">央行表态</a><a href="eco-track.html" class="nav-btn">经济数据</a><a href="research.html" class="nav-btn active">研究视点</a><a href="polymarket.html" class="nav-btn">Polymarket</a><a href="oil-chart.html" class="nav-btn">原油图谱</a></nav></div></div>
     <main class="container">
-        <div class="research-header">
-            <h1>中东地缘研究观点追踪</h1>
-            <p>智库与投行关于伊朗战争、霍尔木兹海峡、油价的最新研究</p>
-        </div>
-        <div class="stats">
-            <div class="stat-card">
-                <div class="number">16</div>
-                <div class="label">研究观点总数</div>
-            </div>
-            <div class="stat-card">
-                <div class="number">11</div>
-                <div class="label">来源机构数</div>
-            </div>
-            <div class="stat-card">
-                <div class="number">11</div>
-                <div class="label">高相关度观点</div>
-            </div>
-        </div>
-
-        <div class="filter-section">
-            <h3>筛选观点</h3>
-            <div class="filter-buttons">
-                <button class="filter-btn active" data-filter="all" onclick="filterCards('all')">全部</button>
-                <button class="filter-btn" data-filter="think_tank" onclick="filterCards('think_tank')">智库研究</button>
-                <button class="filter-btn" data-filter="investment_bank" onclick="filterCards('investment_bank')">投行研报</button>
-                <button class="filter-btn" data-filter="news" onclick="filterCards('news')">财经媒体</button>
-            </div>
-        </div>
-
-        <div class="cards-grid" id="cards-container">
-            <div class="card" data-type="investment_bank">
+        <div class="research-header"><h1>智库 & 投行研究观点</h1><p>聚焦伊朗战争、霍尔木兹海峡、油价、能源安全与宏观传导。更新时间：2026-05-10 19:46</p></div>
+        <div class="stats"><div class="stat-card"><div class="number">78</div><div class="label">核心观点</div></div><div class="stat-card"><div class="number">13</div><div class="label">来源机构</div></div><div class="stat-card"><div class="number">15</div><div class="label">智库/机构</div></div><div class="stat-card"><div class="number">63</div><div class="label">投行&媒体</div></div></div>
+        <div class="filter-section"><h3>类型筛选</h3><div class="filter-buttons"><button class="filter-btn active" data-filter="all" onclick="filterCards('all')">全部</button><button class="filter-btn" data-filter="investment_bank" onclick="filterCards('investment_bank')">投资银行</button><button class="filter-btn" data-filter="news" onclick="filterCards('news')">财经媒体</button><button class="filter-btn" data-filter="think_tank" onclick="filterCards('think_tank')">智库</button><button class="filter-btn" data-filter="institution" onclick="filterCards('institution')">国际机构</button></div></div>
+        <div class="cards-grid" id="cardsGrid">
+            <div class="card" data-type="investment_bank" data-source="Morgan Stanley">
                 <div class="card-header">
-                    <span class="source-badge">Barclays</span>
-                    <span class="sentiment bullish">偏乐观</span>
+                    <span class="source-badge">大摩</span>
+                    <span class="sentiment bearish">风险警示</span>
                 </div>
-                <h3>巴克莱上调2026年布伦特预测至100美元/桶</h3>
-                <p class="summary">原始搜索数据显示，巴克莱将2026年布伦特预测上调至100美元/桶，并提示若霍尔木兹僵局延续，油价仍有进一步上行空间。该观点与当前海峡压力升至100%、暗航和油轮遇袭风险形成呼应。</p>
+                <h3>油价预测与中东地缘风险评估</h3>
+                <p class="original-title">Oil Price Forecast: Brent and WTI Eye Breakout as Fuel ...</p>
+                <p class="summary">5 days ago · Oil prices pulled back after Monday’s rally, but U.S.-Iran tensions, Strait of Hormuz risks, tight fuel supplies, and bullish …</p>
                 <div class="meta">
-                    <span>2026-05-04</span>
+                    <span>2026-05-10</span>
                     <span class="relevance-score">相关度 5/5</span>
                 </div>
+                <a href="https://www.fxempire.com/forecasts/article/oil-price-forecast-brent-and-wti-eye-breakout-as-fuel-shortage-risk-grows-1595772" target="_blank" class="read-more">查看原文 →</a>
             </div>
-
-            <div class="card" data-type="news">
+            <div class="card" data-type="investment_bank" data-source="BlackRock">
                 <div class="card-header">
-                    <span class="source-badge">Reuters / EnergyNow</span>
-                    <span class="sentiment bearish">偏悲观</span>
+                    <span class="source-badge">贝莱德</span>
+                    <span class="sentiment bearish">风险警示</span>
                 </div>
-                <h3>即便冲突结束，油品供应冲击仍可能继续恶化</h3>
-                <p class="summary">路透相关报道指出，即使美伊达成和平协议，油品供应仍可能在未来数周继续收紧，因为中东供应恢复、库存重建和航运保险正常化都需要时间。油价风险从单一军事事件转向库存和物流修复周期。</p>
+                <h3>Global Insights BlackRock Investment Institute | BlackRock</h3>
+                <p class="original-title">Global Insights BlackRock Investment Institute | BlackRock</p>
+                <p class="summary">5 days ago · Disruptions to systems underpinning global energy and trade, with the Strait of Hormuz at the center, are likely to reverberate for years. For the Gulf Cooperation Council (GCC), this implies a …</p>
                 <div class="meta">
-                    <span>2026-05-08</span>
+                    <span>2026-05-10</span>
                     <span class="relevance-score">相关度 5/5</span>
                 </div>
+                <a href="https://www.blackrock.com/corporate/insights/blackrock-investment-institute/publications/global-insights" target="_blank" class="read-more">查看原文 →</a>
             </div>
-
-            <div class="card" data-type="think_tank">
+            <div class="card" data-type="news" data-source="Analysts">
                 <div class="card-header">
-                    <span class="source-badge">SWP</span>
+                    <span class="source-badge">分析师</span>
                     <span class="sentiment neutral">中性</span>
                 </div>
-                <h3>土耳其借霍尔木兹扰动强化连通性战略</h3>
-                <p class="summary">德国国际安全事务研究所相关条目聚焦土耳其如何利用霍尔木兹扰动提升陆路、港口和能源通道的战略价值。若海峡长期处于高摩擦状态，土耳其、红海和东地中海替代线路的重要性将继续上升。</p>
+                <h3>Israel | Facts, History, Population, Conflict, Iran, &amp; Map ...</h3>
+                <p class="original-title">Israel | Facts, History, Population, Conflict, Iran, &amp; Map ...</p>
+                <p class="summary">1 day ago · Israel is a country in the Middle East, located at the eastern end of the Mediterranean Sea. Jerusalem is the seat of government and the proclaimed capital, although the latter status has not …</p>
                 <div class="meta">
-                    <span>2026-05-08</span>
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 5/5</span>
+                </div>
+                <a href="https://www.britannica.com/place/Israel" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="news" data-source="Analysts">
+                <div class="card-header">
+                    <span class="source-badge">分析师</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>Israel: Latest news and updates | NBC News</h3>
+                <p class="original-title">Israel: Latest news and updates | NBC News</p>
+                <p class="summary">Breaking news stories and latest updates on Israel, its war against Hamas and the conflict in the Middle East.</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 5/5</span>
+                </div>
+                <a href="https://www.nbcnews.com/israel" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="news" data-source="Analysts">
+                <div class="card-header">
+                    <span class="source-badge">分析师</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>Israel News | Israel Latest News - NewsNow</h3>
+                <p class="original-title">Israel News | Israel Latest News - NewsNow</p>
+                <p class="summary">Latest news on Israel, providing comprehensive coverage of the Israel-Hamas war, Israeli-Palestinian conflict, Netanyahu government, Middle East peace process, and Israel&#x27;s relations with Arab states. …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 5/5</span>
+                </div>
+                <a href="https://www.newsnow.com/us/World/Middle+East/Israel" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="news" data-source="Analysts">
+                <div class="card-header">
+                    <span class="source-badge">分析师</span>
+                    <span class="sentiment bearish">风险警示</span>
+                </div>
+                <h3>Home | Iran International</h3>
+                <p class="original-title">Home | Iran International</p>
+                <p class="summary">1 day ago · The US-Israel war with Iran has delivered bumper profits for major oil, banking and defense companies, even as the conflict and Iran’s effective closure of the Strait of Hormuz drive up costs for …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 5/5</span>
+                </div>
+                <a href="https://www.iranintl.com/en" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="news" data-source="Analysts">
+                <div class="card-header">
+                    <span class="source-badge">分析师</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>Iran in Japan/ 駐日イラン大使館 (@IraninJapan) / Posts / X</h3>
+                <p class="original-title">Iran in Japan/ 駐日イラン大使館 (@IraninJapan) / Posts / X</p>
+                <p class="summary">Jul 31, 2018 · Iran is fully prepared to restore normal maritime traffic and guarantee freedom of navigation in the Strait of Hormuz, provided that the war ends permanently and the illegal blockade is …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 5/5</span>
+                </div>
+                <a href="https://x.com/iraninjapan" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="news" data-source="Analysts">
+                <div class="card-header">
+                    <span class="source-badge">分析师</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>The Times of Israel | News from Israel, the Middle East and ...</h3>
+                <p class="original-title">The Times of Israel | News from Israel, the Middle East and ...</p>
+                <p class="summary">Host Yehuda Kurtzer, president of the Shalom Hartman Institute, talks with leading thinkers to unpack current events affecting Jewish communities in North America, Israel, and around the world ...</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
                     <span class="relevance-score">相关度 4/5</span>
                 </div>
+                <a href="https://www.timesofisrael.com/" target="_blank" class="read-more">查看原文 →</a>
             </div>
-
-            <div class="card" data-type="think_tank">
+            <div class="card" data-type="news" data-source="Analysts">
                 <div class="card-header">
-                    <span class="source-badge">CSIS</span>
-                    <span class="sentiment bearish">偏悲观</span>
-                </div>
-                <h3>伊朗冲突对韩国的影响：霍尔木兹被困船队暴露能源贸易风险</h3>
-                <p class="summary">CSIS统计，26艘韩国拥有或运营船只中有23艘滞留霍尔木兹海峡，包含17艘原油和油品船、5艘其他贸易船只，说明东北亚能源进口国对海峡通行和战争险变化高度敏感。</p>
-                <div class="meta">
-                    <span>2026-05-06</span>
-                    <span class="relevance-score">相关度 5/5</span>
-                </div>
-            </div>
-
-            <div class="card" data-type="think_tank">
-                <div class="card-header">
-                    <span class="source-badge">卡内基国际和平基金会</span>
+                    <span class="source-badge">分析师</span>
                     <span class="sentiment neutral">中性</span>
                 </div>
-                <h3>两场战争后，伊朗核问题仍悬而未决</h3>
-                <p class="summary">卡内基指出，德黑兰可能认为其通过霍尔木兹海峡扰动全球经济的能力已经构成足够威慑，从而影响核谈判策略。海峡控制权和能源冲击因此成为核问题之外的核心筹码。</p>
+                <h3>Israel country profile - BBC News</h3>
+                <p class="original-title">Israel country profile - BBC News</p>
+                <p class="summary">Oct 13, 2023 · Provides an overview of Israel, including key dates and facts about this country in the Middle East.</p>
                 <div class="meta">
-                    <span>2026-05-04</span>
-                    <span class="relevance-score">相关度 5/5</span>
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 4/5</span>
                 </div>
+                <a href="https://www.bbc.com/news/world-middle-east-14628835" target="_blank" class="read-more">查看原文 →</a>
             </div>
-
-            <div class="card" data-type="news">
+            <div class="card" data-type="news" data-source="Analysts">
                 <div class="card-header">
-                    <span class="source-badge">Goldman Sachs / Business Insider</span>
-                    <span class="sentiment bullish">偏乐观</span>
+                    <span class="source-badge">分析师</span>
+                    <span class="sentiment bearish">风险警示</span>
                 </div>
-                <h3>高盛警告：霍尔木兹扰动下航空燃油和石化原料缓冲趋紧</h3>
-                <p class="summary">报道援引高盛观点称，整体原油供应仍相对充足，但航空燃油、石脑油、LPG等关键燃料和石化原料的缓冲正在收紧，说明油价风险不只体现在原油绝对库存，也体现在产品结构和区域物流错配。</p>
+                <h3>Iran War: Latest Breaking News, Updates &amp; Analysis | Reuters</h3>
+                <p class="original-title">Iran War: Latest Breaking News, Updates &amp; Analysis | Reuters</p>
+                <p class="summary">1 day ago · Real-time Reuters coverage of the Iran war: US-Israel strikes, Iranian retaliation, nuclear threats, oil market shocks, and regional war risks.</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 4/5</span>
+                </div>
+                <a href="https://www.reuters.com/world/iran/" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="news" data-source="Bloomberg">
+                <div class="card-header">
+                    <span class="source-badge">彭博</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>US Gasoline at $5 ‘Not Likely’, Oil Analyst Schork Says</h3>
+                <p class="original-title">US Gasoline at $5 ‘Not Likely’, Oil Analyst Schork Says</p>
+                <p class="summary">4 days ago · Stephen Schork, principal and editor at The Schork Group, explains how a potential deal to end the Iran war can impact the global …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 3/5</span>
+                </div>
+                <a href="https://www.bloomberg.com/news/videos/2026-05-06/us-gasoline-at-5-not-likely-oil-analyst-schork-says-video" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="news" data-source="Analysts">
+                <div class="card-header">
+                    <span class="source-badge">分析师</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>油价预测与中东地缘风险评估</h3>
+                <p class="original-title">Crude Oil Prices Today | OilPrice.com</p>
+                <p class="summary">Crude oil prices &amp; gas price charts. Oil price charts for Brent Crude, WTI &amp; oil futures. Energy news covering oil, petroleum, natural gas and …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 3/5</span>
+                </div>
+                <a href="https://oilprice.com/" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="news" data-source="Analysts">
+                <div class="card-header">
+                    <span class="source-badge">分析师</span>
+                    <span class="sentiment bullish">缓和/修复</span>
+                </div>
+                <h3>United States | History, Map, Flag, &amp; Population | Britannica</h3>
+                <p class="original-title">United States | History, Map, Flag, &amp; Population | Britannica</p>
+                <p class="summary">14 hours ago · News • Iran warns the US against attacks on its oil tankers and other ships but ceasefire appears to hold • May 9, 2026, 4:51 PM ET (AP) ...(Show more)</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 3/5</span>
+                </div>
+                <a href="https://www.britannica.com/place/United-States" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="news" data-source="Analysts">
+                <div class="card-header">
+                    <span class="source-badge">分析师</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>Israel - Wikipedia</h3>
+                <p class="original-title">Israel - Wikipedia</p>
+                <p class="summary">Israel&#x27;s western coast lies on the Mediterranean Sea, its southern tip reaches the Red Sea, and to the east is Earth&#x27;s lowest point near the Dead Sea. Jerusalem is the government seat and proclaimed …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 3/5</span>
+                </div>
+                <a href="https://en.wikipedia.org/wiki/Israel" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="news" data-source="Analysts">
+                <div class="card-header">
+                    <span class="source-badge">分析师</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>Israel - A Country Profile - Nations Online Project</h3>
+                <p class="original-title">Israel - A Country Profile - Nations Online Project</p>
+                <p class="summary">Israel took control of the West Bank and Gaza Strip in the 1967 war and subsequently administered those territories through military authorities. On 25 April 1982, Israel withdrew from the Sinai …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 3/5</span>
+                </div>
+                <a href="https://www.nationsonline.org/oneworld/israel.htm" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="news" data-source="Analysts">
+                <div class="card-header">
+                    <span class="source-badge">分析师</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>Israel - New World Encyclopedia</h3>
+                <p class="original-title">Israel - New World Encyclopedia</p>
+                <p class="summary">The name &quot;Israel&quot; is rooted in the Hebrew Bible, specifically Genesis 32:28, where Jacob is renamed Israel after successfully wrestling with an angel of God. The biblical nation fathered by Jacob was …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 3/5</span>
+                </div>
+                <a href="https://www.newworldencyclopedia.org/entry/Israel" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="institution" data-source="BIS">
+                <div class="card-header">
+                    <span class="source-badge">国际清算银行</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>BiS - Wikipedia</h3>
+                <p class="original-title">BiS - Wikipedia</p>
+                <p class="summary">BiS （ビス）は、 日本 の 女性アイドルグループ。 つばさレコーズ（旧・つばさプラス） 所属 [1]。 2016年以降、 WACK がプロデュースを担当、マネージメントもつばさプラスとWACKとの共同と …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 3/5</span>
+                </div>
+                <a href="https://ja.wikipedia.org/wiki/BiS" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="institution" data-source="BIS">
+                <div class="card-header">
+                    <span class="source-badge">国际清算银行</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>Bank for International Settlements</h3>
+                <p class="original-title">Bank for International Settlements</p>
+                <p class="summary">The BIS Innovation Hub develops public goods in the technology space to support central banks and improve the functioning of the financial system. We have centres around the world and a global …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 3/5</span>
+                </div>
+                <a href="https://www.bis.org/" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="institution" data-source="BIS">
+                <div class="card-header">
+                    <span class="source-badge">国际清算银行</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>BIS（国際決済銀行）とは何ですか？ : 日本銀行 Bank of Japan</h3>
+                <p class="original-title">BIS（国際決済銀行）とは何ですか？ : 日本銀行 Bank of Japan</p>
+                <p class="summary">BISの中央銀行総裁会議は、原則として隔月でBISにおいて開催されている各国中央銀行総裁による会議で、グローバル・エコノミー会議（主要国・地域の中央銀行総裁による会議）や拡大総裁会議（す …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 3/5</span>
+                </div>
+                <a href="https://www.boj.or.jp/announcements/education/oshiete/intl/g05.htm/" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="institution" data-source="BIS">
+                <div class="card-header">
+                    <span class="source-badge">国际清算银行</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>BIS | 初心者でもわかりやすい金融用語集 | マネクリ マネックス ...</h3>
+                <p class="original-title">BIS | 初心者でもわかりやすい金融用語集 | マネクリ マネックス ...</p>
+                <p class="summary">Apr 22, 2026 · BISとは、Bank for International Settlements（国際決済銀行）の略称で、 中央銀行 の中央銀行とも呼ばれる国際機関です。 1930年に設立され、スイスのバーゼルに本部を置いています …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 3/5</span>
+                </div>
+                <a href="https://media.monex.co.jp/ud/glossary/6889df63a53aef0d27000037" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="institution" data-source="BIS">
+                <div class="card-header">
+                    <span class="source-badge">国际清算银行</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>国際金融の「BIS（国際決済銀行）」とは？ | ファイナンス単語帳</h3>
+                <p class="original-title">国際金融の「BIS（国際決済銀行）」とは？ | ファイナンス単語帳</p>
+                <p class="summary">国際金融のBIS（国際決済銀行）とは、BIS（国際決済銀行）は、世界の中央銀行間の協力を促進する国際金融機関です。 各国の金融政策の調整や国際金融システムの安定化に貢献しています。</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 3/5</span>
+                </div>
+                <a href="https://xn--bckg7d5c8bxk.xn--7kr499j.jp/vocabulary/110702/" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="institution" data-source="BIS">
+                <div class="card-header">
+                    <span class="source-badge">国际清算银行</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>わかりやすい用語集 解説：BIS（びす） | 三井住友DSアセット ...</h3>
+                <p class="original-title">わかりやすい用語集 解説：BIS（びす） | 三井住友DSアセット ...</p>
+                <p class="summary">英語表記「Bank for International Settlements」の略で「国際決済銀行」のこと。各国の 中央銀行 との取引を通じ、外貨準備の運用などを支援する「中銀のための銀行」。設立は1930年で、公的機関 …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 3/5</span>
+                </div>
+                <a href="https://www.smd-am.co.jp/glossary/YST1058/" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="institution" data-source="BIS">
+                <div class="card-header">
+                    <span class="source-badge">国际清算银行</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>BIS Data Portal | Bank for International Settlements</h3>
+                <p class="original-title">BIS Data Portal | Bank for International Settlements</p>
+                <p class="summary">BIS statistics BIS statistics, compiled in cooperation with central banks and other national authorities, are designed to inform the analysis of monetary and financial stability, international monetary …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 3/5</span>
+                </div>
+                <a href="https://data.bis.org/" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="investment_bank" data-source="Morgan Stanley">
+                <div class="card-header">
+                    <span class="source-badge">大摩</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>Updating Our Oil Forecast</h3>
+                <p class="original-title">Updating Our Oil Forecast</p>
+                <p class="summary">Apr 2, 2026 · To help cope with this uncertainty, we decided from the start of the conflict to take a weighted average of possible scenarios …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 2/5</span>
+                </div>
+                <a href="https://economics.bmo.com/en/publications/detail/fef7ebd7-e716-407e-9dd5-771e99334fe6/" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="investment_bank" data-source="Morgan Stanley">
+                <div class="card-header">
+                    <span class="source-badge">大摩</span>
+                    <span class="sentiment bearish">风险警示</span>
+                </div>
+                <h3>Energy Crunch Explained: Strait Closure, Oil, and Pump Prices</h3>
+                <p class="original-title">Energy Crunch Explained: Strait Closure, Oil, and Pump Prices</p>
+                <p class="summary">4 days ago · Listen to Andrew Sheets and Martijn Rats discuss the energy crunch, shrinking oil buffers, and how long inventory can last if …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 2/5</span>
+                </div>
+                <a href="https://www.morganstanley.com/insights/podcasts/thoughts-on-the-market/energy-crunch-outlook-andrew-sheets-martijn-rats" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="investment_bank" data-source="Morgan Stanley">
+                <div class="card-header">
+                    <span class="source-badge">大摩</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>Morgan Stanley Stock Price Forecast. Should You Buy MS-PP?</h3>
+                <p class="original-title">Morgan Stanley Stock Price Forecast. Should You Buy MS-PP?</p>
+                <p class="summary">4 days ago · The Morgan Stanley stock holds buy signals from both short and long-term Moving Averages giving a positive forecast for the …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 2/5</span>
+                </div>
+                <a href="https://stockinvest.us/stock/MS-PP" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="investment_bank" data-source="Morgan Stanley">
+                <div class="card-header">
+                    <span class="source-badge">大摩</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>Morgan Stanley Stock Forecast, - WalletInvestor.com</h3>
+                <p class="original-title">Morgan Stanley Stock Forecast, - WalletInvestor.com</p>
+                <p class="summary">3 days ago · At Walletinvestor.com we predict future values with technical analysis for a wide selection of stocks like Morgan Stanley. If you …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 2/5</span>
+                </div>
+                <a href="https://walletinvestor.com/stock-forecast/ms-stock-prediction" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="investment_bank" data-source="Morgan Stanley">
+                <div class="card-header">
+                    <span class="source-badge">大摩</span>
+                    <span class="sentiment bearish">风险警示</span>
+                </div>
+                <h3>油价预测与中东地缘风险评估</h3>
+                <p class="original-title">WTI and Brent Futures Both Fall Below $100 Mark, Have Oil ...</p>
+                <p class="summary">3 days ago · Following the news, both major oil benchmarks surrendered the $100 level, marking the most violent reversal of bullish sentiment …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 2/5</span>
+                </div>
+                <a href="https://www.tradingkey.com/analysis/commodities/oil/261867258-oil-crude-iran-opec-demand-destruction-inventory-energy-sector-valuation-tradingkey" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="investment_bank" data-source="Morgan Stanley">
+                <div class="card-header">
+                    <span class="source-badge">大摩</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>Japan Crude Cocktail (Detailed) Futures Quotes - CME Group</h3>
+                <p class="original-title">Japan Crude Cocktail (Detailed) Futures Quotes - CME Group</p>
+                <p class="summary">2 days ago · Analyze settlement values for all CME Group options products, including both settlement prices and implied volatilities. Analyze open interest and open interest change patterns for each expiration within the selected product. Find information for ...</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 2/5</span>
+                </div>
+                <a href="https://www.cmegroup.com/markets/energy/natural-gas/japan-crude-cocktail-detailed.html" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="investment_bank" data-source="Morgan Stanley">
+                <div class="card-header">
+                    <span class="source-badge">大摩</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>Strategic Oil and Gas Industry Analysis &amp; Forecast</h3>
+                <p class="original-title">Strategic Oil and Gas Industry Analysis &amp; Forecast</p>
+                <p class="summary">3 days ago · Explore the latest Oil and Gas Industry &amp; Market Analysis, uncovering key trends, challenges, and future projections in …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 2/5</span>
+                </div>
+                <a href="https://www.futuremarketinsights.com/industry-analysis/oil-and-gas" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="investment_bank" data-source="Credit Suisse">
+                <div class="card-header">
+                    <span class="source-badge">瑞信</span>
+                    <span class="sentiment bearish">风险警示</span>
+                </div>
+                <h3>油价预测与中东地缘风险评估</h3>
+                <p class="original-title">Oil Price Forecast 2026 | AI Geopolitical Analysis | The ...</p>
+                <p class="summary">AI-powered oil price forecast based on real-time geopolitical event analysis. Track how wars, sanctions, and economic disruptions affect Crude Oil prices with Catalyst market intelligence.</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 2/5</span>
+                </div>
+                <a href="https://www.the-world-now.com/catalyst/asset/OIL" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="investment_bank" data-source="Credit Suisse">
+                <div class="card-header">
+                    <span class="source-badge">瑞信</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>油价预测与中东地缘风险评估</h3>
+                <p class="original-title">OIL PRICE FORECAST 2026, 2027, 2028 AND 2029</p>
+                <p class="summary">1 day ago · Oil price forecast for 2026, 2027, 2028, 2029, 2030. Crude oil price today and predictions. Brent and WTI price forecast by month in tables. Crude oil Brent price forecast for next months and …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 2/5</span>
+                </div>
+                <a href="https://longforecast.com/oil-price-today-forecast-2017-2018-2019-2020-2021-brent-wti" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="investment_bank" data-source="BlackRock">
+                <div class="card-header">
+                    <span class="source-badge">贝莱德</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>Energy Opportunities Fund | BACIX | Institutional - BlackRock</h3>
+                <p class="original-title">Energy Opportunities Fund | BACIX | Institutional - BlackRock</p>
+                <p class="summary">3 days ago · This and other information can be found in the Funds&#x27; prospectuses or, if available, the summary prospectuses, which may be obtained by visiting the iShares ETF and BlackRock Fund …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 2/5</span>
+                </div>
+                <a href="https://www.blackrock.com/us/individual/products/227390/blackrock-energy-opportunities-fund-inst-class" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="investment_bank" data-source="BlackRock">
+                <div class="card-header">
+                    <span class="source-badge">贝莱德</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>High-Potential Oil Stocks to Invest in 2026 - Analytics Insight</h3>
+                <p class="original-title">High-Potential Oil Stocks to Invest in 2026 - Analytics Insight</p>
+                <p class="summary">2 days ago · Top oil stocks continue to benefit from high energy demand, rising crude prices, and strong cash flow. Major companies offer dividend income, global expansion, and long-term investment …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 2/5</span>
+                </div>
+                <a href="https://www.analyticsinsight.net/stocks/top-oil-stocks-to-invest-in-2026-and-how-to-get-started" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="investment_bank" data-source="BlackRock">
+                <div class="card-header">
+                    <span class="source-badge">贝莱德</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>2026 Global Outlook - Q2 Update - Seeking Alpha</h3>
+                <p class="original-title">2026 Global Outlook - Q2 Update - Seeking Alpha</p>
+                <p class="summary">3 days ago · Source: BlackRock Investment Institute with data from LSEG Datastream, April 2026. Note: The line shows the rolling 90-day correlation between daily returns of the S&amp;P 500 and U.S. 10-year …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 2/5</span>
+                </div>
+                <a href="https://seekingalpha.com/article/4899306-2026-global-outlook-q2-update" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="investment_bank" data-source="BlackRock">
+                <div class="card-header">
+                    <span class="source-badge">贝莱德</span>
+                    <span class="sentiment bearish">风险警示</span>
+                </div>
+                <h3>Oil supply risks could lift Canadian energy stocks - BNN ...</h3>
+                <p class="original-title">Oil supply risks could lift Canadian energy stocks - BNN ...</p>
+                <p class="summary">5 days ago · Oil prices may stay elevated due to supply tightness and geopolitical risk, boosting Canadian energy stocks, John Zechner says.</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 2/5</span>
+                </div>
+                <a href="https://www.bnnbloomberg.ca/investing/market-outlook/2026/05/04/market-outlook-oil-prices-could-stay-high-and-lift-canadian-energy-stocks/" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="news" data-source="Bloomberg">
+                <div class="card-header">
+                    <span class="source-badge">彭博</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>油价预测与中东地缘风险评估</h3>
+                <p class="original-title">Crude Oil (Brent) Price Forecast: In-Depth Technical Analysis ...</p>
+                <p class="summary">2 days ago · Discover the latest Crude Oil (Brent) price forecast with expert technical analysis, trend predictions, and chart insights. Stay …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 2/5</span>
+                </div>
+                <a href="https://www.fxleaders.com/forecasts/commodities/crude-oil-brent-price-forecast/" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="news" data-source="Analysts">
+                <div class="card-header">
+                    <span class="source-badge">分析师</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>油 - Wikipedia</h3>
+                <p class="original-title">油 - Wikipedia</p>
+                <p class="summary">天然オリーブオイル 油 （あぶら、ゆ、 oil）とは、 動物 や 植物 、 鉱物 などから採れる 水 と 相分離 する 疎水性 の 化学物質 で、通常は多数の 化合物 からなる 混合物 である。 生体内では主に 細胞 …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 2/5</span>
+                </div>
+                <a href="https://ja.wikipedia.org/wiki/油" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="news" data-source="Analysts">
+                <div class="card-header">
+                    <span class="source-badge">分析师</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>US (アス) OFFICIAL WEB SITE｜STORE｜US2000.JP</h3>
+                <p class="original-title">US (アス) OFFICIAL WEB SITE｜STORE｜US2000.JP</p>
+                <p class="summary">原宿のインポートセレクトショップ【US（アス）】オフィシャルサイト。 ネット通販、店舗紹介、ブログ、スタイリング提案など。 アメカジを中心に新品、古着を問わず常に時代の先を行くセレク …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 2/5</span>
+                </div>
+                <a href="http://www.us2000.jp/store.html" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="news" data-source="Analysts">
+                <div class="card-header">
+                    <span class="source-badge">分析师</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>アメリカ ドル / 日本 円【USDJPY=X】：為替レート・相場 ...</h3>
+                <p class="original-title">アメリカ ドル / 日本 円【USDJPY=X】：為替レート・相場 ...</p>
+                <p class="summary">アメリカ ドル / 日本 円【USDJPY=X】の為替レート、相場、最新の関連ニュース、掲示板などをご覧いただけます。売気配や買気配だけでなく、為替レートの計算もできるため、海外旅行や出張前の …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 2/5</span>
+                </div>
+                <a href="https://finance.yahoo.co.jp/quote/USDJPY=X" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="news" data-source="Analysts">
+                <div class="card-header">
+                    <span class="source-badge">分析师</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>英語「us」の意味・使い方・読み方 | Weblio英和辞書</h3>
+                <p class="original-title">英語「us」の意味・使い方・読み方 | Weblio英和辞書</p>
+                <p class="summary">In most fourth-declension words, the final -us evolved from Old Latin -us, from Proto-Italic *-us, from Proto-Indo-European *-us as the final part of Proto-Indo-European *-tus (suffix deriving action nouns …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 2/5</span>
+                </div>
+                <a href="https://ejje.weblio.jp/content/us" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="news" data-source="Analysts">
+                <div class="card-header">
+                    <span class="source-badge">分析师</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>アメリカを英語で言うと？US・USA・america の違いは ...</h3>
+                <p class="original-title">アメリカを英語で言うと？US・USA・america の違いは ...</p>
+                <p class="summary">Jan 28, 2023 · the US、the USA、Americaなど何種類もの異なる言い回しがあり、「アメリカ」を英語で言う際にどれを使えばいいのかわからないという方も多いでしょう。 それぞれの違いや関連情 …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 2/5</span>
+                </div>
+                <a href="https://nativecamp.net/blog/20230128-USA" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="news" data-source="Analysts">
+                <div class="card-header">
+                    <span class="source-badge">分析师</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>U.S. Department of State – Home</h3>
+                <p class="original-title">U.S. Department of State – Home</p>
+                <p class="summary">2 days ago · White House USA.gov Office of the Inspector General Archives Contact Us Freedom 250 follow us Privacy Policy Accessibility Statement Copyright Information FOIA No FEAR Act</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 2/5</span>
+                </div>
+                <a href="https://www.state.gov/" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="think_tank" data-source="CSIS">
+                <div class="card-header">
+                    <span class="source-badge">战略与国际研究中心</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>CSIS | Center for Strategic and International Studies</h3>
+                <p class="original-title">CSIS | Center for Strategic and International Studies</p>
+                <p class="summary">The Center for Strategic and International Studies (CSIS) is a bipartisan, nonprofit policy research organization &amp; think tank analyzing global issues &amp; policy.</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 2/5</span>
+                </div>
+                <a href="https://www.csis.org/" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="think_tank" data-source="CSIS">
+                <div class="card-header">
+                    <span class="source-badge">战略与国际研究中心</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>戦略国際問題研究所（CSIS）に学ぶ「台湾有事」日本が戦場 ...</h3>
+                <p class="original-title">戦略国際問題研究所（CSIS）に学ぶ「台湾有事」日本が戦場 ...</p>
+                <p class="summary">Nov 21, 2025 · 昨今台湾有事が問題になっています。 そこで、台湾有事のシミュレーションを通して、我々がどのように考え、行動すべきかの「ひとつの参考情報」として、米国・戦略国際問題研究 …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 2/5</span>
+                </div>
+                <a href="https://note.com/kong_suzuki/n/nfddeccc6e3e2" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="think_tank" data-source="CSIS">
+                <div class="card-header">
+                    <span class="source-badge">战略与国际研究中心</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>CSIS「ミサイル枯渇」報告書の衝撃と日本への処方箋（木村和 ...</h3>
+                <p class="original-title">CSIS「ミサイル枯渇」報告書の衝撃と日本への処方箋（木村和 ...</p>
+                <p class="summary">Apr 23, 2026 · ・はじめに 米シンクタンク「戦略国際問題研究所 (CSIS)」が4月21日に公開した、「最後の弾丸？ イラン戦争停戦時の主要弾薬の状況 (Last Rounds?</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 2/5</span>
+                </div>
+                <a href="https://news.yahoo.co.jp/expert/articles/cedaa24df2a2505dbcd99ea55095aeb97c621cfa" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="think_tank" data-source="CSIS">
+                <div class="card-header">
+                    <span class="source-badge">战略与国际研究中心</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>戦略国際問題研究所 - Wikiwand</h3>
+                <p class="original-title">戦略国際問題研究所 - Wikiwand</p>
+                <p class="summary">CSISは日本では公益財団法人 東京財団 （日本財団 の下部組織）と協力関係にある。 東京財団の他にも 笹川平和財団 、 特定非営利活動法人 世界開発協力機構 が、 パシフィックフォーラム CSIS を …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 2/5</span>
+                </div>
+                <a href="https://www.wikiwand.com/ja/戦略国際問題研究所" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="think_tank" data-source="SWP">
+                <div class="card-header">
+                    <span class="source-badge">德国国际安全事务研究所</span>
+                    <span class="sentiment bearish">风险警示</span>
+                </div>
+                <h3>霍尔木兹海峡风险与能源供应影响</h3>
+                <p class="original-title">Turkey Capitalises on Hormuz Disruption: Connectivity as a Foreign Policy Strategy</p>
+                <p class="summary"></p>
                 <div class="meta">
                     <span>2026-05-05</span>
-                    <span class="relevance-score">相关度 4/5</span>
+                    <span class="relevance-score">相关度 2/5</span>
                 </div>
+                <a href="https://www.swp-berlin.org/publikation/turkey-capitalises-on-hormuz-disruption-connectivity-as-a-foreign-policy-strategy" target="_blank" class="read-more">查看原文 →</a>
             </div>
-
-            <div class="card" data-type="investment_bank">
+            <div class="card" data-type="think_tank" data-source="SWP">
                 <div class="card-header">
-                    <span class="source-badge">ANZ</span>
-                    <span class="sentiment bullish">偏乐观</span>
+                    <span class="source-badge">德国国际安全事务研究所</span>
+                    <span class="sentiment neutral">中性</span>
                 </div>
-                <h3>ANZ：2026年布伦特或维持90美元上方，波斯湾风险可推升至100美元以上</h3>
-                <p class="summary">ANZ预计布伦特在2026年剩余时间维持90美元/桶上方，2027年回落至80-85美元区间；若波斯湾通行和供应风险继续发酵，油价仍可能重新站上100美元。</p>
+                <h3>„China hat gerade keinen Grund, Trump zu frontal zu kritisieren“</h3>
+                <p class="original-title">„China hat gerade keinen Grund, Trump zu frontal zu kritisieren“</p>
+                <p class="summary">Obwohl es ein wichtiger Partner Irans ist, wahrt China im Krieg Distanz, sagt die Sinologin Angela Stanzel. Noch profitiere das Land zwar von dem Konflikt, aber auf längere Sicht drohten Risiken.</p>
                 <div class="meta">
-                    <span>2026-05-04</span>
-                    <span class="relevance-score">相关度 4/5</span>
+                    <span>2026-04-27</span>
+                    <span class="relevance-score">相关度 2/5</span>
                 </div>
+                <a href="https://www.sueddeutsche.de/politik/china-iran-usa-konflikt-rolle-zurueckhaltung-osten-li.3472947?reduced=true" target="_blank" class="read-more">查看原文 →</a>
             </div>
-
-            <div class="card" data-type="news">
+            <div class="card" data-type="investment_bank" data-source="Credit Suisse">
                 <div class="card-header">
-                    <span class="source-badge">OilPrice / 市场分析师</span>
-                    <span class="sentiment bullish">偏乐观</span>
+                    <span class="source-badge">瑞信</span>
+                    <span class="sentiment neutral">中性</span>
                 </div>
-                <h3>美伊对峙推升2026年油价预测，战争溢价重新计入曲线</h3>
-                <p class="summary">OilPrice汇总市场分析称，受美伊对峙和地缘战争溢价影响，多位经济学家和油市分析师上调2026年油价预测。当前油价走势仍高度依赖霍尔木兹通行、海湾设施安全和停火谈判进展。</p>
+                <h3>油价预测与中东地缘风险评估</h3>
+                <p class="original-title">WTI Oil Price Forecast &amp; Predictions for 2026, 2027, 2028 ...</p>
+                <p class="summary">5 days ago · This article provides a comprehensive overview of the USCRUDE trading instrument, addressing crucial components such as the current state of the oil market, influential factors affecting …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 1/5</span>
+                </div>
+                <a href="https://www.litefinance.org/blog/analysts-opinions/oil-price-prediction-forecast/" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="investment_bank" data-source="Credit Suisse">
+                <div class="card-header">
+                    <span class="source-badge">瑞信</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>油价预测与中东地缘风险评估</h3>
+                <p class="original-title">Credit Suisse Nasdaq WTI Crude Oil FLOWSTM 106 Price Index</p>
+                <p class="summary">2 days ago · Credit Suisse Nasdaq WTI Crude Oil FLOWSTM 106 Price Indexindex chart, prices and performance, plus recent news and analysis.</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 1/5</span>
+                </div>
+                <a href="https://markets.ft.com/data/indices/tearsheet/summary?s=QUSOI:NAS" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="investment_bank" data-source="Credit Suisse">
+                <div class="card-header">
+                    <span class="source-badge">瑞信</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>油价预测与中东地缘风险评估</h3>
+                <p class="original-title">Credit Suisse NASDAQ WTI Crude Oil FLOWS 106 Price Return</p>
+                <p class="summary">2 days ago · Graph and download economic data for Credit Suisse NASDAQ WTI Crude Oil FLOWS 106 Price Return (NASDAQQUSOI) from 2016-09-26 to 2026-05-07 about WTI, Puerto Rico, crude, …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 1/5</span>
+                </div>
+                <a href="https://fred.stlouisfed.org/series/NASDAQQUSOI" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="investment_bank" data-source="Credit Suisse">
+                <div class="card-header">
+                    <span class="source-badge">瑞信</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>油价预测与中东地缘风险评估</h3>
+                <p class="original-title">NASDAQ Credit Suisse NASDAQ WTI Crude Oil FLOWSTM ...</p>
+                <p class="summary">5 days ago · View (QUSOI) real-time stock price, chart, news, analysis, analyst reviews and more.</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 1/5</span>
+                </div>
+                <a href="https://seekingalpha.com/symbol/QUSOI" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="investment_bank" data-source="Standard Chartered">
+                <div class="card-header">
+                    <span class="source-badge">渣打</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>standard（英语单词）_百度百科</h3>
+                <p class="original-title">standard（英语单词）_百度百科</p>
+                <p class="summary">standard 的用法可概括为名词和形容词两类。 名词用法主要包括：质量或成就的水平（如 acceptable standard）、判断的依据（如 standard for comparison）、道德准则（如 moral standards）。 形容词用 …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 1/5</span>
+                </div>
+                <a href="https://baike.baidu.com/item/standard/16552860" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="investment_bank" data-source="Standard Chartered">
+                <div class="card-header">
+                    <span class="source-badge">渣打</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>STANDARD中文 (简体)翻译：剑桥词典 - Cambridge Dictionary</h3>
+                <p class="original-title">STANDARD中文 (简体)翻译：剑桥词典 - Cambridge Dictionary</p>
+                <p class="summary">A standard language is a variety of language that is used by governments, in the media, in schools and for international communication. There are different standard varieties of English in the world, such as …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 1/5</span>
+                </div>
+                <a href="https://dictionary.cambridge.org/zhs/词典/英语-汉语-简体/standard" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="investment_bank" data-source="Standard Chartered">
+                <div class="card-header">
+                    <span class="source-badge">渣打</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>standard是什么意思_ standard的翻译_音标_读音_用法_例句 ...</h3>
+                <p class="original-title">standard是什么意思_ standard的翻译_音标_读音_用法_例句 ...</p>
+                <p class="summary">爱词霸权威在线词典,为您提供 standard的中文意思, standard的用法讲解, standard的读音, standard的同义词, standard的反义词, standard的例句等英语服务。</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 1/5</span>
+                </div>
+                <a href="https://www.iciba.com/word?w=+standard" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="investment_bank" data-source="Standard Chartered">
+                <div class="card-header">
+                    <span class="source-badge">渣打</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>英語「Standard」の意味・使い方・読み方 | Weblio英和辞書</h3>
+                <p class="original-title">英語「Standard」の意味・使い方・読み方 | Weblio英和辞書</p>
+                <p class="summary">名詞 可算名詞 1 [しばしば 複数形 で] a (比較 ・ 評価 の 基礎となる) 標準， 基準. The standard of living in Russia is [Living standards in Russia are] declining. ロシアの 生活水準 は 低下 しつつある.</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 1/5</span>
+                </div>
+                <a href="https://ejje.weblio.jp/content/Standard" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="investment_bank" data-source="Standard Chartered">
+                <div class="card-header">
+                    <span class="source-badge">渣打</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>「standard スタンダ...」の意味・使い方・表現 - 英辞郎 on the WEB</h3>
+                <p class="original-title">「standard スタンダ...」の意味・使い方・表現 - 英辞郎 on the WEB</p>
+                <p class="summary">standard 【名】 〔質の程度を比較する〕尺度、基準、標準 【略】STD・Everyone has different standards....【発音】stǽndərd【カナ】スタンダード【変化】《複》standards - アルクがお届けするオ …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 1/5</span>
+                </div>
+                <a href="https://eow.alc.co.jp/search?q=standard+スタンダード" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="investment_bank" data-source="Jefferies">
+                <div class="card-header">
+                    <span class="source-badge">杰富瑞</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>JJL-JP | Jefferies.com</h3>
+                <p class="original-title">JJL-JP | Jefferies.com</p>
+                <p class="summary">2 days ago · ジェフリーズ証券会社東京支店 ジェフリーズ証券会社東京支店は、世界有数の金融機関ジェフリーズの日本における拠点として、総合的に証券・投資銀行業務を展開しています。機関投資 …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 1/5</span>
+                </div>
+                <a href="https://www.jefferies.com/jefferies-in-japan-jp/jjl-jp/" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="investment_bank" data-source="Jefferies">
+                <div class="card-header">
+                    <span class="source-badge">杰富瑞</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>三井住友FG、米Jefferiesとの戦略的資本・業務提携の強化を発表</h3>
+                <p class="original-title">三井住友FG、米Jefferiesとの戦略的資本・業務提携の強化を発表</p>
+                <p class="summary">Sep 19, 2025 · SMBCグループとJefferiesは、2021年に戦略的資本・業務提携契約を締結し、米国における非投資適格企業向けビジネス、日本関連クロスボーダーM&amp;A等 ...</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 1/5</span>
+                </div>
+                <a href="https://www.nikkei.com/article/DGXZRSP697043_Z10C25A9000000/?msockid=0cb1d876182b61520108cf2319cb6047" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="investment_bank" data-source="Jefferies">
+                <div class="card-header">
+                    <span class="source-badge">杰富瑞</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>ジェフリーズ・ファイナンシャル・グループ【JEF】：企業情報 ...</h3>
+                <p class="original-title">ジェフリーズ・ファイナンシャル・グループ【JEF】：企業情報 ...</p>
+                <p class="summary">5 days ago · 特色 ジェフリーズ・ファイナンシャル・グループ（Jefferies Financial Group Inc）は、投資銀行及び資本市場のグローバル会社である。 【事業内容】 財務アドバイザリー、株式引受及び …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 1/5</span>
+                </div>
+                <a href="https://finance.yahoo.co.jp/quote/JEF/profile" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="investment_bank" data-source="Jefferies">
+                <div class="card-header">
+                    <span class="source-badge">杰富瑞</span>
+                    <span class="sentiment bearish">风险警示</span>
+                </div>
+                <h3>Jefferies shares cut gains on report Japan&#x27;s SMFG has no ...</h3>
+                <p class="original-title">Jefferies shares cut gains on report Japan&#x27;s SMFG has no ...</p>
+                <p class="summary">Mar 24, 2026 · Jefferies, an independent investment bank that competes with some of Wall Street&#x27;s biggest names, has faced investor scrutiny over its exposure to risky companies and its …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 1/5</span>
+                </div>
+                <a href="https://www.reuters.com/business/finance/japans-smfg-plans-possible-takeover-jefferies-ft-reports-2026-03-24/" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="investment_bank" data-source="Jefferies">
+                <div class="card-header">
+                    <span class="source-badge">杰富瑞</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>大西 富寛 - ジェフリーズ証券会社（東京支社）- ジャパン ...</h3>
+                <p class="original-title">大西 富寛 - ジェフリーズ証券会社（東京支社）- ジャパン ...</p>
+                <p class="summary">· 職歴: Jefferies · 場所: 東京都 · LinkedInのつながり59人。 10億人のメンバーを擁するプロフェッショナルコミュニティであるLinkedInで大西 富寛さんのプロフィールを閲覧しましょう。</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 1/5</span>
+                </div>
+                <a href="https://jp.linkedin.com/in/tomihiro-onishi-71190517b/ja" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="investment_bank" data-source="Jefferies">
+                <div class="card-header">
+                    <span class="source-badge">杰富瑞</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>Jefferies | Global Investment Banking &amp; Capital Markets</h3>
+                <p class="original-title">Jefferies | Global Investment Banking &amp; Capital Markets</p>
+                <p class="summary">Apr 7, 2026 · Jefferies is the leading pure-play investment banking and capital markets firm, purpose-built and driven to deliver for our clients.</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 1/5</span>
+                </div>
+                <a href="https://www.jefferies.com/" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="investment_bank" data-source="Jefferies">
+                <div class="card-header">
+                    <span class="source-badge">杰富瑞</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>Takeover chatter swirls around Jefferies with Japan’s SMFG a ...</h3>
+                <p class="original-title">Takeover chatter swirls around Jefferies with Japan’s SMFG a ...</p>
+                <p class="summary">Mar 24, 2026 · Takeover talk is swirling around Jefferies following a report that Japan’s Sumitomo Mitsui Financial Group is exploring a potential purchase of the investment bank.</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 1/5</span>
+                </div>
+                <a href="https://www.investmentnews.com/mutual-funds/takeover-chatter-swirls-around-jefferies-with-japans-smfg-a-rumored-suitor/265819" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="investment_bank" data-source="Bernstein">
+                <div class="card-header">
+                    <span class="source-badge">伯恩斯坦</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>Microsoft – AI, Cloud, Productivity, Computing, Gaming &amp; Apps</h3>
+                <p class="original-title">Microsoft – AI, Cloud, Productivity, Computing, Gaming &amp; Apps</p>
+                <p class="summary">Explore Microsoft products and services and support for your home or business. Shop Microsoft 365, Copilot, Teams, Xbox, Windows, …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 1/5</span>
+                </div>
+                <a href="https://www.microsoft.com/en-us" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="investment_bank" data-source="Bernstein">
+                <div class="card-header">
+                    <span class="source-badge">伯恩斯坦</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>Office 365 login</h3>
+                <p class="original-title">Office 365 login</p>
+                <p class="summary">Collaborate for free with online versions of Microsoft Word, PowerPoint, Excel, and OneNote. Save documents, spreadsheets, and …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 1/5</span>
+                </div>
+                <a href="https://www.office.com/" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="investment_bank" data-source="Bernstein">
+                <div class="card-header">
+                    <span class="source-badge">伯恩斯坦</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>Microsoft Outlook Personal Email and Calendar | Microsoft 365</h3>
+                <p class="original-title">Microsoft Outlook Personal Email and Calendar | Microsoft 365</p>
+                <p class="summary">Download free Microsoft Outlook email and calendar, plus Office Online apps like Word, Excel, and PowerPoint. Sign in to access your …</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 1/5</span>
+                </div>
+                <a href="https://www.outlook.com/" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="investment_bank" data-source="Bernstein">
+                <div class="card-header">
+                    <span class="source-badge">伯恩斯坦</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>Create your Microsoft account</h3>
+                <p class="original-title">Create your Microsoft account</p>
+                <p class="summary">Create your Microsoft account to access various services and features.</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 1/5</span>
+                </div>
+                <a href="https://signup.live.com/" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="investment_bank" data-source="Bernstein">
+                <div class="card-header">
+                    <span class="source-badge">伯恩斯坦</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>Microsoft account | Sign In or Create Your Account Today – Microsoft</h3>
+                <p class="original-title">Microsoft account | Sign In or Create Your Account Today – Microsoft</p>
+                <p class="summary">Get access to free online versions of Outlook, Word, Excel, and PowerPoint.</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 1/5</span>
+                </div>
+                <a href="https://account.microsoft.com/account" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="news" data-source="Bloomberg">
+                <div class="card-header">
+                    <span class="source-badge">彭博</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>油价预测与中东地缘风险评估</h3>
+                <p class="original-title">Bloomberg WTI Crude Oil Subindex, BCOMCL:IOM Summary ...</p>
+                <p class="summary">3 days ago · Bloomberg WTI Crude Oil Subindexindex chart, prices and performance, plus recent news and analysis.</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 1/5</span>
+                </div>
+                <a href="https://markets.ft.com/data/indices/tearsheet/summary?s=BCOMCL:IOM" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="news" data-source="Bloomberg">
+                <div class="card-header">
+                    <span class="source-badge">彭博</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>CRUDE OIL FORECAST TODAY AND TOMORROW</h3>
+                <p class="original-title">CRUDE OIL FORECAST TODAY AND TOMORROW</p>
+                <p class="summary">1 day ago · Crude oil price prediction for every move within today, tomorrow and weeks. Check today&#x27;s best prices and trend. Intraday Crude oil forecast online. Oil price targets for today and tomorrow. Crude oil day trading.</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 1/5</span>
+                </div>
+                <a href="https://pricefore.com/crude-oil" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="news" data-source="Bloomberg">
+                <div class="card-header">
+                    <span class="source-badge">彭博</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>Oil Analysis | Oil Technical Analysis | Crude Oil Analysis ...</h3>
+                <p class="original-title">Oil Analysis | Oil Technical Analysis | Crude Oil Analysis ...</p>
+                <p class="summary">Crude Oil prices recorded a series of sharp losses during recent intraday trading, breaking below the $93.00 support level, which had been a price target in our morning analysis.</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 1/5</span>
+                </div>
+                <a href="https://www.economies.com/commodities/oil-analysis" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="news" data-source="Reuters">
+                <div class="card-header">
+                    <span class="source-badge">路透</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>Reuters | Breaking International News &amp; Views</h3>
+                <p class="original-title">Reuters | Breaking International News &amp; Views</p>
+                <p class="summary">1 day ago · Find latest news from every corner of the globe at Reuters.com, your online source for breaking international news coverage.</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 1/5</span>
+                </div>
+                <a href="https://www.reuters.com/" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="news" data-source="Reuters">
+                <div class="card-header">
+                    <span class="source-badge">路透</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>ロイター（Reuters Japan） - YouTube</h3>
+                <p class="original-title">ロイター（Reuters Japan） - YouTube</p>
+                <p class="summary">...more ロイター日本語サイト編集部が最新の映像ニュースをお届けする、公式YouTubeチャンネルです。 ...more jp.reuters.com and 4 more links</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 1/5</span>
+                </div>
+                <a href="https://www.youtube.com/c/ReutersJapan" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="news" data-source="Reuters">
+                <div class="card-header">
+                    <span class="source-badge">路透</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>World News | Latest Top Stories | Reuters</h3>
+                <p class="original-title">World News | Latest Top Stories | Reuters</p>
+                <p class="summary">1 day ago · Follow the latest international and world news, breaking stories and global current events from your trusted online news source.</p>
+                <div class="meta">
+                    <span>2026-05-10</span>
+                    <span class="relevance-score">相关度 1/5</span>
+                </div>
+                <a href="https://www.reuters.com/world/" target="_blank" class="read-more">查看原文 →</a>
+            </div>
+            <div class="card" data-type="think_tank" data-source="EUISS">
+                <div class="card-header">
+                    <span class="source-badge">欧盟安全研究所</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>Small changes, big impact: How Trump’s latest decision removes a key component of Europe’s</h3>
+                <p class="original-title">Small changes, big impact: How Trump’s latest decision removes a key component of Europe’s deterrence</p>
+                <p class="summary">Small changes, big impact: How Trump’s latest decision removes a key component of Europe’s deterrence fanny.pollet@i… Wed, 05/06/2026 - 22:32 6 minutes On Friday 1 May, the Pentagon’s spokesperson confirmed that the US had ordered the withdrawal of approximate...</p>
                 <div class="meta">
                     <span>2026-05-06</span>
-                    <span class="relevance-score">相关度 5/5</span>
+                    <span class="relevance-score">相关度 1/5</span>
                 </div>
+                <a href="https://www.iss.europa.eu/publications/commentary/small-changes-big-impact-how-trumps-latest-decision-removes-key-component" target="_blank" class="read-more">查看原文 →</a>
             </div>
-
-            <div class="card" data-type="think_tank">
+            <div class="card" data-type="think_tank" data-source="EUISS">
                 <div class="card-header">
-                    <span class="source-badge">欧盟安全研究所 (EUISS)</span>
+                    <span class="source-badge">欧盟安全研究所</span>
                     <span class="sentiment neutral">中性</span>
                 </div>
-                <h3>美伊停火对欧洲增长前景的影响</h3>
-                <p class="summary">理论上美伊停火应支持欧洲增长前景，让价格回到2月前水平。但实践中前景远不确定，取决于停火性质、是否演变为持久和平，以及欧洲如何有效准备缓解未来油气供应冲击。</p>
+                <h3>Putin’s troubles: Facing mounting economic and military pressure, the Kremlin may try to m</h3>
+                <p class="original-title">Putin’s troubles: Facing mounting economic and military pressure, the Kremlin may try to muddle through – or escalate</p>
+                <p class="summary">Putin’s troubles: Facing mounting economic and military pressure, the Kremlin may try to muddle through – or escalate fanny.pollet@i… Mon, 04/27/2026 - 09:55 5 minutes Russia’s economy is not yet collapsing. Nor is its military campaign against Ukraine. But th...</p>
                 <div class="meta">
-                    <span>2026-04-23</span>
-                    <span class="relevance-score">相关度 5/5</span>
+                    <span>2026-04-27</span>
+                    <span class="relevance-score">相关度 1/5</span>
                 </div>
+                <a href="https://www.iss.europa.eu/publications/commentary/putins-troubles-facing-mounting-economic-and-military-pressure-kremlin-may" target="_blank" class="read-more">查看原文 →</a>
             </div>
-
-            <div class="card" data-type="think_tank">
-                <div class="card-header">
-                    <span class="source-badge">欧盟安全研究所 (EUISS)</span>
-                    <span class="sentiment bearish">偏悲观</span>
-                </div>
-                <h3>中国与伊朗的战略结盟</h3>
-                <p class="summary">自乌克兰战争爆发以来，中国的地缘政治立场变得更加清晰，不再维持战略模糊。中国明确站在普京的俄罗斯和伊朗伊斯兰革命一边，西方被视为世界所有邪恶的根源。</p>
-                <div class="meta">
-                    <span>2026-04-23</span>
-                    <span class="relevance-score">相关度 3/5</span>
-                </div>
-            </div>
-
-            <div class="card" data-type="think_tank">
-                <div class="card-header">
-                    <span class="source-badge">德国国际安全事务研究所 (SWP)</span>
-                    <span class="sentiment bearish">偏悲观</span>
-                </div>
-                <h3>伊朗用小型快艇控制霍尔木兹海峡</h3>
-                <p class="summary">伊朗通过封锁霍尔木兹海峡向世界经济施压，其革命卫队采用游击战术，小型快艇对抗大型军舰，成功实现对海峡的控制。这种非对称战术使伊朗能够以较低成本维持对关键水道的封锁。</p>
-                <div class="meta">
-                    <span>2026-04-20</span>
-                    <span class="relevance-score">相关度 4/5</span>
-                </div>
-            </div>
-
-            <div class="card" data-type="investment_bank">
-                <div class="card-header">
-                    <span class="source-badge">摩根大通 (JPMorgan)</span>
-                    <span class="sentiment bullish">偏乐观</span>
-                </div>
-                <h3>伊朗冲突带来股市抄底良机</h3>
-                <p class="summary">摩根大通表示伊朗冲突带来股市抄底良机，连续第二年重申对新兴市场超配策略。投行认为地缘冲突带来的市场波动为投资者提供了入场机会。</p>
-                <div class="meta">
-                    <span>2026-04-28</span>
-                    <span class="relevance-score">相关度 4/5</span>
-                </div>
-            </div>
-
-            <div class="card" data-type="think_tank">
-                <div class="card-header">
-                    <span class="source-badge">欧盟安全研究所 (EUISS)</span>
-                    <span class="sentiment bearish">偏悲观</span>
-                </div>
-                <h3>欧洲应填补伊朗外交真空</h3>
-                <p class="summary">美国与伊朗的谈判已失败。欧盟应积极填补外交真空，推动停火协议的达成。伊朗问题需要多边外交努力，单边施压无法解决根本矛盾。</p>
-                <div class="meta">
-                    <span>2026-04-14</span>
-                    <span class="relevance-score">相关度 5/5</span>
-                </div>
-            </div>
-
-            <div class="card" data-type="think_tank">
-                <div class="card-header">
-                    <span class="source-badge">欧盟安全研究所 (EUISS)</span>
-                    <span class="sentiment bearish">偏悲观</span>
-                </div>
-                <h3>伊朗战争对欧洲国防的真正影响评估</h3>
-                <p class="summary">无论美伊停火协议是否维持，中东战争使欧洲重整军备和支持乌克兰的努力更加复杂，同时也进一步侵蚀了对美国作为欧洲国防可靠保障者的信心。</p>
-                <div class="meta">
-                    <span>2026-04-09</span>
-                    <span class="relevance-score">相关度 5/5</span>
-                </div>
-            </div>
-
-            <div class="card" data-type="think_tank">
-                <div class="card-header">
-                    <span class="source-badge">德国国际安全事务研究所 (SWP)</span>
-                    <span class="sentiment neutral">中性</span>
-                </div>
-                <h3>伊朗战争长期结局仍不确定</h3>
-                <p class="summary">伊朗战争能否长期结束取决于伊朗是否允许货船通过霍尔木兹海峡。霍尔木兹海峡的航运恢复是评估战争走向的关键指标。</p>
-                <div class="meta">
-                    <span>2026-04-08</span>
-                    <span class="relevance-score">相关度 4/5</span>
-                </div>
-            </div>
-
-            <div class="card" data-type="think_tank">
-                <div class="card-header">
-                    <span class="source-badge">欧盟安全研究所 (EUISS)</span>
-                    <span class="sentiment bearish">偏悲观</span>
-                </div>
-                <h3>伊朗战争对欧洲防务的影响评估</h3>
-                <p class="summary">中东危机及其对欧洲立场的影响已经对跨大西洋关系产生冲击。无论停火协议是否维持，伊朗战争都使欧洲重整军备和支持乌克兰的努力更加复杂。</p>
-                <div class="meta">
-                    <span>2026-04-23</span>
-                    <span class="relevance-score">相关度 3/5</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="no-results hidden" id="no-results">
-            <p>没有符合筛选条件的研究观点</p>
         </div>
     </main>
-
-    <footer>
-        <div class="container">
-            <p>数据更新时间: 2026-05-09 | 数据来源: 智库RSS + 投行搜索</p>
-            <p style="margin-top: 8px; font-size: 0.85rem; opacity: 0.7;">筛选标准: 伊朗战争/霍尔木兹/油价/能源安全 相关内容</p>
-        </div>
-    </footer>
-
+    <div class="footer">数据来源：智库RSS + 投行/财经媒体搜索；自动筛选关键词包括 Iran、Hormuz、oil、energy、Middle East、sanctions。</div>
     <script>
-        function filterCards(type) {
-            const cards = document.querySelectorAll('.card');
-            const buttons = document.querySelectorAll('.filter-btn');
-            let visibleCount = 0;
-
-            buttons.forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.dataset.filter === type) {
-                    btn.classList.add('active');
-                }
-            });
-
-            cards.forEach(card => {
-                if (type === 'all' || card.dataset.type === type) {
-                    card.classList.remove('hidden');
-                    visibleCount++;
-                } else {
-                    card.classList.add('hidden');
-                }
-            });
-
-            const noResults = document.getElementById('no-results');
-            if (visibleCount === 0) {
-                noResults.classList.remove('hidden');
-            } else {
-                noResults.classList.add('hidden');
-            }
+        function filterCards(type){
+            document.querySelectorAll('.filter-btn').forEach(btn=>btn.classList.toggle('active',btn.dataset.filter===type));
+            document.querySelectorAll('.card').forEach(card=>card.classList.toggle('hidden',type!=='all'&&card.dataset.type!==type));
         }
     </script>
 </body>
