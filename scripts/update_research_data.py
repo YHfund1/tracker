@@ -546,6 +546,77 @@ def save_raw_data(think_tank_entries, search_results):
     return filepath
 
 
+def save_ai_packet(think_tank_entries, search_results):
+    """保存给AI的候选小包，避免复制完整raw JSON和整页HTML。"""
+    candidates = think_tank_entries + search_results
+    candidates.sort(key=lambda x: (x.get("relevance_hint", 0), x.get("pub_date", "")), reverse=True)
+
+    compact_candidates = []
+    for item in candidates[:120]:
+        compact_candidates.append({
+            "id": item.get("id", ""),
+            "title": item.get("title", ""),
+            "summary": item.get("summary", ""),
+            "link": item.get("link", ""),
+            "pub_date": item.get("pub_date", ""),
+            "source": item.get("source", ""),
+            "source_zh": item.get("source_zh", ""),
+            "source_type": item.get("source_type", ""),
+            "search_query": item.get("search_query", ""),
+            "relevance_hint": item.get("relevance_hint", 0),
+        })
+
+    existing_index = []
+    try:
+        with open("data/research_items.json", "r", encoding="utf-8") as f:
+            existing = json.load(f).get("items", [])
+        for item in existing[:80]:
+            existing_index.append({
+                "title_zh": item.get("title_zh", ""),
+                "original_title": item.get("original_title", ""),
+                "source": item.get("source", ""),
+                "date": item.get("date", ""),
+                "link": item.get("link", ""),
+            })
+    except (FileNotFoundError, json.JSONDecodeError):
+        existing_index = []
+
+    packet = {
+        "generatedAt": datetime.now().isoformat(),
+        "purpose": "研究视点增量AI输入；只筛选candidates，不要读取data/research_raw_data.json全量历史或生成HTML。",
+        "candidateCount": len(compact_candidates),
+        "candidates": compact_candidates,
+        "existingIndex": existing_index,
+        "aiOutputPath": "cache/ai_outputs/research_delta.json",
+        "aiOutputSchema": {
+            "items": [
+                {
+                    "id": "沿用候选id",
+                    "date": "YYYY-MM-DD",
+                    "source": "机构/媒体英文名",
+                    "source_zh": "机构/媒体中文名",
+                    "source_type": "think_tank|investment_bank|news|institution|asset_manager|analyst",
+                    "title_zh": "中文标题",
+                    "original_title": "英文原标题",
+                    "summary_zh": "中文摘要，1-2句",
+                    "sentiment": "bullish|bearish|neutral",
+                    "relevance_score": 1,
+                    "link": "原文链接"
+                }
+            ]
+        }
+    }
+
+    os.makedirs("cache/ai_inputs", exist_ok=True)
+    os.makedirs("cache/ai_outputs", exist_ok=True)
+    out_path = "cache/ai_inputs/research_candidates.json"
+    with open(out_path, "w", encoding="utf-8") as f:
+        json.dump(packet, f, ensure_ascii=False, indent=2)
+
+    log(f"[Saved] {out_path} ({len(compact_candidates)} candidates)")
+    return out_path
+
+
 # ==========================================
 # 主流程
 # ==========================================
@@ -569,6 +640,7 @@ def main():
     # 3. 保存
     log("\n[Step 3] Saving...")
     filepath = save_raw_data(think_tank_entries, search_results)
+    save_ai_packet(think_tank_entries, search_results)
 
     # 统计
     hint_dist = {}

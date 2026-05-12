@@ -85,6 +85,58 @@ def load_existing(path: str) -> tuple:
         return [], ""
 
 
+def save_ai_packet(root: Path, new_items: List[Dict]) -> None:
+    """保存给 AI 的本次新增小输入，避免每次读取全量快讯历史。"""
+    ai_dir = root / "cache" / "ai_inputs"
+    ai_dir.mkdir(parents=True, exist_ok=True)
+    (root / "cache" / "ai_outputs").mkdir(parents=True, exist_ok=True)
+
+    existing_recent = []
+    statements_path = root / "data" / "cb-statements.json"
+    try:
+        with open(statements_path, "r", encoding="utf-8") as f:
+            statements = json.load(f).get("items", [])
+        for item in statements[:30]:
+            existing_recent.append({
+                "date": item.get("date", ""),
+                "bank": item.get("bank", ""),
+                "official": item.get("official", ""),
+                "title": item.get("title", ""),
+                "points": item.get("points", [])[:2],
+                "link": item.get("link", "")
+            })
+    except (FileNotFoundError, json.JSONDecodeError):
+        existing_recent = []
+
+    packet = {
+        "generatedAt": datetime.now().isoformat(),
+        "purpose": "央行表态增量AI输入；只处理 newItems，不要读取 data/jin10_cb_for_ai.json 全量历史。",
+        "newItemsCount": len(new_items),
+        "newItems": new_items,
+        "existingRecentIndex": existing_recent,
+        "aiOutputPath": "cache/ai_outputs/cb_delta.json",
+        "aiOutputSchema": {
+            "items": [
+                {
+                    "date": "YYYY-MM-DD",
+                    "bank": "央行中文名",
+                    "official": "中文名（English Name，职位）",
+                    "title": "职位简称",
+                    "mergedCount": 1,
+                    "points": ["按话题提炼的中文知识点"],
+                    "link": "最早原始快讯链接"
+                }
+            ]
+        }
+    }
+
+    out_path = ai_dir / "cb_new_items.json"
+    with open(out_path, "w", encoding="utf-8") as f:
+        json.dump(packet, f, ensure_ascii=False, indent=2)
+
+    print(f"  AI增量输入: {out_path} ({len(new_items)} 条)")
+
+
 async def main_async():
     from playwright.async_api import async_playwright
     import sys
@@ -192,6 +244,8 @@ async def main_async():
 
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(result, f, ensure_ascii=False, indent=2)
+
+    save_ai_packet(root, all_items)
 
     print(f"\n{'=' * 60}")
     print(f"  本次新增: {new_count} 条")

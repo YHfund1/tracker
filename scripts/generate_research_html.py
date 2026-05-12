@@ -1,349 +1,195 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-从research_deduped.json生成research.html
-按研报日期从新到旧排序，提取实际研报日期
-"""
+"""Generate research.html from data/research_items.json."""
 
+import html
 import json
-import re
-from datetime import datetime
 from collections import Counter
+from datetime import datetime
+from pathlib import Path
 
-def extract_report_date(entry):
-    """
-    从summary或title中提取研报实际日期
-    返回: (日期字符串, 排序用的datetime对象)
-    """
-    summary = entry.get('summary', '')
-    title = entry.get('title', '')
-    text = summary + ' ' + title
-    
-    # 尝试匹配各种日期格式
-    patterns = [
-        # "Mar 13, 2026" 或 "Mar 13, 2026 ·"
-        r'([A-Z][a-z]{2})\s+(\d{1,2}),?\s+(202\d)',
-        # "Mar 27, 2026" 格式
-        r'([A-Z][a-z]{2})\s+(\d{1,2}),\s+(202\d)',
-        # "5 days ago" - 需要特殊处理
-        r'(\d+)\s+days?\s+ago',
-        # "Mar 2026"
-        r'([A-Z][a-z]{2})\s+(202\d)',
+
+ROOT = Path(__file__).resolve().parent.parent
+DATA_PATH = ROOT / "data" / "research_items.json"
+HTML_PATH = ROOT / "research.html"
+
+TYPE_LABELS = {
+    "investment_bank": "投资银行",
+    "asset_manager": "资管机构",
+    "news": "财经媒体",
+    "think_tank": "智库",
+    "institution": "国际机构",
+    "analyst": "分析",
+}
+SENTIMENT_LABELS = {
+    "bullish": "看多/风险溢价",
+    "bearish": "风险警示",
+    "neutral": "中性",
+}
+SOURCE_SHORTS = {
+    "Goldman Sachs": "高盛",
+    "Morgan Stanley": "大摩",
+    "JPMorgan": "摩根大通",
+    "BlackRock": "贝莱德",
+    "Reuters": "路透",
+    "Bloomberg": "彭博",
+}
+
+
+def esc(value):
+    return html.escape(str(value or ""), quote=True)
+
+
+def load_items():
+    if DATA_PATH.exists():
+        data = json.loads(DATA_PATH.read_text(encoding="utf-8"))
+        return data.get("items", []), data.get("fetchTime", "")
+
+    # Backfill a structured source from current raw candidates so the page can
+    # still be generated before the first AI delta is merged.
+    raw_path = ROOT / "data" / "research_raw_data.json"
+    if not raw_path.exists():
+        return [], ""
+    raw = json.loads(raw_path.read_text(encoding="utf-8"))
+    candidates = raw.get("think_tank_entries", []) + raw.get("ib_search_results", [])
+    items = []
+    for item in candidates:
+        if item.get("relevance_hint", 0) < 3:
+            continue
+        items.append({
+            "id": item.get("id", ""),
+            "date": item.get("pub_date", "")[:10],
+            "source": item.get("source", ""),
+            "source_zh": item.get("source_zh", ""),
+            "source_type": item.get("source_type", "news"),
+            "title_zh": item.get("title", ""),
+            "original_title": item.get("title", ""),
+            "summary_zh": item.get("summary", ""),
+            "sentiment": "neutral",
+            "relevance_score": item.get("relevance_hint", 1),
+            "link": item.get("link", ""),
+        })
+    return items, raw.get("fetch_time", "")
+
+
+def render_card(item):
+    stype = item.get("source_type", "news")
+    sentiment = item.get("sentiment", "neutral")
+    source = item.get("source", "")
+    source_label = item.get("source_zh") or SOURCE_SHORTS.get(source) or source
+    score = item.get("relevance_score", "")
+    return f'''
+            <div class="card" data-type="{esc(stype)}" data-source="{esc(source)}">
+                <div class="card-header">
+                    <span class="source-badge">{esc(source_label)}</span>
+                    <span class="sentiment {esc(sentiment)}">{esc(SENTIMENT_LABELS.get(sentiment, "中性"))}</span>
+                </div>
+                <h3>{esc(item.get("title_zh"))}</h3>
+                <p class="original-title">{esc(item.get("original_title"))}</p>
+                <p class="summary">{esc(item.get("summary_zh"))}</p>
+                <div class="meta">
+                    <span>{esc(item.get("date"))}</span>
+                    <span class="relevance-score">相关度 {esc(score)}/5</span>
+                </div>
+                <a href="{esc(item.get("link"))}" target="_blank" class="read-more">查看原文 -></a>
+            </div>'''
+
+
+def main():
+    items, fetch_time = load_items()
+    items = sorted(items, key=lambda x: (x.get("date", ""), x.get("relevance_score", 0)), reverse=True)
+    source_counts = Counter(i.get("source", "") for i in items if i.get("source"))
+    type_counts = Counter(i.get("source_type", "news") for i in items)
+    updated = fetch_time.replace("T", " ")[:16] if fetch_time else datetime.now().strftime("%Y-%m-%d %H:%M")
+
+    cards = "\n".join(render_card(item) for item in items)
+    type_buttons = [
+        ("all", "全部"),
+        ("investment_bank", "投资银行"),
+        ("asset_manager", "资管机构"),
+        ("news", "财经媒体"),
+        ("think_tank", "智库"),
+        ("institution", "国际机构"),
     ]
-    
-    months = {
-        'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'May': 5, 'Jun': 6,
-        'Jul': 7, 'Aug': 8, 'Sep': 9, 'Oct': 10, 'Nov': 11, 'Dec': 12
-    }
-    
-    # 尝试提取具体日期
-    for pattern in patterns[:3]:
-        match = re.search(pattern, text)
-        if match:
-            if len(match.groups()) == 3:
-                month_str, day, year = match.groups()
-                month = months.get(month_str, 1)
-                try:
-                    return f"{year}-{month:02d}-{int(day):02d}", datetime(int(year), month, int(day))
-                except:
-                    pass
-            elif len(match.groups()) == 1:
-                # "X days ago"
-                days = int(match.groups()[0])
-                date = datetime.now() - __import__('datetime').timedelta(days=days)
-                return date.strftime("%Y-%m-%d"), date
-    
-    # 如果提取失败，使用pub_date（截取日期部分）
-    pub_date = entry.get('pub_date', '')
-    if pub_date:
-        try:
-            dt = datetime.fromisoformat(pub_date.replace('Z', '+00:00').replace('+00:00', ''))
-            return dt.strftime("%Y-%m-%d"), dt
-        except:
-            pass
-    
-    return "2026-04-06", datetime(2026, 4, 6)
+    buttons_html = "".join(
+        f'<button class="filter-btn{" active" if key == "all" else ""}" data-filter="{key}" onclick="filterCards(\'{key}\')">{label}</button>'
+        for key, label in type_buttons
+    )
 
-# 读取去重后数据
-with open('data/research_deduped.json', 'r', encoding='utf-8') as f:
-    data = json.load(f)
-
-entries = data['entries']
-
-# 提取日期并排序（从新到旧）
-for entry in entries:
-    date_str, date_obj = extract_report_date(entry)
-    entry['report_date'] = date_str
-    entry['date_obj'] = date_obj
-
-entries.sort(key=lambda x: x['date_obj'], reverse=True)
-
-# HTML模板
-HTML_HEAD = '''<!DOCTYPE html>
+    html_text = f'''<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>【华泰固收】中东地缘跟踪 - 智库&投行研究观点</title>
+    <title>中东地缘研究观点 | 伊朗战争与能源安全</title>
     <style>
-        *{margin:0;padding:0;box-sizing:border-box;}
-        body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f8fafc;color:#1e293b;line-height:1.6;}
-        .header {background: #ffffff;color: #1e293b;padding: 0;box-shadow: 0 1px 3px rgba(0,0,0,0.08);border-bottom: 1px solid #e2e8f0;position: sticky;top: 0;z-index: 100;}
-        .header-main {display: flex;align-items: center;max-width: 1400px;margin: 0 auto;padding: 0 20px;position: relative;}
-        .header-logo {display: flex;align-items: center;gap: 10px;position: absolute;left: 20px;}
-        .header-logo img {height: 30px;width: auto;display: block;}
-        .logo-text {font-size: 1.25rem;font-weight: 600;color: #c41230;letter-spacing: 1px;}
-        .header-nav {display: flex;gap: 0;margin: 0 auto;}
-        .nav-btn {color: #64748b;text-decoration: none;padding: 12px 14px;font-size: 0.85rem;transition: all 0.2s;white-space: nowrap;border-bottom: 3px solid transparent;}
-        .nav-btn:hover {background: #f1f5f9;color: #991b1b;}
-        .nav-btn.active {background: #f8fafc;color: #991b1b;border-bottom-color: #dc2626;font-weight: 500;}
-        .container{max-width:1200px;margin:0 auto;padding:24px 20px;}
-        .page-header {background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 100%);color: white;padding: 32px 24px;border-radius: 12px;margin-bottom: 24px;text-align: center;}
-        .page-header h2 {font-size: 1.6rem; margin-bottom: 8px;}
-        .page-header p {font-size: 0.95rem; opacity: 0.9;}
-        .dedup-badge {display: inline-block;background: rgba(255,255,255,0.2);padding: 4px 12px;border-radius: 20px;font-size: 0.8rem;margin-top: 8px;}
-        .stats-grid {display: grid;grid-template-columns: repeat(4, 1fr);gap: 16px;margin-bottom: 24px;}
-        .stat-card {background: #fff;border-radius: 12px;padding: 20px;text-align: center;box-shadow: 0 1px 3px rgba(0,0,0,0.08);border: 1px solid #e2e8f0;}
-        .stat-number {font-size: 2rem; font-weight: 700; color: #1e3a5f;}
-        .stat-label {font-size: 0.85rem; color: #64748b; margin-top: 4px;}
-        .filter-bar {background: #fff;border-radius: 12px;padding: 16px 20px;margin-bottom: 20px;box-shadow: 0 1px 3px rgba(0,0,0,0.08);border: 1px solid #e2e8f0;}
-        .filter-group {display: flex; align-items: center; gap: 10px; flex-wrap: wrap;}
-        .filter-label {font-size: 0.9rem; color: #64748b; font-weight: 500;}
-        .filter-btn {padding: 6px 16px;border: 1px solid #e2e8f0;background: #f8fafc;border-radius: 20px;font-size: 0.85rem;cursor: pointer;transition: all 0.2s;color: #475569;}
-        .filter-btn:hover {background: #e2e8f0;}
-        .filter-btn.active {background: #1e3a5f; color: white; border-color: #1e3a5f;}
-        .institution-tabs {display: flex;gap: 8px;margin-bottom: 24px;flex-wrap: wrap;}
-        .inst-tab {padding: 8px 16px;background: #fff;border: 1px solid #e2e8f0;border-radius: 8px;cursor: pointer;font-size: 0.9rem;transition: all 0.2s;display: flex;align-items: center;gap: 6px;}
-        .inst-tab:hover {background: #f1f5f9;}
-        .inst-tab.active {background: #1e3a5f; color: white; border-color: #1e3a5f;}
-        .inst-tab .badge {background: #e2e8f0;color: #475569;padding: 2px 8px;border-radius: 12px;font-size: 0.75rem;}
-        .inst-tab.active .badge {background: rgba(255,255,255,0.2); color: white;}
-        .insights-grid {display: grid;grid-template-columns: repeat(2, 1fr);gap: 20px;}
-        .insight-card {background: #fff;border-radius: 12px;padding: 20px;box-shadow: 0 1px 3px rgba(0,0,0,0.08);border: 1px solid #e2e8f0;transition: all 0.2s;display: flex;flex-direction: column;}
-        .insight-card:hover {box-shadow: 0 4px 12px rgba(0,0,0,0.1);transform: translateY(-2px);}
-        .insight-header {display: flex;justify-content: space-between;align-items: flex-start;margin-bottom: 12px;}
-        .institution-info {display: flex;align-items: center;gap: 12px;flex: 1;min-width: 0;}
-        .institution-logo {width: 40px;height: 40px;border-radius: 8px;display: flex;align-items: center;justify-content: center;font-weight: 700;font-size: 0.75rem;color: white;flex-shrink: 0;}
-        .institution-detail {min-width: 0;flex: 1;}
-        .institution-name {font-weight: 600;color: #1e293b;font-size: 0.95rem;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}
-        .institution-type {font-size: 0.8rem;color: #64748b;}
-        .insight-date {font-size: 0.8rem;color: #94a3b8;flex-shrink: 0;margin-left: 8px;}
-        .insight-title {font-size: 1.05rem;font-weight: 600;color: #1e40af;margin-bottom: 12px;line-height: 1.5;}
-        .insight-keypoints {background: #f8fafc;border-radius: 8px;padding: 12px 16px;margin-bottom: 12px;flex: 1;}
-        .insight-keypoints h5 {font-size: 0.8rem;color: #1e40af;margin-bottom: 8px;font-weight: 600;}
-        .insight-keypoints ul {padding-left: 16px;margin: 0;}
-        .insight-keypoints li {font-size: 0.9rem;color: #475569;margin-bottom: 4px;line-height: 1.5;}
-        .insight-footer {display: flex;justify-content: space-between;align-items: center;padding-top: 12px;border-top: 1px solid #e2e8f0;margin-top: auto;}
-        .sentiment-tag {padding: 4px 12px;border-radius: 20px;font-size: 0.8rem;font-weight: 500;}
-        .sentiment-bullish {background: #dcfce7; color: #166534;}
-        .sentiment-bearish {background: #fee2e2; color: #991b1b;}
-        .sentiment-neutral {background: #f1f5f9; color: #475569;}
-        .read-more {color: #1e40af;text-decoration: none;font-size: 0.9rem;font-weight: 500;}
-        .read-more:hover {text-decoration: underline;}
-        @media (max-width: 768px) {.header-main {flex-direction: column;padding: 0;}.header-logo {padding: 10px 16px;border-bottom: 1px solid #e2e8f0;width: 100%;position: static;}.header-logo img {height: 26px;}.header-nav {width: 100%;overflow-x: auto;scrollbar-width: none;-webkit-overflow-scrolling: touch;padding: 0 8px;}.header-nav::-webkit-scrollbar {display: none;}.nav-btn {padding: 10px 12px;font-size: 0.8rem;}.stats-grid {grid-template-columns: repeat(2, 1fr);}.insights-grid {grid-template-columns: 1fr;}.institution-tabs {flex-wrap: nowrap; overflow-x: auto;}.institution-name {font-size: 0.85rem;}}
+        *{{margin:0;padding:0;box-sizing:border-box;}}
+        body{{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f8fafc;color:#1e293b;line-height:1.6;}}
+        .header{{background:#fff;color:#1e293b;padding:0;box-shadow:0 1px 3px rgba(0,0,0,.08);border-bottom:1px solid #e2e8f0;position:sticky;top:0;z-index:100;}}
+        .header-main{{display:flex;align-items:center;max-width:1400px;margin:0 auto;padding:0 20px;position:relative;}}
+        .header-logo{{display:flex;align-items:center;gap:10px;position:absolute;left:20px;}}
+        .header-logo img{{height:30px;width:auto;display:block;}}
+        .logo-text{{font-size:1.25rem;font-weight:600;color:#c41230;letter-spacing:1px;}}
+        .header-nav{{display:flex;gap:0;margin:0 auto;}}
+        .nav-btn{{color:#64748b;text-decoration:none;padding:12px 14px;font-size:.85rem;transition:all .2s;white-space:nowrap;border-bottom:3px solid transparent;}}
+        .nav-btn:hover{{background:#f1f5f9;color:#991b1b;}}
+        .nav-btn.active{{background:#f8fafc;color:#991b1b;border-bottom-color:#dc2626;font-weight:500;}}
+        .container{{max-width:1280px;margin:0 auto;padding:24px 20px;}}
+        .research-header{{background:linear-gradient(135deg,#1e3a5f 0%,#2d5a87 100%);color:white;padding:28px 24px;border-radius:12px;margin-bottom:24px;}}
+        .research-header h1{{font-size:1.6rem;margin-bottom:8px;}}
+        .research-header p{{opacity:.9;font-size:.95rem;}}
+        .stats{{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px;}}
+        .stat-card{{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:18px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.08);}}
+        .stat-card .number{{font-size:2rem;font-weight:700;color:#1e3a5f;}}
+        .stat-card .label{{font-size:.85rem;color:#64748b;margin-top:4px;}}
+        .filter-section{{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:16px;margin-bottom:20px;}}
+        .filter-section h3{{font-size:.95rem;margin-bottom:12px;color:#475569;}}
+        .filter-buttons{{display:flex;gap:8px;flex-wrap:wrap;}}
+        .filter-btn{{padding:7px 14px;border:1px solid #e2e8f0;background:#f8fafc;border-radius:20px;cursor:pointer;color:#475569;}}
+        .filter-btn.active{{background:#1e3a5f;color:white;border-color:#1e3a5f;}}
+        .cards-grid{{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;}}
+        .card{{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:18px;box-shadow:0 1px 3px rgba(0,0,0,.08);display:flex;flex-direction:column;min-height:260px;}}
+        .card.hidden{{display:none;}}
+        .card-header{{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:12px;}}
+        .source-badge{{background:#eff6ff;color:#1d4ed8;border-radius:20px;padding:4px 10px;font-size:.8rem;font-weight:600;}}
+        .sentiment{{border-radius:20px;padding:4px 10px;font-size:.78rem;font-weight:600;white-space:nowrap;}}
+        .sentiment.bearish{{background:#fee2e2;color:#991b1b;}}
+        .sentiment.bullish{{background:#dcfce7;color:#166534;}}
+        .sentiment.neutral{{background:#f1f5f9;color:#475569;}}
+        .card h3{{font-size:1.05rem;color:#1e40af;line-height:1.5;margin-bottom:8px;}}
+        .original-title{{font-size:.78rem;color:#94a3b8;margin-bottom:10px;}}
+        .summary{{font-size:.9rem;color:#475569;line-height:1.65;}}
+        .meta{{display:flex;justify-content:space-between;gap:10px;color:#64748b;font-size:.8rem;margin-top:auto;padding-top:14px;border-top:1px solid #e2e8f0;}}
+        .read-more{{margin-top:10px;color:#1e40af;text-decoration:none;font-size:.88rem;font-weight:600;}}
+        .footer{{text-align:center;color:#94a3b8;font-size:.8rem;padding:24px;}}
+        @media(max-width:768px){{.header-main{{flex-direction:column;padding:0;}}.header-logo{{position:static;width:100%;padding:10px 16px;border-bottom:1px solid #e2e8f0;}}.header-nav{{width:100%;overflow-x:auto;padding:0 8px;}}.stats{{grid-template-columns:repeat(2,1fr);}}.cards-grid{{grid-template-columns:1fr;}}}}
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="header-main">
-            <div class="header-logo">
-                <img src="images/header.png" alt="Logo">
-                <span class="logo-text">中东地缘跟踪</span>
-            </div>
-            <nav class="header-nav" id="navCenter">
-                <a href="index.html" class="nav-btn">海峡跟踪</a>
-                <a href="data-tracking.html" class="nav-btn">全球市场</a>
-                <a href="war-situation.html" class="nav-btn">战局形势</a>
-                <a href="briefing.html" class="nav-btn">每日简报</a>
-                <a href="news.html" class="nav-btn">实时新闻</a>
-                <a href="central-bank-tracker.html" class="nav-btn">央行表态</a>
-                <a href="eco-track.html" class="nav-btn">经济数据</a>
-                <a href="research.html" class="nav-btn active">研究视点</a>
-                <a href="polymarket.html" class="nav-btn">Polymarket</a>
-                <a href="oil-chart.html" class="nav-btn">原油图谱</a>
-            </nav>
+    <div class="header"><div class="header-main"><div class="header-logo"><img src="images/header.png" alt="Logo"><span class="logo-text">中东地缘跟踪</span></div><nav class="header-nav" id="navCenter"><a href="index.html" class="nav-btn">海峡跟踪</a><a href="data-tracking.html" class="nav-btn">全球市场</a><a href="war-situation.html" class="nav-btn">战局形势</a><a href="briefing.html" class="nav-btn">每日简报</a><a href="news.html" class="nav-btn">实时新闻</a><a href="central-bank-tracker.html" class="nav-btn">央行表态</a><a href="eco-track.html" class="nav-btn">经济数据</a><a href="research.html" class="nav-btn active">研究视点</a><a href="polymarket.html" class="nav-btn">Polymarket</a><a href="oil-chart.html" class="nav-btn">原油图谱</a></nav></div></div>
+    <main class="container">
+        <div class="research-header"><h1>智库 & 投行研究观点</h1><p>聚焦伊朗战争、霍尔木兹海峡、油价、能源安全与宏观传导。更新时间：{esc(updated)}</p></div>
+        <div class="stats"><div class="stat-card"><div class="number">{len(items)}</div><div class="label">核心观点</div></div><div class="stat-card"><div class="number">{len(source_counts)}</div><div class="label">来源机构</div></div><div class="stat-card"><div class="number">{type_counts.get("think_tank", 0) + type_counts.get("institution", 0)}</div><div class="label">智库/机构</div></div><div class="stat-card"><div class="number">{type_counts.get("investment_bank", 0) + type_counts.get("asset_manager", 0) + type_counts.get("news", 0)}</div><div class="label">投行&媒体</div></div></div>
+        <div class="filter-section"><h3>类型筛选</h3><div class="filter-buttons">{buttons_html}</div></div>
+        <div class="cards-grid" id="cardsGrid">{cards}
         </div>
-    </div>
-
-    <div class="container">
-        <div class="page-header">
-            <h2>智库 & 投行研究观点</h2>
-            <p>聚焦伊朗战争、霍尔木兹海峡、油价等中东地缘政治主题</p>
-            <span class="dedup-badge">AI去重处理：从315条精选至60条核心观点 | 按研报日期排序</span>
-        </div>
-'''
-
-# 统计
-source_counts = Counter(e['source'] for e in entries)
-total = len(entries)
-tt_count = sum(1 for e in entries if e['source_type'] == 'think_tank')
-ib_count = sum(1 for e in entries if e['source_type'] == 'investment_bank')
-news_count = sum(1 for e in entries if e['source_type'] == 'news')
-
-stats_html = f'''
-        <div class="stats-grid">
-            <div class="stat-card"><div class="stat-number">{total}</div><div class="stat-label">核心观点</div></div>
-            <div class="stat-card"><div class="stat-number">{len(source_counts)}</div><div class="stat-label">来源机构</div></div>
-            <div class="stat-card"><div class="stat-number">{tt_count}</div><div class="stat-label">智库</div></div>
-            <div class="stat-card"><div class="stat-number">{ib_count + news_count}</div><div class="stat-label">投行&媒体</div></div>
-        </div>
-
-        <div class="filter-bar">
-            <div class="filter-group">
-                <span class="filter-label">类型筛选:</span>
-                <button class="filter-btn active" data-type="all">全部</button>
-                <button class="filter-btn" data-type="investment_bank">投资银行</button>
-                <button class="filter-btn" data-type="news">财经媒体</button>
-                <button class="filter-btn" data-type="think_tank">智库</button>
-            </div>
-        </div>
-
-        <div class="institution-tabs">
-            <button class="inst-tab active" data-source="all">全部<span class="badge">{total}</span></button>
-'''
-
-for src, count in source_counts.most_common(12):
-    short = src[:15] + '...' if len(src) > 15 else src
-    stats_html += f'            <button class="inst-tab" data-source="{src}">{short}<span class="badge">{count}</span></button>\n'
-
-stats_html += '        </div>\n\n        <div class="insights-grid" id="insightsGrid">\n'
-
-# 翻译和情绪映射
-TITLE_MAP = {
-    'barclays raises': ('巴克莱上调2026年布伦特油价预测至85美元', 'bullish'),
-    'goldman raises': ('高盛因史上最大供应冲击上调油价预测', 'bullish'),
-    'goldman sachs oil price': ('高盛油价预测与能源展望', 'bullish'),
-    'macquarie': ('麦格理：油价或达200美元（风险概率40%）', 'bullish'),
-    'oil price to hit $250': ('油价或突破250-370美元', 'bullish'),
-    'oil at $200': ('油价200美元？麦格理警告40%风险概率', 'bullish'),
-    'iran war pushes': ('伊朗战争推动油价预测创纪录上调', 'bullish'),
-    'iran war shock': ('伊朗战争冲击推动油价预测大幅上调', 'bullish'),
-    'brokerages hike': ('多家投行上调油价预测', 'bullish'),
-    'jpmorgan': ('摩根大通油市展望与供应分析', 'neutral'),
-    'morgan stanley': ('摩根士丹利能源展望', 'neutral'),
-    'bank of america': ('美银能源展望与油价预测', 'bullish'),
-    'how the iran war could shift': ('伊朗战争如何改变全球能源政策', 'neutral'),
-    'will the iran war redraw': ('伊朗战争会重绘全球能源版图吗', 'neutral'),
-    'us-iran war': ('美伊战争对油气市场影响', 'bearish'),
-    'oil supply disruption': ('石油供应中断风险分析', 'bearish'),
-    'strait of hormuz': ('霍尔木兹海峡供应风险', 'bearish'),
-}
-
-COLORS = {
-    'Goldman Sachs': '#7399C6', 'Morgan Stanley': '#003087', 'JPMorgan': '#003B70',
-    'Citi': '#003B70', 'Bank of America': '#012169', 'Barclays': '#00aeef',
-    'Deutsche Bank': '#0018a8', 'UBS': '#e60000', 'Credit Suisse': '#1e3a5f',
-    'HSBC': '#db0011', 'Societe Generale': '#e50278', 'Nomura': '#c41e3a',
-    'Macquarie': '#00838f', 'Reuters': '#fb8023', 'Bloomberg': '#2800d7',
-    'Bloomberg/Goldman': '#2800d7', 'CNBC': '#1d5f6e', 'Atlantic Council': '#1e3a5f',
-    'ECFR': '#003B5C', 'GMF': '#1e40af', 'BIS': '#1e3a5f', 'Analysts': '#64748b',
-    'Investment Banks': '#1e3a5f', 'MarketWatch': '#567384'
-}
-
-SHORTS = {
-    'Goldman Sachs': 'GS', 'Morgan Stanley': 'MS', 'JPMorgan': 'JPM', 'Citi': 'Citi',
-    'Bank of America': 'BofA', 'Barclays': 'BARC', 'Deutsche Bank': 'DB', 'UBS': 'UBS',
-    'Credit Suisse': 'CS', 'HSBC': 'HSBC', 'Societe Generale': 'SG', 'Nomura': 'NOM',
-    'Macquarie': 'MQG', 'Reuters': 'RTRS', 'Bloomberg': 'BLOOM', 'Bloomberg/Goldman': 'BG',
-    'CNBC': 'CNBC', 'Atlantic Council': 'AC', 'ECFR': 'ECFR', 'GMF': 'GMF',
-    'BIS': 'BIS', 'Analysts': 'ANL', 'Investment Banks': 'IB', 'MarketWatch': 'MW'
-}
-
-def get_card(entry):
-    source = entry['source']
-    title = entry['title']
-    summary = entry.get('summary', '')
-    date = entry.get('report_date', '')  # 使用研报日期
-    link = entry['link']
-    stype = entry.get('source_type', 'other')
-    
-    color = COLORS.get(source, '#64748b')
-    short = SHORTS.get(source, source[:3].upper())
-    
-    # 匹配翻译
-    title_zh = title
-    sentiment = 'neutral'
-    for key, (zh, sent) in TITLE_MAP.items():
-        if key.lower() in title.lower():
-            title_zh = zh
-            sentiment = sent
-            break
-    
-    # 清理摘要
-    clean = re.sub(r'<[^>]+>', ' ', summary).replace('\n', ' ').strip()
-    if len(clean) > 200:
-        clean = clean[:200] + '...'
-    
-    sent_class = {'bullish': 'sentiment-bullish', 'bearish': 'sentiment-bearish'}.get(sentiment, 'sentiment-neutral')
-    sent_text = {'bullish': '看多', 'bearish': '看空'}.get(sentiment, '中性')
-    
-    return f'''<div class="insight-card" data-type="{stype}" data-source="{source}">
-    <div class="insight-header">
-        <div class="institution-info">
-            <div class="institution-logo" style="background: {color}">{short}</div>
-            <div class="institution-detail">
-                <div class="institution-name">{source}</div>
-                <div class="institution-type">{stype.replace('_', ' ').title()}</div>
-            </div>
-        </div>
-        <div class="insight-date">{date}</div>
-    </div>
-    <h4 class="insight-title">{title_zh}</h4>
-    <div class="insight-keypoints">
-        <h5>核心要点</h5>
-        <ul><li>{clean}</li></ul>
-    </div>
-    <div class="insight-footer">
-        <span class="sentiment-tag {sent_class}">{sent_text}</span>
-        <a href="{link}" class="read-more" target="_blank">查看原文 →</a>
-    </div>
-</div>'''
-
-cards = [get_card(e) for e in entries]
-cards_html = '\n'.join(cards)
-
-HTML_FOOT = '''
-        </div>
-    </div>
-
+    </main>
+    <footer class="footer">数据来源：研究机构、投行与财经媒体公开页面</footer>
     <script>
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                filterCards();
-            });
-        });
-
-        document.querySelectorAll('.inst-tab').forEach(tab => {
-            tab.addEventListener('click', function() {
-                document.querySelectorAll('.inst-tab').forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
-                filterCards();
-            });
-        });
-
-        function filterCards() {
-            const typeFilter = document.querySelector('.filter-btn.active')?.dataset.type || 'all';
-            const sourceFilter = document.querySelector('.inst-tab.active')?.dataset.source || 'all';
-            
-            document.querySelectorAll('.insight-card').forEach(card => {
-                const type = card.dataset.type;
-                const source = card.dataset.source;
-                
-                const typeMatch = typeFilter === 'all' || type === typeFilter;
-                const sourceMatch = sourceFilter === 'all' || source === sourceFilter;
-                
-                card.style.display = typeMatch && sourceMatch ? 'flex' : 'none';
-            });
-        }
+        function filterCards(type) {{
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.filter === type));
+            document.querySelectorAll('.card').forEach(card => {{
+                const show = type === 'all' || card.dataset.type === type;
+                card.classList.toggle('hidden', !show);
+            }});
+        }}
     </script>
 </body>
-</html>'''
+</html>
+'''
+    HTML_PATH.write_text(html_text, encoding="utf-8")
+    print(f"[OK] generated {HTML_PATH} with {len(items)} items")
 
-with open('research.html', 'w', encoding='utf-8') as f:
-    f.write(HTML_HEAD + stats_html + cards_html + HTML_FOOT)
 
-print(f'Generated research.html with {len(entries)} entries')
-print(f'Sorted by report date (newest first)')
-print('Top 5 sources:', dict(source_counts.most_common(5)))
+if __name__ == "__main__":
+    main()

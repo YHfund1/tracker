@@ -8,6 +8,13 @@
 ---
 更新过程尽量不生成新的脚本，如果需要生成新的测试脚本和测试文件，请在更新完成后删除测试脚本和测试文件
 
+## 低Token更新原则（强制）
+
+- 不要把大文件全文贴给AI，包括 `news.html`、`oil-chart.html`、`data/jin10_cb_for_ai.json`、`data/polymarket_data.json`、`data/eco_data.json`、`market_data.json`。
+- AI只处理 `cache/ai_inputs/` 里的本次新增小文件，并只输出 `cache/ai_outputs/` 里的 delta JSON。
+- 正式历史数据和HTML由脚本合并/生成；除非调试脚本，否则不要让AI直接输出整页HTML。
+- 推荐执行顺序：抓取脚本 -> 生成AI小输入 -> AI输出delta -> 合并脚本 -> HTML生成脚本。
+
 ## 缓存与冗余文件约定
 
 - 可随时删除的临时文件统一放入 `cache/`，不要散落在项目根目录。
@@ -26,8 +33,15 @@ python generate_timelapse_video.py
 
 ### 下方供应链跟踪
 **参考文件**: `scripts/SUPPLY_CHAIN_PROMPT.md`
-- 读取该文件中的更新逻辑和提示词
-- 更新index.html中的供应链跟踪部分
+- 生成近期索引，AI只输出delta：
+```bash
+python scripts/prepare_supply_chain_ai_input.py
+```
+- AI输出 `cache/ai_outputs/supply_chain_delta.json` 后合并：
+```bash
+python scripts/merge_supply_chain_delta.py
+```
+- `index.html` 会自动读取 `data/supply-chain.json`
 
 ---
 
@@ -68,9 +82,11 @@ python update_data_from_excel.py
 ## 4. 每日简报网页 (briefing.html) 更新
 
 **参考文件**: `BRIEFING_UPDATE_PROMPT.md`
-- 按照该文件中的更新流程执行
-- 生成新的简报内容
-- 更新briefing.html和briefing_data.json
+- AI只更新 `briefing_data.json`，不要输出完整 `briefing.html`
+- 生成网页：
+```bash
+python scripts/generate_briefing_html.py
+```
 
 ---
 
@@ -89,17 +105,26 @@ python scrape_cls_final.py
 ## 6. 央行表态网页 (central-bank-tracker.html) 更新
 
 **参考文件**: `scripts/AI_PROCESS_PROMPT.md`
-- 读取该文件中的AI处理流程
-- 更新央行表态数据
-- 更新central-bank-tracker.html
+- 运行抓取脚本后，只读取 `cache/ai_inputs/cb_new_items.json`
+- AI输出 `cache/ai_outputs/cb_delta.json`
+- 合并央行表态：
+```bash
+python scripts/merge_cb_delta.py
+```
+- `central-bank-tracker.html` 自动读取 `data/cb-statements.json` 和 `data/fedwatch.json`，无需重写HTML
 
 ---
 
 ## 7. 研究视点网页 (research.html) 更新
 
 **参考文件**: `research.md`
-- 读取research.md中的研究内容
-- 更新research.html
+- 运行抓取脚本后，只读取 `cache/ai_inputs/research_candidates.json`
+- AI输出 `cache/ai_outputs/research_delta.json`
+- 合并并生成网页：
+```bash
+python scripts/merge_research_delta.py
+python scripts/generate_research_html.py
+```
 
 ---
 
@@ -119,7 +144,12 @@ python update_polymarket_html.py
 ## 9. 海湾原油图谱网页 (oil-chart.html) 更新
 
 ### 更新要求：
-1. **使用全网搜索功能**搜索以下国家能源设施相关新闻：
+1. 生成近期历史小输入：
+```bash
+python scripts/prepare_oil_news_ai_input.py
+```
+
+2. **使用全网搜索功能**搜索以下国家能源设施相关新闻：
    - 沙特阿拉伯
    - 伊朗
    - 伊拉克
@@ -129,16 +159,19 @@ python update_polymarket_html.py
    - 阿曼
    - 巴林
 
-2. **时间范围**: 近72小时内的最新信息
+3. **时间范围**: 近72小时内的最新信息
 
-3. **更新规则**:
+4. **更新规则**:
    - ✅ 添加新增的新闻
    - ✅ 保留旧的新闻（不要删除）
    - ❌ 内容大体相同的重复新闻不重复添加
    - 📅 按时间从新到早排序
 
-### 更新位置：
-oil-chart.html中"各国最新动态"部分
+5. AI只输出 `cache/ai_outputs/oil_news_delta.json`，然后执行：
+```bash
+python scripts/merge_oil_news_delta.py
+python scripts/apply_oil_news_to_html.py
+```
 
 ---
 
@@ -234,7 +267,7 @@ git push origin main
 ## 注意事项
 
 1. **war-situation.html**: 必须手动翻译，确保中文流畅准确
-2. **oil-chart.html**: 只添加新新闻，不删除旧新闻
+2. **oil-chart**: 只更新 `data/oil_news.json` 的新增动态，再由脚本写回HTML
 3. **Excel文件**: 确保`全球市场.xlsx`已更新到最新数据后再运行脚本
 4. **图片链接**: war-situation中的图片如无法显示，需下载到本地或替换为可用链接
 5. **Git提交**: 提交信息建议包含更新日期和主要内容
