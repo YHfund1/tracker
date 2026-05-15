@@ -1,7 +1,59 @@
 {
-  "fetchTime": "2026-05-12T15:16:27",
-  "totalItems": 81,
+  "fetchTime": "2026-05-15T12:13:27",
+  "totalItems": 87,
   "items": [
+    {
+      "id": "751b2323d8d1",
+      "date": "2026-05-14",
+      "source": "IMF",
+      "source_zh": "国际货币基金组织",
+      "source_type": "institution",
+      "title_zh": "IMF警告伊朗冲突威胁全球增长，油价冲击或持续",
+      "original_title": "IMF warns Iran conflict threatens global growth, impacts oil supply",
+      "summary_zh": "IMF警告伊朗冲突可能阻碍全球增长和石油供应，若冲突持续，能源价格冲击将通过通胀渠道向全球经济传导；IMF同时指出伊拉克已向IMF和世界银行寻求财政援助，反映中东产油国财政压力显著上升。",
+      "sentiment": "bearish",
+      "relevance_score": 5,
+      "link": "https://www.al-monitor.com/originals/2026/05/imf-sees-risks-global-growth-forecast-over-sustained-iran-war"
+    },
+    {
+      "id": "0e7481f547ef",
+      "date": "2026-05-13",
+      "source": "IEA",
+      "source_zh": "国际能源署",
+      "source_type": "institution",
+      "title_zh": "IEA 5月报告：伊朗战争致全球石油供应低于需求，库存以创纪录速度消耗",
+      "original_title": "Oil Market Report - May 2026: Global oil supply to plunge below demand as Iran war drains inventories",
+      "summary_zh": "IEA 5月报告指出，伊朗战争已导致全球石油供应低于需求，3-4月库存消耗达2.46亿桶，创历史纪录；全球石油供应4月降至95.1 mb/d，较战前累计损失超1.8 mb/d；2026年全球石油需求预测下调420 kb/d，较战前预测低1.3 mb/d。",
+      "sentiment": "bearish",
+      "relevance_score": 5,
+      "link": "https://www.iea.org/reports/oil-market-report-may-2026"
+    },
+    {
+      "id": "dd70d4ff2e6c",
+      "date": "2026-05-13",
+      "source": "HSToday",
+      "source_zh": "海事安全分析",
+      "source_type": "analyst",
+      "title_zh": "伊朗收紧霍尔木兹管控，商业航运被迫进入受控航道",
+      "original_title": "Iran Tightens Grip on Strait of Hormuz as Shipping Forced Into Controlled Routes",
+      "summary_zh": "海事安全分析报告指出，伊朗正通过指定航道、暗船转运和制裁规避操作系统性收紧对霍尔木兹的管控；伊朗领水内的船对船转运、加油和长期暗锚行为激增，显示制裁规避操作正在扩大；商业航运通行仍受到严格约束。",
+      "sentiment": "bearish",
+      "relevance_score": 5,
+      "link": "https://www.hstoday.us/subject-matter-areas/maritime-security/iran-tightens-grip-on-strait-of-hormuz-as-shipping-forced-into-controlled-routes/"
+    },
+    {
+      "id": "e6ae6efdceb5",
+      "date": "2026-05-13",
+      "source": "Hapag-Lloyd",
+      "source_zh": "赫伯罗特",
+      "source_type": "institution",
+      "title_zh": "赫伯罗特：霍尔木兹中断每周额外成本高达6000万美元",
+      "original_title": "Hapag-Lloyd Hit With $60M Weekly Costs From Hormuz Disruption",
+      "summary_zh": "全球第五大集装箱航运公司赫伯罗特披露，霍尔木兹海峡中断已导致其每周额外成本高达6000万美元，主要来自绕行、等待、保险和燃油附加费；这一数字反映了全球航运业因霍尔木兹封锁承受的系统性成本压力。",
+      "sentiment": "bearish",
+      "relevance_score": 4,
+      "link": "https://www.roic.ai/news/hapag-lloyd-hit-with-60m-weekly-costs-from-hormuz-disruption-05-13-2026"
+    },
     {
       "id": "6057bb2915a1",
       "date": "2026-05-12",
@@ -40,6 +92,32 @@
       "sentiment": "neutral",
       "relevance_score": 4,
       "link": "https://www.iss.europa.eu/press/alice-ekman-quoted-france-info"
+    },
+    {
+      "id": "7367e9ad655a",
+      "date": "2026-05-11",
+      "source": "NORDEN",
+      "source_zh": "诺顿航运",
+      "source_type": "institution",
+      "title_zh": "诺顿航运：霍尔木兹中断正在创造“双轨”油轮市场",
+      "original_title": "NORDEN Warns Hormuz Disruption Is Creating a 'Two-Tier' Tanker Market",
+      "summary_zh": "丹麦航运巨头诺顿警告，霍尔木兹持续中断正在形成“双轨”油轮市场：能够绕行或获得护航的船只与被困波斯湾的船只之间，运费、保险和时效出现结构性分化，这一格局将在冲突结束后持续影响全球油轮市场定价。",
+      "sentiment": "neutral",
+      "relevance_score": 4,
+      "link": "https://gcaptain.com/norden-warns-hormuz-disruption-is-creating-a-two-tier-tanker-market/"
+    },
+    {
+      "id": "fae6c7b32892",
+      "date": "2026-05-11",
+      "source": "US Treasury",
+      "source_zh": "美国财政部",
+      "source_type": "institution",
+      "title_zh": "美国对伊朗向中国输油实施新制裁，12个实体和个人被列名",
+      "original_title": "US Issues New Sanctions Over Iran's Oil Shipments to China",
+      "summary_zh": "美国财政部5月11日宣布对12个与伊朗向中国输油相关的实体和个人实施制裁，这是'经济愤怒'制裁行动的最新一轮；制裁升级将进一步压缩伊朗原油通过非正式渠道流向中国的空间，并增加中国相关买家的合规风险。",
+      "sentiment": "bearish",
+      "relevance_score": 4,
+      "link": "https://www.reuters.com/world/china/us-issues-new-sanctions-over-irans-oil-shipments-china-2026-05-11/"
     },
     {
       "id": "existing-0001",

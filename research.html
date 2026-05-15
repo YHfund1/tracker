@@ -50,10 +50,70 @@
 <body>
     <div class="header"><div class="header-main"><div class="header-logo"><img src="images/header.png" alt="Logo"><span class="logo-text">中东地缘跟踪</span></div><nav class="header-nav" id="navCenter"><a href="index.html" class="nav-btn">海峡跟踪</a><a href="data-tracking.html" class="nav-btn">全球市场</a><a href="war-situation.html" class="nav-btn">战局形势</a><a href="briefing.html" class="nav-btn">每日简报</a><a href="news.html" class="nav-btn">实时新闻</a><a href="central-bank-tracker.html" class="nav-btn">央行表态</a><a href="eco-track.html" class="nav-btn">经济数据</a><a href="research.html" class="nav-btn active">研究视点</a><a href="polymarket.html" class="nav-btn">Polymarket</a><a href="oil-chart.html" class="nav-btn">原油图谱</a></nav></div></div>
     <main class="container">
-        <div class="research-header"><h1>智库 & 投行研究观点</h1><p>聚焦伊朗战争、霍尔木兹海峡、油价、能源安全与宏观传导。更新时间：2026-05-12 15:16</p></div>
-        <div class="stats"><div class="stat-card"><div class="number">81</div><div class="label">核心观点</div></div><div class="stat-card"><div class="number">15</div><div class="label">来源机构</div></div><div class="stat-card"><div class="number">17</div><div class="label">智库/机构</div></div><div class="stat-card"><div class="number">64</div><div class="label">投行&媒体</div></div></div>
+        <div class="research-header"><h1>智库 & 投行研究观点</h1><p>聚焦伊朗战争、霍尔木兹海峡、油价、能源安全与宏观传导。更新时间：2026-05-15 12:13</p></div>
+        <div class="stats"><div class="stat-card"><div class="number">87</div><div class="label">核心观点</div></div><div class="stat-card"><div class="number">21</div><div class="label">来源机构</div></div><div class="stat-card"><div class="number">22</div><div class="label">智库/机构</div></div><div class="stat-card"><div class="number">64</div><div class="label">投行&媒体</div></div></div>
         <div class="filter-section"><h3>类型筛选</h3><div class="filter-buttons"><button class="filter-btn active" data-filter="all" onclick="filterCards('all')">全部</button><button class="filter-btn" data-filter="investment_bank" onclick="filterCards('investment_bank')">投资银行</button><button class="filter-btn" data-filter="asset_manager" onclick="filterCards('asset_manager')">资管机构</button><button class="filter-btn" data-filter="news" onclick="filterCards('news')">财经媒体</button><button class="filter-btn" data-filter="think_tank" onclick="filterCards('think_tank')">智库</button><button class="filter-btn" data-filter="institution" onclick="filterCards('institution')">国际机构</button></div></div>
         <div class="cards-grid" id="cardsGrid">
+            <div class="card" data-type="institution" data-source="IMF">
+                <div class="card-header">
+                    <span class="source-badge">国际货币基金组织</span>
+                    <span class="sentiment bearish">风险警示</span>
+                </div>
+                <h3>IMF警告伊朗冲突威胁全球增长，油价冲击或持续</h3>
+                <p class="original-title">IMF warns Iran conflict threatens global growth, impacts oil supply</p>
+                <p class="summary">IMF警告伊朗冲突可能阻碍全球增长和石油供应，若冲突持续，能源价格冲击将通过通胀渠道向全球经济传导；IMF同时指出伊拉克已向IMF和世界银行寻求财政援助，反映中东产油国财政压力显著上升。</p>
+                <div class="meta">
+                    <span>2026-05-14</span>
+                    <span class="relevance-score">相关度 5/5</span>
+                </div>
+                <a href="https://www.al-monitor.com/originals/2026/05/imf-sees-risks-global-growth-forecast-over-sustained-iran-war" target="_blank" class="read-more">查看原文 -></a>
+            </div>
+
+            <div class="card" data-type="institution" data-source="IEA">
+                <div class="card-header">
+                    <span class="source-badge">国际能源署</span>
+                    <span class="sentiment bearish">风险警示</span>
+                </div>
+                <h3>IEA 5月报告：伊朗战争致全球石油供应低于需求，库存以创纪录速度消耗</h3>
+                <p class="original-title">Oil Market Report - May 2026: Global oil supply to plunge below demand as Iran war drains inventories</p>
+                <p class="summary">IEA 5月报告指出，伊朗战争已导致全球石油供应低于需求，3-4月库存消耗达2.46亿桶，创历史纪录；全球石油供应4月降至95.1 mb/d，较战前累计损失超1.8 mb/d；2026年全球石油需求预测下调420 kb/d，较战前预测低1.3 mb/d。</p>
+                <div class="meta">
+                    <span>2026-05-13</span>
+                    <span class="relevance-score">相关度 5/5</span>
+                </div>
+                <a href="https://www.iea.org/reports/oil-market-report-may-2026" target="_blank" class="read-more">查看原文 -></a>
+            </div>
+
+            <div class="card" data-type="analyst" data-source="HSToday">
+                <div class="card-header">
+                    <span class="source-badge">海事安全分析</span>
+                    <span class="sentiment bearish">风险警示</span>
+                </div>
+                <h3>伊朗收紧霍尔木兹管控，商业航运被迫进入受控航道</h3>
+                <p class="original-title">Iran Tightens Grip on Strait of Hormuz as Shipping Forced Into Controlled Routes</p>
+                <p class="summary">海事安全分析报告指出，伊朗正通过指定航道、暗船转运和制裁规避操作系统性收紧对霍尔木兹的管控；伊朗领水内的船对船转运、加油和长期暗锚行为激增，显示制裁规避操作正在扩大；商业航运通行仍受到严格约束。</p>
+                <div class="meta">
+                    <span>2026-05-13</span>
+                    <span class="relevance-score">相关度 5/5</span>
+                </div>
+                <a href="https://www.hstoday.us/subject-matter-areas/maritime-security/iran-tightens-grip-on-strait-of-hormuz-as-shipping-forced-into-controlled-routes/" target="_blank" class="read-more">查看原文 -></a>
+            </div>
+
+            <div class="card" data-type="institution" data-source="Hapag-Lloyd">
+                <div class="card-header">
+                    <span class="source-badge">赫伯罗特</span>
+                    <span class="sentiment bearish">风险警示</span>
+                </div>
+                <h3>赫伯罗特：霍尔木兹中断每周额外成本高达6000万美元</h3>
+                <p class="original-title">Hapag-Lloyd Hit With $60M Weekly Costs From Hormuz Disruption</p>
+                <p class="summary">全球第五大集装箱航运公司赫伯罗特披露，霍尔木兹海峡中断已导致其每周额外成本高达6000万美元，主要来自绕行、等待、保险和燃油附加费；这一数字反映了全球航运业因霍尔木兹封锁承受的系统性成本压力。</p>
+                <div class="meta">
+                    <span>2026-05-13</span>
+                    <span class="relevance-score">相关度 4/5</span>
+                </div>
+                <a href="https://www.roic.ai/news/hapag-lloyd-hit-with-60m-weekly-costs-from-hormuz-disruption-05-13-2026" target="_blank" class="read-more">查看原文 -></a>
+            </div>
+
             <div class="card" data-type="investment_bank" data-source="Societe Generale">
                 <div class="card-header">
                     <span class="source-badge">法兴</span>
@@ -97,6 +157,36 @@
                     <span class="relevance-score">相关度 4/5</span>
                 </div>
                 <a href="https://www.iss.europa.eu/press/alice-ekman-quoted-france-info" target="_blank" class="read-more">查看原文 -></a>
+            </div>
+
+            <div class="card" data-type="institution" data-source="NORDEN">
+                <div class="card-header">
+                    <span class="source-badge">诺顿航运</span>
+                    <span class="sentiment neutral">中性</span>
+                </div>
+                <h3>诺顿航运：霍尔木兹中断正在创造“双轨”油轮市场</h3>
+                <p class="original-title">NORDEN Warns Hormuz Disruption Is Creating a &#x27;Two-Tier&#x27; Tanker Market</p>
+                <p class="summary">丹麦航运巨头诺顿警告，霍尔木兹持续中断正在形成“双轨”油轮市场：能够绕行或获得护航的船只与被困波斯湾的船只之间，运费、保险和时效出现结构性分化，这一格局将在冲突结束后持续影响全球油轮市场定价。</p>
+                <div class="meta">
+                    <span>2026-05-11</span>
+                    <span class="relevance-score">相关度 4/5</span>
+                </div>
+                <a href="https://gcaptain.com/norden-warns-hormuz-disruption-is-creating-a-two-tier-tanker-market/" target="_blank" class="read-more">查看原文 -></a>
+            </div>
+
+            <div class="card" data-type="institution" data-source="US Treasury">
+                <div class="card-header">
+                    <span class="source-badge">美国财政部</span>
+                    <span class="sentiment bearish">风险警示</span>
+                </div>
+                <h3>美国对伊朗向中国输油实施新制裁，12个实体和个人被列名</h3>
+                <p class="original-title">US Issues New Sanctions Over Iran&#x27;s Oil Shipments to China</p>
+                <p class="summary">美国财政部5月11日宣布对12个与伊朗向中国输油相关的实体和个人实施制裁，这是&#x27;经济愤怒&#x27;制裁行动的最新一轮；制裁升级将进一步压缩伊朗原油通过非正式渠道流向中国的空间，并增加中国相关买家的合规风险。</p>
+                <div class="meta">
+                    <span>2026-05-11</span>
+                    <span class="relevance-score">相关度 4/5</span>
+                </div>
+                <a href="https://www.reuters.com/world/china/us-issues-new-sanctions-over-irans-oil-shipments-china-2026-05-11/" target="_blank" class="read-more">查看原文 -></a>
             </div>
 
             <div class="card" data-type="investment_bank" data-source="Morgan Stanley">
