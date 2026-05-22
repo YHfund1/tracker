@@ -1,7 +1,72 @@
 {
-  "fetchTime": "2026-05-15T12:13:27",
-  "totalItems": 87,
+  "fetchTime": "2026-05-22T10:49:12",
+  "totalItems": 93,
   "items": [
+    {
+      "id": "9c74fc521c48",
+      "date": "2026-05-21",
+      "source": "EUISS",
+      "source_zh": "欧盟安全研究所",
+      "source_type": "think_tank",
+      "title_zh": "伊朗战争打开欧盟深化海湾关系的战略窗口",
+      "original_title": "Katarzyna Sidlo's Commentary featured in Semafor",
+      "summary_zh": "EUISS转引观点认为，伊朗战争与美国安全保证弱化正在促使海湾国家重新评估外部伙伴，欧盟有机会加强与海湾在能源、安全和经贸层面的合作。该观点提示海湾能源供应链的政治重组正在加速。",
+      "sentiment": "neutral",
+      "relevance_score": 4,
+      "link": "https://www.iss.europa.eu/press/katarzyna-sidlos-commentary-featured-semafor"
+    },
+    {
+      "id": "66a9a06a62d2",
+      "date": "2026-05-21",
+      "source": "BIS",
+      "source_zh": "国际清算银行",
+      "source_type": "institution",
+      "title_zh": "生产网络中的货币弹性决定长供应链的现金周转韧性",
+      "original_title": "Elasticity of money in production networks, working capital, credit lines and financial conditions",
+      "summary_zh": "BIS论文强调透支和信用额度可缓解长供应链中的现金先付约束，避免支付链条阻塞。该框架可用于理解能源、航运和化工长链条在霍尔木兹扰动下为何需要更多营运资金和备用信贷。",
+      "sentiment": "neutral",
+      "relevance_score": 2,
+      "link": "https://www.bis.org/publ/work1350.htm"
+    },
+    {
+      "id": "65665ed3c676",
+      "date": "2026-05-18",
+      "source": "SWP",
+      "source_zh": "德国国际安全事务研究所",
+      "source_type": "think_tank",
+      "title_zh": "美国-以色列对伊战争重塑“抵抗轴心”与海湾联盟",
+      "original_title": "The Axis of Resistance and Shifting Gulf Alliances",
+      "summary_zh": "该访谈讨论美国-以色列对伊战争如何改变中东力量平衡，并推动“抵抗轴心”、海湾国家联盟与伊朗长期威慑战略重新配置。对霍尔木兹安全、海湾能源出口秩序和地区风险溢价具有直接参考价值。",
+      "sentiment": "bullish",
+      "relevance_score": 5,
+      "link": "https://www.thecairoreview.com/podcasts/the-axis-of-resistance-and-shifting-gulf-alliances/"
+    },
+    {
+      "id": "6360c502ee37",
+      "date": "2026-05-17",
+      "source": "SWP",
+      "source_zh": "德国国际安全事务研究所",
+      "source_type": "think_tank",
+      "title_zh": "沃什接任美联储主席被视为欧洲金融环境的新不确定性",
+      "original_title": "\"Fur uns keine gute Nachricht\"",
+      "summary_zh": "SWP专家对沃什接任美联储主席表达担忧，认为美国货币政策方向变化可能外溢至欧洲。在能源冲击和债券收益率上行并存背景下，美联储沟通变化会放大欧元区和全球金融条件的不确定性。",
+      "sentiment": "neutral",
+      "relevance_score": 3,
+      "link": "https://web.de/magazine/politik/us-politik/politikwissenschaftlerin-nachricht-42276288"
+    },
+    {
+      "id": "30a8748e34ab",
+      "date": "2026-05-15",
+      "source": "BIS",
+      "source_zh": "国际清算银行",
+      "source_type": "institution",
+      "title_zh": "欧元区地缘风险指标显示本土冲击会通过金融条件传导",
+      "original_title": "Geopolitical risk in the euro area: measurement and transmission",
+      "summary_zh": "BIS研究构建了更贴近欧洲本土新闻的欧元区地缘政治风险指标，强调地缘冲击会影响金融市场与宏观传导。对评估伊朗战争、能源价格和欧洲央行政策反应之间的联动有方法论意义。",
+      "sentiment": "neutral",
+      "relevance_score": 3,
+      "link": "https://www.bis.org/publ/work1348.htm"
+    },
     {
       "id": "751b2323d8d1",
       "date": "2026-05-14",
@@ -53,6 +118,19 @@
       "sentiment": "bearish",
       "relevance_score": 4,
       "link": "https://www.roic.ai/news/hapag-lloyd-hit-with-60m-weekly-costs-from-hormuz-disruption-05-13-2026"
+    },
+    {
+      "id": "41c411cc09a8",
+      "date": "2026-05-13",
+      "source": "SWP",
+      "source_zh": "德国国际安全事务研究所",
+      "source_type": "think_tank",
+      "title_zh": "伊中关系与俄罗斯变量影响伊朗的全球秩序观",
+      "original_title": "Iran's relationship with China",
+      "summary_zh": "该播客分析伊朗与中国关系、俄罗斯在三边关系中的角色，以及德黑兰如何理解全球秩序。对观察中国在霍尔木兹通行豁免、伊朗能源出口和制裁规避链条中的位置有辅助价值。",
+      "sentiment": "neutral",
+      "relevance_score": 4,
+      "link": "https://merics.org/en/podcast/irans-relationship-china-hamidreza-azizi-and-david-jalivand"
     },
     {
       "id": "6057bb2915a1",
