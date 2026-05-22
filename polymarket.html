@@ -151,7 +151,7 @@
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="mb-8">
-            <h1 class="text-3xl font-bold text-slate-800 mb-2">伊朗相关预测市场追踪</h1>
+            <h1 class="text-3xl font-bold text-slate-800 mb-2">美伊相关预测市场追踪</h1>
             <p class="text-slate-500">基于 Polymarket 实时数据 <span id="update-time"></span></p>
         </div>
 
@@ -209,50 +209,221 @@
             }
 
             const events = data.events || {};
+            const order = data.eventOrder || Object.keys(events);
             let chartIdx = 0;
 
-            // 1. 特朗普宣布结束军事行动
-            const trumpData = events['trump-announces-end-of-military-operations-against-iran-by'];
-            if (trumpData) {
-                container.appendChild(createEventCard(trumpData, '特朗普宣布结束对伊朗军事行动',
-                    '不同截止日期的概率预测',
-                    ['April 7th', 'April 15th', 'April 30th', 'June 30th'], chartIdx++));
+            for (const slug of order) {
+                const eventData = events[slug];
+                if (!eventData) continue;
+                const card = createConfiguredCard(eventData, chartIdx);
+                if (card) {
+                    container.appendChild(card);
+                    chartIdx += 1;
+                }
             }
 
-            // 2. 美伊停火
-            const ceasefireData = events['us-x-iran-ceasefire-by'];
-            if (ceasefireData) {
-                container.appendChild(createEventCard(ceasefireData, '美伊停火时间',
-                    '不同截止日期的概率预测',
-                    ['April 30', 'May 31', 'June 30', 'December 31'], chartIdx++));
+            if (chartIdx === 0) {
+                container.innerHTML = '<div class="card rounded-xl p-6 col-span-2 text-slate-500">暂无活跃的美伊相关预测市场。</div>';
+            }
+        }
+
+        function activeMarkets(eventData) {
+            return (eventData.markets || []).filter(m => m.active !== false && !m.closed);
+        }
+
+        function yesData(market) {
+            return (market.outcomes || {}).Yes || {};
+        }
+
+        function formatVolume(value) {
+            const volume = parseFloat(value || 0);
+            if (!volume) return '';
+            if (volume >= 1000000) return `$${(volume / 1000000).toFixed(1)}M`;
+            if (volume >= 1000) return `$${Math.round(volume / 1000)}K`;
+            return `$${Math.round(volume)}`;
+        }
+
+        function marketLabel(question, kind) {
+            const q = (question || '').replace(/\?$/g, '').trim();
+            if (kind === 'ranked') {
+                if (/no qualifying/i.test(q)) return '无合格会谈';
+                const inMatch = q.match(/\bin ([^?]+)$/i);
+                if (inMatch) return inMatch[1].replace(/^the\s+/i, '');
+            }
+            const byMatch = q.match(/\bby\s+(.+)$/i);
+            if (byMatch) {
+                return byMatch[1]
+                    .replace(/,\s*2026/i, '')
+                    .replace(/\s*2026/i, '')
+                    .replace(/end of\s+/i, '')
+                    .trim();
+            }
+            return q.replace(/^Will\s+/i, '').slice(0, 54);
+        }
+
+        function createConfiguredCard(eventData, chartIdx) {
+            if (eventData.kind === 'simple') {
+                return createConfiguredSimpleCard(eventData, chartIdx);
+            }
+            return createConfiguredGroupCard(eventData, chartIdx);
+        }
+
+        function createConfiguredGroupCard(eventData, chartIdx) {
+            let markets = activeMarkets(eventData);
+            if (markets.length === 0) return null;
+
+            if (eventData.kind === 'ranked') {
+                markets = markets.sort((a, b) => (yesData(b).currentPrice || 0) - (yesData(a).currentPrice || 0)).slice(0, 8);
+            } else {
+                markets = markets
+                    .sort((a, b) => new Date(a.endDate || '2099-01-01') - new Date(b.endDate || '2099-01-01'))
+                    .slice(0, 8);
             }
 
-            // 3. 霍尔木兹海峡船舶数量
-            const shipsData = events['avg-of-ships-transiting-strait-of-hormuz-end-of-april'];
-            if (shipsData) {
-                container.appendChild(createShipsCard(shipsData, chartIdx++));
-            }
+            const allTimes = new Set();
+            const datasets = [];
+            let probHtml = '<div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-4">';
 
-            // 4. 霍尔木兹海峡恢复正常
-            const normalData = events['strait-of-hormuz-traffic-returns-to-normal-by-april-30'];
-            if (normalData) {
-                container.appendChild(createSimpleCard(normalData, '霍尔木兹海峡恢复正常',
-                    '4月30日前恢复正常的概率', chartIdx++, 'indigo'));
-            }
+            markets.forEach((market, i) => {
+                const yes = yesData(market);
+                const yesPrice = yes.currentPrice || 0;
+                const label = marketLabel(market.question, eventData.kind);
+                const volume = formatVolume(market.volume);
+                const color = colorList[i % colorList.length];
 
-            // 5. 4月原油价格
-            const oilAprilData = events['what-price-will-wti-hit-in-april-2026'];
-            if (oilAprilData) {
-                container.appendChild(createOilCard(oilAprilData, '4月原油价格预测',
-                    'WTI期货价格4月底前触碰概率', chartIdx++));
-            }
+                probHtml += `<div class="flex items-center gap-2 min-w-0">
+                    <div class="w-3 h-3 rounded-full flex-shrink-0" style="background-color: ${color}"></div>
+                    <span class="text-sm text-slate-700 truncate">${label}:</span>
+                    <span class="text-lg font-bold whitespace-nowrap" style="color: ${color}">${yesPrice}%</span>
+                    ${volume ? `<span class="text-xs text-slate-500 whitespace-nowrap">(${volume})</span>` : ''}
+                </div>`;
 
-            // 6. 6月原油价格
-            const oilJuneData = events['cl-hit-jun-2026'];
-            if (oilJuneData) {
-                container.appendChild(createOilCard(oilJuneData, '6月原油价格预测',
-                    'CL期货价格6月底前触碰概率', chartIdx++));
-            }
+                const dataPoints = {};
+                (yes.priceHistory || []).forEach(h => {
+                    allTimes.add(h.time);
+                    dataPoints[h.time] = h.price;
+                });
+                datasets.push({ label, dataPoints, color });
+            });
+            probHtml += '</div>';
+
+            const sortedTimes = Array.from(allTimes).sort();
+            const chartDatasets = datasets.map(ds => ({
+                label: ds.label,
+                data: sortedTimes.map(t => ds.dataPoints[t] ?? null),
+                borderColor: ds.color,
+                backgroundColor: ds.color + '1a',
+                borderWidth: 2,
+                fill: false,
+                tension: 0.35,
+                pointRadius: 0,
+                pointHoverRadius: 4
+            }));
+
+            const card = document.createElement('div');
+            card.className = 'card rounded-xl p-6';
+            card.innerHTML = `
+                <div class="flex items-start justify-between gap-3 mb-1">
+                    <h2 class="text-xl font-semibold text-slate-800">${eventData.displayTitle || eventData.title}</h2>
+                    ${eventData.url ? `<a href="${eventData.url}" target="_blank" class="text-xs text-blue-600 hover:text-blue-800 whitespace-nowrap">Polymarket ↗</a>` : ''}
+                </div>
+                <p class="text-sm text-slate-600 mb-4">${eventData.subtitle || ''}</p>
+                ${probHtml}
+                <div class="chart-container">
+                    <canvas id="chart_${chartIdx}"></canvas>
+                </div>`;
+
+            setTimeout(() => {
+                const ctx = document.getElementById(`chart_${chartIdx}`);
+                if (ctx && sortedTimes.length > 0) {
+                    charts[chartIdx] = new Chart(ctx, {
+                        type: 'line',
+                        data: { labels: sortedTimes, datasets: chartDatasets },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            interaction: { intersect: false, mode: 'index' },
+                            plugins: { legend: { position: 'top', labels: { color: '#334155', font: { size: 11 } } } },
+                            scales: {
+                                x: { grid: { color: 'rgba(100, 116, 139, 0.2)', lineWidth: 0.5, drawBorder: false }, ticks: { color: '#64748b', maxTicksLimit: 10 } },
+                                y: { min: 0, max: 100, grid: { color: 'rgba(100, 116, 139, 0.2)', lineWidth: 0.5, drawBorder: false }, ticks: { color: '#64748b' } }
+                            }
+                        }
+                    });
+                }
+            }, 100);
+
+            return card;
+        }
+
+        function createConfiguredSimpleCard(eventData, chartIdx) {
+            const markets = activeMarkets(eventData);
+            if (markets.length === 0) return null;
+
+            const market = markets[0];
+            const yes = yesData(market);
+            const yesPrice = yes.currentPrice || 0;
+            const noPrice = (market.outcomes || {}).No?.currentPrice ?? Math.max(0, 100 - yesPrice);
+            const history = yes.priceHistory || [];
+            const labels = history.map(h => h.time);
+            const data = history.map(h => h.price);
+            const color = COLORS.blue;
+            const volume = formatVolume(market.volume);
+
+            const card = document.createElement('div');
+            card.className = 'card rounded-xl p-6';
+            card.innerHTML = `
+                <div class="flex items-start justify-between gap-3 mb-1">
+                    <h2 class="text-xl font-semibold text-slate-800">${eventData.displayTitle || eventData.title}</h2>
+                    ${eventData.url ? `<a href="${eventData.url}" target="_blank" class="text-xs text-blue-600 hover:text-blue-800 whitespace-nowrap">Polymarket ↗</a>` : ''}
+                </div>
+                <p class="text-sm text-slate-600 mb-4">${eventData.subtitle || market.question || ''}</p>
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div class="text-center p-4 bg-slate-100 rounded-lg border border-slate-200">
+                        <div class="text-3xl font-bold" style="color: ${color}">${yesPrice}%</div>
+                        <div class="text-sm text-slate-500 mt-1">Yes${volume ? ` · ${volume}` : ''}</div>
+                    </div>
+                    <div class="text-center p-4 bg-slate-100 rounded-lg border border-slate-200">
+                        <div class="text-3xl font-bold text-slate-600">${noPrice}%</div>
+                        <div class="text-sm text-slate-500 mt-1">No</div>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="chart_${chartIdx}"></canvas>
+                </div>`;
+
+            setTimeout(() => {
+                const ctx = document.getElementById(`chart_${chartIdx}`);
+                if (ctx && labels.length > 0) {
+                    charts[chartIdx] = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels,
+                            datasets: [{
+                                label: 'Yes (%)',
+                                data,
+                                borderColor: color,
+                                backgroundColor: color + '1a',
+                                borderWidth: 2,
+                                fill: false,
+                                tension: 0.35,
+                                pointRadius: 0
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: { legend: { display: false } },
+                            scales: {
+                                x: { grid: { color: 'rgba(100, 116, 139, 0.2)', lineWidth: 0.5, drawBorder: false }, ticks: { color: '#64748b', maxTicksLimit: 10 } },
+                                y: { min: 0, max: 100, grid: { color: 'rgba(100, 116, 139, 0.2)', lineWidth: 0.5, drawBorder: false }, ticks: { color: '#64748b' } }
+                            }
+                        }
+                    });
+                }
+            }, 100);
+
+            return card;
         }
 
         // 创建事件卡片
