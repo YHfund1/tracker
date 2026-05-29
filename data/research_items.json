@@ -1,7 +1,20 @@
 {
-  "fetchTime": "2026-05-22T10:49:12",
-  "totalItems": 93,
+  "fetchTime": "2026-05-29T11:31:09",
+  "totalItems": 94,
   "items": [
+    {
+      "id": "fccd6d50a35a",
+      "date": "2026-05-25",
+      "source": "SWP",
+      "source_zh": "德国国际安全事务研究所",
+      "source_type": "think_tank",
+      "title_zh": "“抵抗轴心”是否走到拐点",
+      "original_title": "The Axis of Resistance. Iran, Israel and the struggle for the Middle East.",
+      "summary_zh": "该书/研究简介梳理伊朗自1979年以来通过黎巴嫩真主党、伊拉克什叶派民兵、也门胡塞和哈马斯构建地区网络的逻辑，并提出这一联盟是否已触及承压拐点。对判断伊朗在霍尔木兹、黎巴嫩和海湾谈判中的威慑资源仍具参考价值。",
+      "sentiment": "neutral",
+      "relevance_score": 5,
+      "link": "https://www.politybooks.com/bookdetail?book_slug=the-axis-of-resistance-iran-israel-and-the-struggle-for-the-middle-east--9781509567997"
+    },
     {
       "id": "9c74fc521c48",
       "date": "2026-05-21",
@@ -9,7 +22,7 @@
       "source_zh": "欧盟安全研究所",
       "source_type": "think_tank",
       "title_zh": "伊朗战争打开欧盟深化海湾关系的战略窗口",
-      "original_title": "Katarzyna Sidlo's Commentary featured in Semafor",
+      "original_title": "Katarzyna Sidło's Commentary featured in Semafor",
       "summary_zh": "EUISS转引观点认为，伊朗战争与美国安全保证弱化正在促使海湾国家重新评估外部伙伴，欧盟有机会加强与海湾在能源、安全和经贸层面的合作。该观点提示海湾能源供应链的政治重组正在加速。",
       "sentiment": "neutral",
       "relevance_score": 4,
@@ -36,8 +49,8 @@
       "source_type": "think_tank",
       "title_zh": "美国-以色列对伊战争重塑“抵抗轴心”与海湾联盟",
       "original_title": "The Axis of Resistance and Shifting Gulf Alliances",
-      "summary_zh": "该访谈讨论美国-以色列对伊战争如何改变中东力量平衡，并推动“抵抗轴心”、海湾国家联盟与伊朗长期威慑战略重新配置。对霍尔木兹安全、海湾能源出口秩序和地区风险溢价具有直接参考价值。",
-      "sentiment": "bullish",
+      "summary_zh": "访谈讨论美国-以色列对伊战争如何改变中东力量平衡，并推动“抵抗轴心”、海湾国家联盟与伊朗长期威慑战略重新配置。对霍尔木兹安全、海湾能源出口秩序和地区风险溢价具有直接参考价值。",
+      "sentiment": "neutral",
       "relevance_score": 5,
       "link": "https://www.thecairoreview.com/podcasts/the-axis-of-resistance-and-shifting-gulf-alliances/"
     },

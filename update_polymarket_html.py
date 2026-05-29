@@ -9,7 +9,7 @@ import requests
 import json
 import time
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
 from typing import Dict, List
 
@@ -26,16 +26,16 @@ EVENT_CONFIGS = [
         "kind": "series",
     },
     {
-        "slug": "us-obtains-iranian-enriched-uranium-by",
-        "displayTitle": "美国取得伊朗浓缩铀时间",
-        "subtitle": "美国在不同截止日期前取得伊朗浓缩铀的概率",
+        "slug": "us-announces-new-iran-agreementceasefire-extension-by",
+        "displayTitle": "美国宣布新伊朗协议/延长停火",
+        "subtitle": "不同截止日期前宣布新协议或延长停火的概率",
         "kind": "series",
     },
     {
-        "slug": "iran-agrees-to-surrender-enriched-uranium-stockpile-by",
-        "displayTitle": "伊朗同意交出浓缩铀库存时间",
-        "subtitle": "伊朗在不同截止日期前同意交出浓缩铀库存的概率",
-        "kind": "series",
+        "slug": "us-iran-nuclear-deal-by-june-30",
+        "displayTitle": "美伊6月底前达成核协议",
+        "subtitle": "美伊在6月30日前达成核协议的概率",
+        "kind": "simple",
     },
     {
         "slug": "trump-announces-us-blockade-of-hormuz-lifted-by",
@@ -44,9 +44,27 @@ EVENT_CONFIGS = [
         "kind": "series",
     },
     {
-        "slug": "strait-of-hormuz-traffic-returns-to-normal-by-end-of-may",
-        "displayTitle": "霍尔木兹交通5月底前恢复正常",
-        "subtitle": "海峡通行在5月底前恢复正常的概率",
+        "slug": "what-iranian-demands-will-trump-agree-to-by-june-30",
+        "displayTitle": "特朗普可能接受的伊朗要求",
+        "subtitle": "6月30日前各项谈判让步的市场定价",
+        "kind": "ranked",
+    },
+    {
+        "slug": "iran-agrees-to-end-enrichment-of-uranium-by-june-30",
+        "displayTitle": "伊朗6月底前同意停止铀浓缩",
+        "subtitle": "伊朗同意终止铀浓缩的概率",
+        "kind": "simple",
+    },
+    {
+        "slug": "iran-agrees-to-unrestricted-shipping-through-hormuz-by-may-31",
+        "displayTitle": "伊朗同意霍尔木兹无限制通行",
+        "subtitle": "伊朗在5月底前同意船舶无限制通行的概率",
+        "kind": "simple",
+    },
+    {
+        "slug": "strait-of-hormuz-traffic-returns-to-normal-by-june-15",
+        "displayTitle": "霍尔木兹交通6月15日前恢复正常",
+        "subtitle": "海峡通行在6月15日前恢复正常的概率",
         "kind": "simple",
     },
     {
@@ -56,16 +74,22 @@ EVENT_CONFIGS = [
         "kind": "simple",
     },
     {
-        "slug": "will-the-us-invade-iran-before-2027",
-        "displayTitle": "美国2027年前入侵伊朗",
-        "subtitle": "美国在2027年前入侵伊朗的概率",
+        "slug": "strait-of-hormuz-traffic-returns-to-normal-by-july-31",
+        "displayTitle": "霍尔木兹交通7月底前恢复正常",
+        "subtitle": "海峡通行在7月31日前恢复正常的概率",
         "kind": "simple",
     },
     {
-        "slug": "will-the-us-officially-declare-war-on-iran-by",
-        "displayTitle": "美国正式对伊宣战时间",
-        "subtitle": "美国在不同截止日期前正式对伊朗宣战的概率",
-        "kind": "series",
+        "slug": "will-ships-transit-the-strait-of-hormuz-on-any-day-by-may-31",
+        "displayTitle": "5月底前单日霍尔木兹通行阈值",
+        "subtitle": "5月底前任一单日达到不同船舶通行阈值的概率",
+        "kind": "ranked",
+    },
+    {
+        "slug": "how-many-ships-transit-the-strait-of-hormuz-week-of-may-25",
+        "displayTitle": "5月25日周霍尔木兹通行量",
+        "subtitle": "5月25日至6月1日期间累计通行量区间概率",
+        "kind": "ranked",
     },
     {
         "slug": "where-will-the-next-us-iran-diplomatic-meeting-happen-455",
@@ -74,10 +98,22 @@ EVENT_CONFIGS = [
         "kind": "ranked",
     },
     {
-        "slug": "iran-closes-its-airspace-by",
-        "displayTitle": "伊朗关闭领空时间",
-        "subtitle": "伊朗在不同截止日期前关闭领空的概率",
-        "kind": "series",
+        "slug": "will-the-iranian-regime-fall-by-june-30",
+        "displayTitle": "伊朗政权6月底前倒台",
+        "subtitle": "伊朗政权在6月30日前倒台的概率",
+        "kind": "simple",
+    },
+    {
+        "slug": "will-the-iranian-regime-fall-by-the-end-of-2026",
+        "displayTitle": "伊朗政权2027年前倒台",
+        "subtitle": "伊朗政权在2026年底前倒台的概率",
+        "kind": "simple",
+    },
+    {
+        "slug": "will-france-uk-or-germany-strike-iran-by-june-30-259",
+        "displayTitle": "英法德6月底前打击伊朗",
+        "subtitle": "欧洲主要国家直接打击伊朗的尾部风险",
+        "kind": "simple",
     },
 ]
 
@@ -176,7 +212,21 @@ def get_event_config(slug: str) -> Dict:
 
 def is_active_market(market: Dict) -> bool:
     """Only keep markets that can still trade/render as current."""
-    return bool(market.get("active", True)) and not bool(market.get("closed", False))
+    if not bool(market.get("active", True)) or bool(market.get("closed", False)):
+        return False
+
+    end_date = market.get("endDate") or market.get("endDateIso") or ""
+    if not end_date:
+        return True
+
+    try:
+        normalized = str(end_date).replace("Z", "+00:00")
+        end_dt = datetime.fromisoformat(normalized)
+        if end_dt.tzinfo is None:
+            end_dt = end_dt.replace(tzinfo=timezone.utc)
+        return end_dt > datetime.now(timezone.utc)
+    except ValueError:
+        return True
 
 
 def fetch_all_events_data() -> Dict:
@@ -263,6 +313,9 @@ def fetch_all_events_data() -> Dict:
                 }
 
             markets_data.append(market_info)
+
+        if not markets_data:
+            continue
 
         all_data[slug] = {
             "title": event_title,

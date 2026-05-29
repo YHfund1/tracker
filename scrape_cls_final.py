@@ -253,6 +253,72 @@ def scrape_news():
                         
                 except Exception as e:
                     continue
+
+            # 方法2: 2026-05页面结构fallback。新闻卡片本身包含时间、标题链接和摘要，
+            # 时间元素不再是链接的近邻，因此直接按卡片提取更稳定。
+            if not news_list:
+                cards = page.query_selector_all('div.p-t-20.p-b-20.b-b-w-1.b-b-s-s.b-c-e6e7ea')
+                print(f"时间元素法未命中，改用卡片法，找到 {len(cards)} 个候选卡片")
+
+                for card in cards[:220]:
+                    try:
+                        card_text = card.inner_text().strip()
+                        time_str = extract_time(card_text)
+                        if not time_str:
+                            continue
+
+                        links = card.query_selector_all('a[href*="/detail/"]')
+                        title_link = None
+                        title_text = ""
+                        for candidate in links:
+                            text = candidate.inner_text().strip()
+                            if not text or text.startswith('评论') or len(text) < 5:
+                                continue
+                            title_link = candidate
+                            title_text = text.split('\n')[0].strip()
+                            strong = candidate.query_selector('strong')
+                            if strong:
+                                strong_text = strong.inner_text().strip()
+                                if strong_text:
+                                    title_text = strong_text
+                            break
+
+                        if not title_link or not title_text:
+                            continue
+
+                        href = title_link.get_attribute('href') or ''
+                        if not href or href in seen_urls:
+                            continue
+
+                        summary = ''
+                        span = title_link.query_selector('span')
+                        if span:
+                            summary = span.inner_text().strip()
+                        if not summary:
+                            summary_el = card.query_selector('[class*="line2"], [class*="l-h-26p"]')
+                            if summary_el:
+                                summary = summary_el.inner_text().strip()
+                        if not summary:
+                            summary = extract_summary(card, title_text)
+
+                        title = clean_cls_prefix(title_text)
+                        summary = clean_cls_prefix(summary)
+
+                        seen_urls.add(href)
+                        news_list.append({
+                            'id': str(len(news_list) + 1),
+                            'title': title[:120],
+                            'summary': summary[:500],
+                            'time': time_str,
+                            'url': 'https://www.cls.cn' + href if not href.startswith('http') else href,
+                            'category': categorize(title + summary)
+                        })
+
+                        if len(news_list) >= 200:
+                            print("  达到新闻数量上限(200条)，停止提取")
+                            break
+                    except Exception:
+                        continue
             
             browser.close()
             
@@ -394,7 +460,12 @@ def update_html(news_list):
     
     # 更新新闻数据
     news_json = json.dumps(merged_news, ensure_ascii=False, indent=4)
-    content = re.sub(r'const CLS_NEWS_DATA = \[.*?\];', f'const CLS_NEWS_DATA = {news_json};', content, flags=re.DOTALL)
+    content = re.sub(
+        r'const CLS_NEWS_DATA = \[.*?\];',
+        lambda _: f'const CLS_NEWS_DATA = {news_json};',
+        content,
+        flags=re.DOTALL
+    )
     
     # 更新右上角时间戳（使用北京时间）
     beijing_tz = ZoneInfo("Asia/Shanghai")

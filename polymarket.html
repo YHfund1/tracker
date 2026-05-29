@@ -247,6 +247,14 @@
             const q = (question || '').replace(/\?$/g, '').trim();
             if (kind === 'ranked') {
                 if (/no qualifying/i.test(q)) return '无合格会谈';
+                const demandMatch = q.match(/Trump agree to (.+?) by /i);
+                if (demandMatch) return demandMatch[1].replace(/^Iranian\s+/i, '').trim();
+                const dailyTransitMatch = q.match(/Will\s+(.+?)\s+ships transit the Strait of Hormuz on any day/i);
+                if (dailyTransitMatch) return `${dailyTransitMatch[1]}艘单日`;
+                const weeklyTransitMatch = q.match(/Will\s+(.+?)\s+ships transit the Strait of Hormuz between/i);
+                if (weeklyTransitMatch) return `${weeklyTransitMatch[1]}艘/周`;
+                const avgTransitMatch = q.match(/Will there be\s+(.+?)\s+average daily transits/i);
+                if (avgTransitMatch) return `${avgTransitMatch[1]}艘/日`;
                 const inMatch = q.match(/\bin ([^?]+)$/i);
                 if (inMatch) return inMatch[1].replace(/^the\s+/i, '');
             }
